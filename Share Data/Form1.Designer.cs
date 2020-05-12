@@ -39,6 +39,7 @@
             this.rounded_Button1.TabIndex = 0;
             this.rounded_Button1.Text = "rounded_Button1";
             this.rounded_Button1.UseVisualStyleBackColor = true;
+            this.rounded_Button1.Click += new System.EventHandler(this.rounded_Button1_Click);
             // 
             // Form1
             // 

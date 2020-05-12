@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,10 +17,24 @@ namespace Share_Data
         {
             InitializeComponent();
         }
-      
-        private void rounded_button1_Click(object sender, EventArgs e)
+
+        private void rounded_Button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Hello");
+            int x=0, y=0;
+
+            DrawLabelAndPicture draw = new DrawLabelAndPicture();
+
+            List<string> ipAdress = new List<string>();//В лист заносим ip адреса
+
+            FindIpAdress findIp = new FindIpAdress();
+            ipAdress = findIp.FindAdress(); //Запускаем функцию поиска ip адресов
+
+
+            for (int i=0;i<ipAdress.Count;i++)
+            {
+                draw.Drawing(ipAdress[i], x, y, this);//Добавляем ip Адреса в форму
+            }
+            
         }
     }
 }
