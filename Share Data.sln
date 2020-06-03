@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Share Data", "Share Data\Share Data.csproj", "{A15D95EF-04A2-4B48-A677-B99233866827}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPmanip", "IPmanip\IPmanip.csproj", "{079122FB-DFA7-463D-9D04-8EE86FFAEAB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPmanip", "IPmanip\IPmanip.csproj", "{079122FB-DFA7-463D-9D04-8EE86FFAEAB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interface", "Interface\Interface.csproj", "{DA4636AB-092D-459D-9181-1370F6566F05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{079122FB-DFA7-463D-9D04-8EE86FFAEAB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{079122FB-DFA7-463D-9D04-8EE86FFAEAB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{079122FB-DFA7-463D-9D04-8EE86FFAEAB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA4636AB-092D-459D-9181-1370F6566F05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA4636AB-092D-459D-9181-1370F6566F05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA4636AB-092D-459D-9181-1370F6566F05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA4636AB-092D-459D-9181-1370F6566F05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
