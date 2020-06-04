@@ -7,8 +7,8 @@ namespace Interface
     {
         static void Main(string[] args)
         {
-            //ConnectionV2.GetConnect();
-            Interface.Test();
+            ConnectionV2.GetConnect();
+            //Interface.Test();
         }
     }
 }

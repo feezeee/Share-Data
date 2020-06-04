@@ -31,7 +31,8 @@ namespace Interface
                 s.SendTo(sendbuf, ep);// отправлем сообщение на адрес получателя
                 Console.WriteLine("Message sent to the broadcast address");
 
-                for (int i = 0; i < 1000000000; i++) ; // задержка между рассылкой сообщение калхоз вариант
+                Thread.Sleep(5000);
+                //for (int i = 0; i < 1000000000; i++) ; // задержка между рассылкой сообщение калхоз вариант
             }
         }
         static void ReciveBroadcastOffer()
