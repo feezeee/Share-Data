@@ -34,8 +34,7 @@ namespace IPmanip
 
         private static void CreateArpTable(string filename)
         {
-            ProcessStartInfo psi = new ProcessStartInfo(); // новый процксс
-            
+            ProcessStartInfo psi = new ProcessStartInfo(); // новый процксс            
             psi.FileName = "cmd"; // будет вызвана командна строка
             psi.Arguments = $@"/k chcp 861"; 
             Process.Start(psi); // выполнение команды
