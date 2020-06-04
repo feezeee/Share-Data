@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using IPmanip;
 
 namespace Interface
 {
@@ -12,17 +13,17 @@ namespace Interface
         const int localPort = 8010; // порт для приема информации
         const int remotePort = 8010; // порт для отправки информации
         // данный адрес необходимо будет получать, ибо он может варироваться, но пока с кастылем
-        static string broadcastingIP = "192.168.1.255"; // широковещательный адрес локальной сети
+        static string broadcastingIP = CurrentIP.BroadIP; // широковещательный адрес локальной сети
         // данный адрес необходимо будет получать, ибо он может варироваться, но пока с кастылем
-        static IPAddress localIP = IPAddress.Parse("192.168.1.9");// лакальный адресс
+        static IPAddress localIP = IPAddress.Parse(CurrentIP.LocalIP);// лакальный адресс
 
         static void SendBroadcastOfferToConnect() // функция которая отправлет широковещательное сообщение 
         {
             while(true)
             {
                 // создаем соект для работы по пратоколу UDP, в сети Internet, для передачи дейтаграмных сообщений
-                Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);  
-
+                Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                //localIP = localIP;
                 IPAddress broadcast = IPAddress.Parse(broadcastingIP);
 
                 byte[] sendbuf = Encoding.ASCII.GetBytes("offer to conect");// кодируем сообщение из строки в битовый массив

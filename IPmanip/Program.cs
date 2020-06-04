@@ -10,9 +10,9 @@ namespace IPmanip
     {
         static void Main()
         {
-            var localAddr = IP.GetLocalIPAddress();
-
-            Console.WriteLine("local addres is - {0}", localAddr);
+            //CurrentIP currentIP = new CurrentIP();
+            Console.WriteLine($"широковещательный адресс в локальной сети - {CurrentIP.BroadIP}");
+            Console.WriteLine($"локальный адресс в локальной сети - {CurrentIP.LocalIP}");
         }
     }
 }
