@@ -41,7 +41,7 @@ namespace IPmanip
             //psi.CreateNoWindow = true; //скрыть 
             psi.Arguments = $@"/k arp -a > {filename}";// команда записывающая arp таблицу в файл 
             Process.Start(psi); // выполнение команды
-            Thread.Sleep(100);
+            Thread.Sleep(300);
         }
         private static string GetArpTable()
         {

@@ -33,9 +33,10 @@
             // 
             // rounded_Button1
             // 
-            this.rounded_Button1.Location = new System.Drawing.Point(180, 140);
+            this.rounded_Button1.Location = new System.Drawing.Point(240, 172);
+            this.rounded_Button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.rounded_Button1.Name = "rounded_Button1";
-            this.rounded_Button1.Size = new System.Drawing.Size(390, 104);
+            this.rounded_Button1.Size = new System.Drawing.Size(520, 128);
             this.rounded_Button1.TabIndex = 0;
             this.rounded_Button1.Text = "rounded_Button1";
             this.rounded_Button1.UseVisualStyleBackColor = true;
@@ -43,10 +44,11 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1067, 554);
             this.Controls.Add(this.rounded_Button1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);

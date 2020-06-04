@@ -39,7 +39,7 @@ namespace Interface
             UdpClient listener = new UdpClient(localPort); // для прослушивания сообщений udp приходящих на локальный порт
             IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, localPort); // адрес приема, для приема всех сообщений
             try
-            {
+            {   
                 while (true)
                 {
                     Console.WriteLine("Waiting for broadcast");
