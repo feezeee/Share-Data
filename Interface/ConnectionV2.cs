@@ -13,6 +13,8 @@ namespace Interface
         const int remotePort = 8010; // порт для отправки информации
         // данный адрес необходимо будет получать, ибо он может варироваться, но пока с кастылем
         static string broadcastingIP = "192.168.1.255"; // широковещательный адрес локальной сети
+        // данный адрес необходимо будет получать, ибо он может варироваться, но пока с кастылем
+        static IPAddress localIP = IPAddress.Parse("192.168.1.9");// лакальный адресс
 
         static void SendBroadcastOfferToConnect() // функция которая отправлет широковещательное сообщение 
         {
@@ -29,7 +31,7 @@ namespace Interface
                 s.SendTo(sendbuf, ep);// отправлем сообщение на адрес получателя
                 Console.WriteLine("Message sent to the broadcast address");
 
-                for (int i = 0; i < 100000000; i++) ; // задержка между рассылкой сообщение калхоз вариант
+                for (int i = 0; i < 1000000000; i++) ; // задержка между рассылкой сообщение калхоз вариант
             }
         }
         static void ReciveBroadcastOffer()
@@ -42,6 +44,7 @@ namespace Interface
                 {
                     Console.WriteLine("Waiting for broadcast");
                     byte[] bytes = listener.Receive(ref groupEP); // получаем сообщение
+                    if (localIP.ToString() == groupEP.Address.ToString()) continue;
 
                     Console.WriteLine($"Received broadcast from {groupEP.Address} :"); // вывод адреса атправителя
                     Console.WriteLine($" {Encoding.ASCII.GetString(bytes, 0, bytes.Length)}"); //вывод соообщения атправителя, предвор дешифр

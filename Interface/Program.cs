@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Interface
 {
@@ -6,7 +7,8 @@ namespace Interface
     {
         static void Main(string[] args)
         {
-            ConnectionV2.GetConnect();
+            //ConnectionV2.GetConnect();
+            Interface.Test();
         }
     }
 }
