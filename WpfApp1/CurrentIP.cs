@@ -34,19 +34,20 @@ namespace IPmanip
 
         private static void CreateArpTable(string filename)
         {
-            ProcessStartInfo psi = new ProcessStartInfo(); // новый процксс            
+            ProcessStartInfo psi = new ProcessStartInfo(); // новый процксс 
+            
             psi.FileName = "cmd"; // будет вызвана командна строка
             psi.Arguments = $@"/k chcp 861"; 
             Process.Start(psi); // выполнение команды
-            //psi.CreateNoWindow = true; //скрыть 
+            
             psi.Arguments = $@"/k arp -a > {filename}";// команда записывающая arp таблицу в файл 
             Process.Start(psi); // выполнение команды
-            Thread.Sleep(300);
+            Thread.Sleep(500);
         }
         private static string GetArpTable()
         {
-            string fileName = "arp.txt";
-            File.Create("arp.txt");
+            string fileName = "D:/arp.txt";
+            //File.Create("arp.txt");
             CreateArpTable(fileName); // создаем arp таблицу в файле
             var arpStream = new StreamReader(fileName); //открыть файл с таблицей для чтения
             var table = arpStream.ReadToEnd();// прочитать arp nf,kbwe

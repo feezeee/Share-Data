@@ -4,19 +4,17 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Interface;
 
 namespace Share_Data
 {
     class FindIpAdress
     {
-        public List<string> FindAdress()
+        public List<string> FindAdress() //полусение доступных пользователей в сет
         {
-            List<string> ipAdress = new List<string>();
-            //Здесь нужно как-то получать ip адреса и заносить их в лист IpAdress.Add(адрес);
-            //// ipAdress = ....;
-            ////////////////////////////
-
-            return ipAdress;
+            List<string> ipAdresses = new List<string>();
+            ipAdresses = AvailableConection.ReturnGroupList();
+            return ipAdresses;
         }
     }
 }
