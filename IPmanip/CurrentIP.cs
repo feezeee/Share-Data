@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace IPmanip
 {
@@ -31,21 +32,17 @@ namespace IPmanip
             }
         }
 
-        public static void AssignCurrentLocalIP()
-        {
-
-        }
-        public static void AssignCurrentBroadcastIP()
-        {
-            broadIP = extractBroadcastingAddress();
-        }
         private static void CreateArpTable(string filename)
         {
             ProcessStartInfo psi = new ProcessStartInfo(); // новый процксс
-            psi.CreateNoWindow = true; //скрыть 
+            
             psi.FileName = "cmd"; // будет вызвана командна строка
-            psi.Arguments = $@"/c arp -a > {filename}"; // команда записывающая arp таблицу в файл 
+            psi.Arguments = $@"/k chcp 1251"; 
             Process.Start(psi); // выполнение команды
+            psi.CreateNoWindow = true; //скрыть 
+            psi.Arguments = $@"/c arp -a > {filename}";// команда записывающая arp таблицу в файл 
+            Process.Start(psi); // выполнение команды
+            Thread.Sleep(100);
         }
         private static string GetArpTable()
         {
@@ -63,6 +60,7 @@ namespace IPmanip
             int len = arpTab.Length;
 
             var posFirstDin = arpTab.IndexOf("dynamic");
+
             var posEndInt = arpTab.IndexOf("Interface:", posFirstDin);
             var posSratIn = arpTab.LastIndexOf("Interface:", posFirstDin);
             string interf = arpTab.Substring(posSratIn, posEndInt - posSratIn);

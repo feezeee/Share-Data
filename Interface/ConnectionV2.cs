@@ -12,9 +12,7 @@ namespace Interface
     {
         const int localPort = 8010; // порт для приема информации
         const int remotePort = 8010; // порт для отправки информации
-        // данный адрес необходимо будет получать, ибо он может варироваться, но пока с кастылем
         static string broadcastingIP = CurrentIP.BroadIP; // широковещательный адрес локальной сети
-        // данный адрес необходимо будет получать, ибо он может варироваться, но пока с кастылем
         static IPAddress localIP = IPAddress.Parse(CurrentIP.LocalIP);// лакальный адресс
 
         static void SendBroadcastOfferToConnect() // функция которая отправлет широковещательное сообщение 
