@@ -33,7 +33,7 @@
             // 
             // rounded_Button1
             // 
-            this.rounded_Button1.Location = new System.Drawing.Point(164, 153);
+            this.rounded_Button1.Location = new System.Drawing.Point(180, 140);
             this.rounded_Button1.Name = "rounded_Button1";
             this.rounded_Button1.Size = new System.Drawing.Size(390, 104);
             this.rounded_Button1.TabIndex = 0;

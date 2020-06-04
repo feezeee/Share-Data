@@ -37,10 +37,10 @@ namespace IPmanip
             ProcessStartInfo psi = new ProcessStartInfo(); // новый процксс
             
             psi.FileName = "cmd"; // будет вызвана командна строка
-            psi.Arguments = $@"/k chcp 1251"; 
+            psi.Arguments = $@"/k chcp 861"; 
             Process.Start(psi); // выполнение команды
-            psi.CreateNoWindow = true; //скрыть 
-            psi.Arguments = $@"/c arp -a > {filename}";// команда записывающая arp таблицу в файл 
+            //psi.CreateNoWindow = true; //скрыть 
+            psi.Arguments = $@"/k arp -a > {filename}";// команда записывающая arp таблицу в файл 
             Process.Start(psi); // выполнение команды
             Thread.Sleep(100);
         }
