@@ -16,12 +16,13 @@ namespace Share_Data
     {
         public Form1()
         {
-            InitializeComponent();
+            InitializeComponent();            
+
         }
 
         private void rounded_Button1_Click(object sender, EventArgs e)
         {
-            int x=0, y=0;
+            int x=500, y=100;
 
             DrawLabelAndPicture draw = new DrawLabelAndPicture();
 
@@ -32,9 +33,11 @@ namespace Share_Data
 
             ipAdress = findIp.FindAdress(); //Запускаем функцию поиска ip адресов
 
+            //ipAdress.Add("Hello");
 
             for (int i=0;i<ipAdress.Count;i++)
             {
+                
                 draw.Drawing(ipAdress[i], x, y, this);//Добавляем ip Адреса в форму
             }
             
