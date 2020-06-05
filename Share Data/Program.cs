@@ -16,8 +16,9 @@ namespace Share_Data
         [STAThread]
         static void Main()
         {
-            Thread getConnectTread = new Thread(new ThreadStart(ConnectionV2.GetConnect));
-            getConnectTread.Start();
+            Thread sendThread = new Thread(new ThreadStart(ConnectionV2.SendBroadcastOfferToConnect)); //созадем новый поток отдельно для получения
+            sendThread.Start(); // запускаем процесс отправки сообщений
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

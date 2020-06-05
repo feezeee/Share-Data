@@ -15,7 +15,7 @@ namespace Interface
         static string broadcastingIP = CurrentIP.BroadIP; // широковещательный адрес локальной сети
         static IPAddress localIP = IPAddress.Parse(CurrentIP.LocalIP);// лакальный адресс
 
-        static void SendBroadcastOfferToConnect() // функция которая отправлет широковещательное сообщение 
+        public static void SendBroadcastOfferToConnect() // функция которая отправлет широковещательное сообщение 
         {
             while(true)
             {
@@ -34,7 +34,7 @@ namespace Interface
                 //for (int i = 0; i < 1000000000; i++) ; // задержка между рассылкой сообщение калхоз вариант
             }
         }
-        static void ReciveBroadcastOffer()
+        public static void ReciveBroadcastOffer(object available)
         {
             UdpClient listener = new UdpClient(localPort); // для прослушивания сообщений udp приходящих на локальный порт
             IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, localPort); // адрес приема, для приема всех сообщений
@@ -44,9 +44,11 @@ namespace Interface
                 {
                     Console.WriteLine("Waiting for broadcast");
                     byte[] bytes = listener.Receive(ref groupEP); // получаем сообщение
+                    
                     if (localIP.ToString() == groupEP.Address.ToString()) continue;
                     var name = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
-                    AvailableConection.AddMember(groupEP.Address, name);
+                    AvailableConection availableConection = (AvailableConection)available;                    
+                    availableConection.AddMember(groupEP.Address, name);
                 }
             }
             catch (SocketException e)
@@ -59,12 +61,15 @@ namespace Interface
             }
         }
 
-        public static void GetConnect() // класс интерфейс
+        public static void GetConnect(object available) // класс интерфейс
         {
-            Thread receiveThread = new Thread(new ThreadStart(ReciveBroadcastOffer)); //созадем новый поток отдельно для получения
-            receiveThread.Start(); // начинаем слушать сеть
+            //Thread receiveThread = new Thread(new ThreadStart(ReciveBroadcastOffer)); //созадем новый поток отдельно для получения
+            //receiveThread.Start(); // начинаем слушать сеть
             Thread sendThread = new Thread(new ThreadStart(SendBroadcastOfferToConnect)); //созадем новый поток отдельно для получения
             sendThread.Start(); // запускаем процесс отправки сообщений
-        }
+
+            Thread receiveThread = new Thread(new ParameterizedThreadStart(ReciveBroadcastOffer));
+            receiveThread.Start(available);
+        }//Не используем
     }
 }

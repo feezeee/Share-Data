@@ -10,8 +10,8 @@ namespace Interface
         static void Main(string[] args)
         {
 
-            Thread getConnectThread = new Thread(new ThreadStart(ConnectionV2.GetConnect));
-            getConnectThread.Start();
+            //Thread getConnectThread = new Thread(new ThreadStart(ConnectionV2.GetConnect));
+            //getConnectThread.Start();
             //ConnectionV2.GetConnect();
             while (true)
             {

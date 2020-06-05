@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Interface
 {
@@ -31,7 +33,8 @@ namespace Interface
 
            return false;
         }
-        public static void AddMember(IPAddress ip, string name)
+               
+        public void AddMember(IPAddress ip, string name)
         {
             
             string member_str = name + ' ' + ip.ToString();
@@ -42,8 +45,12 @@ namespace Interface
                 IfWasEdited = true;
                 GroupMembers.Add(member);
                 GroupMembers_str.Add(member_str);
+                if(onAddIpAdress!=null)
+                onAddIpAdress(this,ReturnGroupList());//Вызываем событие если что-то добавилось в лист
             }
         }
+        public delegate void MethodContainer(object sender, List<string> lst);
+        public event MethodContainer onAddIpAdress;
 
         public static List<string> ReturnGroupList()
         {
