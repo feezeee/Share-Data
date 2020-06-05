@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Threading;
 
 namespace Interface
@@ -21,7 +23,6 @@ namespace Interface
                     Console.WriteLine("connection from - " + mem);
                 }
             }
-            //Interface.Test();
         }
     }
 }

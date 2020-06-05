@@ -32,17 +32,18 @@ namespace IPmanip
             }
         }
 
-        private static void CreateArpTable(string filename)
+        /// <summary>
+        /// create a file is containing arp table
+        /// </summary>
+        /// <param name="filename"></param>
+        private static void CreateArpTable(string filename) 
         {
-            ProcessStartInfo psi = new ProcessStartInfo(); // новый процксс 
-            
-            psi.FileName = "cmd"; // будет вызвана командна строка
-            psi.Arguments = $@"/k chcp 861"; 
-            Process.Start(psi); // выполнение команды
-            
-            psi.Arguments = $@"/k arp -a > {filename}";// команда записывающая arp таблицу в файл 
-            Process.Start(psi); // выполнение команды
-            Thread.Sleep(500);
+            var arpBat = File.OpenWrite("arp.bat");
+            byte[] array = System.Text.Encoding.Default.GetBytes($"chcp 861\narp.exe -a > {filename}");
+            arpBat.Write(array, 0, array.Length);
+            arpBat.Close();
+            Process.Start("arp.bat");
+            while (!File.Exists(filename));
         }
         private static string GetArpTable()
         {
@@ -72,14 +73,9 @@ namespace IPmanip
         {
             string address = "";
             string interf = ExtractActiveInterface();
-            
-            //interf = interf.Replace('\n', ' ');
-            //interf = interf.Replace('\t', ' ');
             var vals = interf.Split(' ');
             for(int i = 0; i < vals.Length; i++)
             {
-                
-                //Console.WriteLine(vals[i]);
                 if (vals[i] == "ff-ff-ff-ff-ff-ff")
                 {
                     int j = i-1;
