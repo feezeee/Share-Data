@@ -34,6 +34,7 @@ namespace Share_Data
 
 
                 Thread receiveThread = new Thread(new ParameterizedThreadStart(ConnectionV2.ReciveBroadcastOffer));
+                receiveThread.IsBackground = true;
                 receiveThread.Start(available);
                 Status = true;
             }
