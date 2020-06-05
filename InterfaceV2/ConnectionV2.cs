@@ -8,7 +8,7 @@ using IPmanip;
 
 namespace Interface
 {
-    class ConnectionV2
+    public class ConnectionV2
     {
         const int localPort = 8010; // порт для приема информации
         const int remotePort = 8010; // порт для отправки информации
@@ -63,7 +63,8 @@ namespace Interface
         {
             Thread receiveThread = new Thread(new ThreadStart(ReciveBroadcastOffer)); //созадем новый поток отдельно для получения
             receiveThread.Start(); // начинаем слушать сеть
-            SendBroadcastOfferToConnect(); // запускаем процесс отправки сообщений
+            Thread sendThread = new Thread(new ThreadStart(SendBroadcastOfferToConnect)); //созадем новый поток отдельно для получения
+            sendThread.Start(); // запускаем процесс отправки сообщений
         }
     }
 }

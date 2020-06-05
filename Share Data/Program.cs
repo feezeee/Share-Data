@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Interface;
 namespace Share_Data
 {
     static class Program
@@ -14,6 +15,8 @@ namespace Share_Data
         [STAThread]
         static void Main()
         {
+            Thread getConnectTread = new Thread(new ThreadStart(ConnectionV2.GetConnect));
+            getConnectTread.Start();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
