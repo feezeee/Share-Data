@@ -47,9 +47,9 @@ namespace IPmanip
         }
         private static string GetArpTable()
         {
-            string fileName = "D:/arp.txt";
+            string fileName = "arp.txt";
             //File.Create("arp.txt");
-            CreateArpTable(fileName); // создаем arp таблицу в файле
+            CreateArpTable(fileName); //создаем arp таблицу в файле
             var arpStream = new StreamReader(fileName); //открыть файл с таблицей для чтения
             var table = arpStream.ReadToEnd();// прочитать arp nf,kbwe
             arpStream.Close();
@@ -61,7 +61,7 @@ namespace IPmanip
             string arpTab = GetArpTable() + "Interface:";
             int len = arpTab.Length;
 
-            var posFirstDin = arpTab.IndexOf("dynamic");
+            var posFirstDin = arpTab.LastIndexOf("dynamic");
 
             var posEndInt = arpTab.IndexOf("Interface:", posFirstDin);
             var posSratIn = arpTab.LastIndexOf("Interface:", posFirstDin);

@@ -38,25 +38,7 @@ namespace Share_Data
                 receiveThread.Start(available);
                 Status = true;
             }
-            //int x=500, y=100;
-
-            //DrawLabelAndPicture draw = new DrawLabelAndPicture();
-
-            //List<string> ipAdress = new List<string>();//В лист заносим ip адреса
-
-            //FindIpAdress findIp = new FindIpAdress();
-
-
-            //ipAdress = findIp.FindAdress(); //Запускаем функцию поиска ip адресов
-
-            ////ipAdress.Add("Hello");
-
-            //for (int i=0;i<ipAdress.Count;i++)
-            //{
-
-            //    draw.Drawing(ipAdress[i], x, y, this);//Добавляем ip Адреса в форму
-            //}
-
+           
         }
         int x = 500;
         int y = 100;
