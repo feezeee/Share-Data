@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Interface;
+using InterfaceV2;
 
 namespace Share_Data
 {
@@ -19,6 +20,10 @@ namespace Share_Data
             Thread sendThread = new Thread(new ThreadStart(ConnectionV2.SendBroadcastOfferToConnect)); //созадем новый поток отдельно для получения
             sendThread.IsBackground = true;
             sendThread.Start(); // запускаем процесс отправки сообщений
+
+            //Thread DoRequestsRecieveingThread = new Thread(new ThreadStart(RequestInteractivity.DoRequestsRecieveing)); //созадем новый поток отдельно для получения
+            //DoRequestsRecieveingThread.IsBackground = true;
+            //DoRequestsRecieveingThread.Start();// Запускаем процесс получния запросов
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

@@ -115,7 +115,7 @@ namespace Interface
                 listenSocket.Bind(ipPoint);
 
                 // начинаем прослушивание
-                listenSocket.Listen(10);
+                listenSocket.Listen(100);
 
                 Console.WriteLine("Сервер запущен. Ожидание подключений...");
 
