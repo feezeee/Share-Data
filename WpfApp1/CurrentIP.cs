@@ -35,37 +35,65 @@ namespace IPmanip
         /// <summary>
         /// create a file is containing arp table
         /// </summary>
-        /// <param name="filename"></param>
-        private static void CreateArpTable(string filename) 
+        /// <param name="fileName"></param>
+        private static void CreateArpTable(string fileName) 
         {
+            File.Delete("arp.bat");
+            File.Delete("arp.txt");
             var arpBat = File.OpenWrite("arp.bat");
-            byte[] array = System.Text.Encoding.Default.GetBytes($"chcp 861\narp.exe -a > {filename}");
+            byte[] array = System.Text.Encoding.Default.GetBytes($"chcp 861\narp.exe -a >{fileName}");
             arpBat.Write(array, 0, array.Length);
             arpBat.Close();
-            Process.Start("arp.bat");
-            while (!File.Exists(filename));
+            var startInfo = new ProcessStartInfo();
+
+            startInfo.FileName = "arp.bat";
+            startInfo.UseShellExecute = false;
+            startInfo.CreateNoWindow = true;
+            var arpBatRun = Process.Start(startInfo);
+            arpBatRun.WaitForExit();
         }
         private static string GetArpTable()
         {
             string fileName = "arp.txt";
-            //File.Create("arp.txt");
-            CreateArpTable(fileName); //создаем arp таблицу в файле
-            var arpStream = new StreamReader(fileName); //открыть файл с таблицей для чтения
-            var table = arpStream.ReadToEnd();// прочитать arp nf,kbwe
-            arpStream.Close();
-            return table;
+            CreateArpTable(fileName);
+            while (true)
+            {
+                try
+                {
+                    if (File.Exists(fileName))
+                    {
+                        var arpStream = new StreamReader(fileName); //открыть файл с таблицей для чтения
+                        var table = arpStream.ReadToEnd();// прочитать arp nf,kbwe
+                        arpStream.Close();
+                        return table;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }   
         }
 
         private static string ExtractActiveInterface()
         {
-            string arpTab = GetArpTable() + "Interface:";
-            int len = arpTab.Length;
+            string interf = "none";
+            try
+            {
+                string arpTab = GetArpTable() + "Interface:";
 
-            var posFirstDin = arpTab.LastIndexOf("dynamic");
+                var posFirstDin = arpTab.LastIndexOf("dynamic");
 
-            var posEndInt = arpTab.IndexOf("Interface:", posFirstDin);
-            var posSratIn = arpTab.LastIndexOf("Interface:", posFirstDin);
-            string interf = arpTab.Substring(posSratIn, posEndInt - posSratIn);
+                var posEndInt = arpTab.IndexOf("Interface:", posFirstDin);
+                var posSratIn = arpTab.LastIndexOf("Interface:", posFirstDin);
+                interf = arpTab.Substring(posSratIn, posEndInt - posSratIn);
+                
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
             return interf;
         }
 

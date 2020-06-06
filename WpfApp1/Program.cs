@@ -13,6 +13,7 @@ namespace IPmanip
             //CurrentIP currentIP = new CurrentIP();
             Console.WriteLine($"широковещательный адресс в локальной сети - {CurrentIP.BroadIP}");
             Console.WriteLine($"локальный адресс в локальной сети - {CurrentIP.LocalIP}");
+            Console.ReadLine();
         }
     }
 }
