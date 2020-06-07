@@ -7,29 +7,38 @@ using System.Threading;
 
 namespace IPmanip
 {
+    
+    public class Local
+    {
+        public Local(string localIP, string broadIP)
+        {
+            LocalIP = localIP;
+            BroadIP = broadIP;
+        }
+        public string LocalIP = "";
+        public string BroadIP = "";
+    }
     public class CurrentIP
     {
+        static object locker = new object();
         public CurrentIP()
         {
         }
 
-        private static string broadIP;
-        private static string localIP;
-        public static string BroadIP
+        private static List<Local> _localIP = null;
+
+
+        public static List<Local> LocalIP
         {
+            
             get
             {
-                broadIP = extractBroadcastingAddress();
-                return broadIP;
-            }
-        }
-        public static string LocalIP
-        {
-            get
-            {
-                localIP = extractLocalAddress();
-                return localIP;
-            }
+                lock(locker)
+                {
+                    if (_localIP == null) _localIP = GetAddresses();
+                    return _localIP;
+                }   
+            } 
         }
 
         /// <summary>
@@ -45,7 +54,6 @@ namespace IPmanip
             arpBat.Write(array, 0, array.Length);
             arpBat.Close();
             var startInfo = new ProcessStartInfo();
-
             startInfo.FileName = "arp.bat";
             startInfo.UseShellExecute = false;
             startInfo.CreateNoWindow = true;
@@ -75,63 +83,95 @@ namespace IPmanip
             }   
         }
 
-        private static string ExtractActiveInterface()
+        private static string Extractintarface(string arpTab)
         {
-            string interf = "none";
             try
             {
-                string arpTab = GetArpTable() + "Interface:";
-
+                string interf = "";
                 var posFirstDin = arpTab.LastIndexOf("dynamic");
-
                 var posEndInt = arpTab.IndexOf("Interface:", posFirstDin);
                 var posSratIn = arpTab.LastIndexOf("Interface:", posFirstDin);
                 interf = arpTab.Substring(posSratIn, posEndInt - posSratIn);
-                
+
+                return interf;
+            }
+            catch
+            {
+                return "";
+            }
+        }
+        private static List<string> ExtractInterfaces()
+        {
+            var interfaces = new List<string>();
+            try
+            {
+                string arpTab = GetArpTable() + "Interface:";
+               
+                while (true)
+                {
+                    string interf = Extractintarface(arpTab);
+                    if (interf == "") break;
+                    Console.WriteLine(arpTab);
+                    arpTab = arpTab.Remove(arpTab.IndexOf(interf), interf.Length);
+                    interfaces.Add(interf);
+                }     
+
             }
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);
             }
 
-            return interf;
+            return interfaces;
         }
+        private static string ExtractLocalAddress(string interf)
+        {
+            string address = "";
 
-        private static string extractBroadcastingAddress()
-        {
-            string address = "";
-            string interf = ExtractActiveInterface();
             var vals = interf.Split(' ');
-            for(int i = 0; i < vals.Length; i++)
-            {
-                if (vals[i] == "ff-ff-ff-ff-ff-ff")
-                {
-                    int j = i-1;
-                    while(vals[j].Length < 4) j--;
-                    address = vals[j];
-                    break;
-                }
-            }
-            return address;
-        } 
-        private static string extractLocalAddress()
-        {
-            string address = "";
-            string interf = ExtractActiveInterface();
-            
-            var vals = interf.Split(' ');
-            for(int i = 0; i < vals.Length; i++)
+            for (int i = 0; i < vals.Length; i++)
             {
 
                 if (vals[i] == "Interface:")
                 {
-                    int j = i+1;
-                    while(vals[j].Length < 4) j++;
+                    int j = i + 1;
+                    while (vals[j].Length < 4) j++;
                     address = vals[j];
                     break;
                 }
             }
             return address;
         }
+        private static string ExtractBroadcastingAddress(string interf)
+        {
+            var address = "";
+            var vals = interf.Split(' ');
+            for (int i = 0; i < vals.Length; i++)
+            {
+                if (vals[i] == "ff-ff-ff-ff-ff-ff")
+                {
+                    int j = i - 1;
+                    while (vals[j].Length < 4) j--;
+                    address = vals[j];
+                    break;
+                }
+            }
+            if ("255.255.255.255" == address) address = "";
+            return address;
+        }
+        private static List<Local> GetAddresses()
+        {
+            var addresses = new List<Local>();
+            var interfaces = ExtractInterfaces();
+            foreach(var interf in interfaces)
+            {
+                var BroadAddress = ExtractBroadcastingAddress(interf);
+                var LocalAddress = ExtractLocalAddress(interf);
+                if (BroadAddress == "") continue;
+                addresses.Add(new Local(LocalAddress, BroadAddress));
+            }
+            return addresses;
+        } 
+        
     }
 }

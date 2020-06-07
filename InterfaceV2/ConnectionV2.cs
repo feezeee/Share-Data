@@ -12,27 +12,42 @@ namespace Interface
     {
         const int localPort = 8010; // порт для приема информации
         const int remotePort = 8010; // порт для отправки информации
-        static string broadcastingIP = CurrentIP.BroadIP; // широковещательный адрес локальной сети
-        static IPAddress localIP = IPAddress.Parse(CurrentIP.LocalIP);// лакальный адресс
-
+        static List<Local> LocalAddresses = CurrentIP.LocalIP;
         public static void SendBroadcastOfferToConnect() // функция которая отправлет широковещательное сообщение 
         {
             while(true)
             {
-                // создаем соект для работы по пратоколу UDP, в сети Internet, для передачи дейтаграмных сообщений
-                Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                //localIP = localIP;
-                IPAddress broadcast = IPAddress.Parse(broadcastingIP);
+                foreach(var localaddress in LocalAddresses)
+                //string BroadIP = "192.168.0.110";
+                {
+                    // создаем соект для работы по пратоколу UDP, в сети Internet, для передачи дейтаграмных сообщений
+                    Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                    IPAddress broadcast = IPAddress.Parse(localaddress.BroadIP);
+                    //IPAddress broadcast = IPAddress.Parse(BroadIP);
 
-                byte[] sendbuf = Encoding.ASCII.GetBytes("offer to conect");// кодируем сообщение из строки в битовый массив
-                IPEndPoint ep = new IPEndPoint(broadcast, remotePort);// создаем полыный адрес получателя, тоесть добавляем к IP еще и прот
+                    byte[] sendbuf = Encoding.ASCII.GetBytes("offer to conect");// кодируем сообщение из строки в битовый массив
+                    IPEndPoint ep = new IPEndPoint(broadcast, remotePort);// создаем полыный адрес получателя, тоесть добавляем к IP еще и прот
 
-                s.SendTo(sendbuf, ep);// отправлем сообщение на адрес получателя
-                Console.WriteLine("Message sent to the broadcast address");
+                    s.SendTo(sendbuf, ep);// отправлем сообщение на адрес получателя
+                    Console.WriteLine("Message sent to the broadcast address");
 
-                Thread.Sleep(5000);
-                //for (int i = 0; i < 1000000000; i++) ; // задержка между рассылкой сообщение калхоз вариант
+                    Thread.Sleep(5000);
+                }
             }
+        }
+        
+        private static bool IsLocalAddress(string addres)
+        {
+
+            foreach (var localaddress in LocalAddresses)
+            {
+                if (addres == localaddress.LocalIP)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
         public static void ReciveBroadcastOffer(object available)
         {
@@ -45,7 +60,7 @@ namespace Interface
                     Console.WriteLine("Waiting for broadcast");
                     byte[] bytes = listener.Receive(ref groupEP); // получаем сообщение
                     
-                    if (localIP.ToString() == groupEP.Address.ToString()) continue;
+                    if (IsLocalAddress(groupEP.Address.ToString())) continue;
                     var name = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
                     AvailableConection availableConection = (AvailableConection)available;                    
                     availableConection.AddMember(groupEP.Address, name);

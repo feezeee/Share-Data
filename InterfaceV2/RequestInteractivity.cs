@@ -11,7 +11,7 @@ namespace InterfaceV2
 {
     public class RequestInteractivity
     {
-        private static IPAddress localIP = IPAddress.Parse(CurrentIP.LocalIP);
+        private static IPAddress localIP = IPAddress.Parse("");
         private static int port = 2210; 
         private static string GetRequestString(RequestTipe request, string requestMess)
         {
