@@ -18,7 +18,7 @@ namespace Interface
             while(true)
             {
                 foreach(var localaddress in LocalAddresses)
-                //string BroadIP = "192.168.0.110";
+                //string BroadIP = "192.168.0.255";
                 {
                     // создаем соект для работы по пратоколу UDP, в сети Internet, для передачи дейтаграмных сообщений
                     Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);

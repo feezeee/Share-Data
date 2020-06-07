@@ -111,7 +111,7 @@ namespace IPmanip
                 {
                     string interf = Extractintarface(arpTab);
                     if (interf == "") break;
-                    Console.WriteLine(arpTab);
+                    //Console.WriteLine(arpTab);
                     arpTab = arpTab.Remove(arpTab.IndexOf(interf), interf.Length);
                     interfaces.Add(interf);
                 }     
