@@ -21,8 +21,8 @@ namespace Share_Data
             sendThread.IsBackground = true;
             sendThread.Start(); // запускаем процесс отправки сообщений
 
-            //Thread DoRequestsRecieveingThread = new Thread(new ThreadStart(RequestInteractivity.DoRequestsRecieveing)); //созадем новый поток отдельно для получения
-            //DoRequestsRecieveingThread.IsBackground = true;
+            Thread DoRequestsRecieveingThread = new Thread(new ThreadStart(RequestInteractivity.DoRequestsRecieveing)); //созадем новый поток отдельно для получения
+            DoRequestsRecieveingThread.IsBackground = true;
             //DoRequestsRecieveingThread.Start();// Запускаем процесс получния запросов
 
             Application.EnableVisualStyles();

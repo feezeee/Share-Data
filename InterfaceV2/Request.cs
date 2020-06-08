@@ -24,7 +24,7 @@ namespace InterfaceV2
             string ans = "";
 
             string[] mes = requestMessage.Split(' ');
-            int request = int.Parse(mes[2]);
+            int request = int.Parse(mes[1]);
             switch (request)
             {
                 case (int)RequestTipe.GetDirectoryFiles:
