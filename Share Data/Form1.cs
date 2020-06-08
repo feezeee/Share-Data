@@ -19,7 +19,21 @@ namespace Share_Data
         public Form1()
         {
             InitializeComponent();
-            Drawing_label(getting_name.get_name(),10,10,this);
+            Drawing_label("Как вы отображаетесь: "+getting_name.get_name(),10,10,this);
+            
+            Button helloButton = new Button();
+            helloButton.BackColor = Color.LightGray;
+            helloButton.ForeColor = Color.Red;
+            helloButton.Location = new Point(30, 30);
+            helloButton.Text = "Привет";
+
+            //PictureBox picture = new PictureBox();
+            //picture.Image = Properties.Resources.релиз_пк;
+            //picture.Width = flowLayoutPanel1.Height-10;
+            //picture.Height = flowLayoutPanel1.Height-10;
+            //picture.SizeMode = PictureBoxSizeMode.Zoom;
+
+            //flowLayoutPanel1.Controls.Add(picture);
         }
 
         public bool Status = false;
@@ -38,16 +52,25 @@ namespace Share_Data
                 receiveThread.Start(available);
                 Status = true;
             }
-           
+            //Drawing_picture_for_pc(0, 0, this);
+            //PictureBox picture = new PictureBox();
+            //picture.Image = Properties.Resources.релиз_пк;
+            //picture.Width = flowLayoutPanel1.Height - 30;
+            //picture.Height = flowLayoutPanel1.Height - 30;
+            //picture.SizeMode = PictureBoxSizeMode.Zoom;
+
+            //flowLayoutPanel1.Controls.Add(picture);
+
         }
         int x = 500;
         int y = 100;
         int count = 0;
 
         public void Draw(object sender,List<string> lst)
-        {            
+        {
             //В переменной lst содержится лист с ip адресами
-            Drawing_label(lst[count], x, y, this);
+            //Drawing_label(lst[count], x, y, this);
+            Drawing_picture_for_pc(x,y,this);
             //Здесь производим расчет координат
             count++;
             y += 20;            
@@ -101,6 +124,40 @@ namespace Share_Data
         /// <param name="form"></param>
         public void Drawing_picture_for_pc(int x,int y,Form form)
         {
+            if (this.InvokeRequired)
+            {
+                Invoke((MethodInvoker)delegate ()
+                {
+                    PictureBox picture = new PictureBox();
+                    Label label = new Label();
+                    label.Text = "Hello";
+                    picture.Image = Properties.Resources.релиз_пк;
+                    picture.Width = flowLayoutPanel1.Height - 30;
+                    picture.Height = flowLayoutPanel1.Height - 30;
+                    picture.SizeMode = PictureBoxSizeMode.Zoom;
+                    picture.Parent = label;
+
+                    flowLayoutPanel1.Controls.Add(picture);
+                });
+
+            }
+            else
+            {
+                try
+                {
+                    PictureBox picture = new PictureBox();
+                    Label label = new Label();
+                    label.Text = "Hello";
+                    picture.Image = Properties.Resources.релиз_пк;
+                    picture.Width = flowLayoutPanel1.Height - 30;
+                    picture.Height = flowLayoutPanel1.Height - 30;
+                    picture.SizeMode = PictureBoxSizeMode.Zoom;
+                    picture.Parent = label;
+
+                    flowLayoutPanel1.Controls.Add(picture);
+                }
+                catch { }
+            }
 
         }
     }
