@@ -18,8 +18,8 @@ namespace Share_Data
     {
         public Form1()
         {
-            InitializeComponent();            
-
+            InitializeComponent();
+            Drawing(getting_name.get_name(),10,10,this);
         }
 
         public bool Status = false;
@@ -72,6 +72,19 @@ namespace Share_Data
                 //после повторного вызова этого метода через Invoke, infoLabel.InvokeRequired
                 //уже будет "думать", что обращаемся к контролу из основного потока (в котором был создан контрол).
                 //Если вызвать этот метод из потока, в котором был создан конрол, то вызовется сразу присвоение текста
+            }
+            else
+            {
+                try
+                {
+                    Label label = new Label();
+                    label.Text = text;
+                    label.AutoSize = true;
+                    label.Location = new Point(x, y);
+                    label.MaximumSize = new Size(400, 0);
+                    form.Controls.Add(label);
+                }
+                catch { }
             }
         }//Добавляем label в указанную область 
     }
