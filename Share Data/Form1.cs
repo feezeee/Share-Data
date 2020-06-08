@@ -93,6 +93,15 @@ namespace Share_Data
                 catch { }
             }
         }
-        public void 
+        /// <summary>
+        /// Добавляет картинку пк на форму
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="form"></param>
+        public void Drawing_picture_for_pc(int x,int y,Form form)
+        {
+
+        }
     }
 }
