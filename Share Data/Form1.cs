@@ -19,7 +19,7 @@ namespace Share_Data
         public Form1()
         {
             InitializeComponent();
-            Drawing(getting_name.get_name(),10,10,this);
+            Drawing_label(getting_name.get_name(),10,10,this);
         }
 
         public bool Status = false;
@@ -47,15 +47,21 @@ namespace Share_Data
         public void Draw(object sender,List<string> lst)
         {            
             //В переменной lst содержится лист с ip адресами
-            Drawing(lst[count], x, y, this);
+            Drawing_label(lst[count], x, y, this);
             //Здесь производим расчет координат
             count++;
-            y += 20;
+            y += 20;            
             
         }
-              
 
-        public void Drawing(string text, int x, int y, Form form)
+        /// <summary>
+        /// Рисует label в координатах с текстом к координатах x,y
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="form"></param>
+        public void Drawing_label(string text, int x, int y, Form form)
         {
             if (this.InvokeRequired)
             {
@@ -86,6 +92,7 @@ namespace Share_Data
                 }
                 catch { }
             }
-        }//Добавляем label в указанную область 
+        }
+        public void 
     }
 }

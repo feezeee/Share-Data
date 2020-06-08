@@ -33,9 +33,12 @@
             // 
             // rounded_Button1
             // 
-            this.rounded_Button1.Location = new System.Drawing.Point(12, 181);
+            this.rounded_Button1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rounded_Button1.Location = new System.Drawing.Point(228, 320);
             this.rounded_Button1.Name = "rounded_Button1";
-            this.rounded_Button1.Size = new System.Drawing.Size(390, 104);
+            this.rounded_Button1.Size = new System.Drawing.Size(318, 59);
             this.rounded_Button1.TabIndex = 0;
             this.rounded_Button1.Text = "rounded_Button1";
             this.rounded_Button1.UseVisualStyleBackColor = true;
