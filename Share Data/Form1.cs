@@ -35,6 +35,10 @@ namespace Share_Data
 
             //flowLayoutPanel1.Controls.Add(picture);
         }
+        /// <summary>
+        /// Содержит данные о пк: имя и ip
+        /// </summary>
+        List<data_about_PC> _PCs = new List<data_about_PC>();
 
         public bool Status = false;
 
@@ -52,7 +56,7 @@ namespace Share_Data
                 receiveThread.Start(available);
                 Status = true;
             }
-            //Drawing_picture_for_pc(0, 0, this);
+            Drawing_picture_for_pc(0, 0, this);
             //PictureBox picture = new PictureBox();
             //picture.Image = Properties.Resources.релиз_пк;
             //picture.Width = flowLayoutPanel1.Height - 30;
@@ -68,6 +72,8 @@ namespace Share_Data
 
         public void Draw(object sender,List<string> lst)
         {
+            _PCs.Add(new data_about_PC { Adress = lst[count] });
+
             //В переменной lst содержится лист с ip адресами
             //Drawing_label(lst[count], x, y, this);
             Drawing_picture_for_pc(x,y,this);
