@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="data_about_PC.cs" />
     <Compile Include="DrawLabelAndPicture.cs" />
     <Compile Include="FindIpAdress.cs" />
     <Compile Include="Form1.cs">
