@@ -69,9 +69,9 @@ namespace Share_Data
         int y = 100;
         int count = 0;
 
-        public void Draw(object sender,List<string> lst)
+        public void Draw(object sender,List<(string, string)> lst)
         {
-            _PCs.Add(new data_about_PC { Adress = lst[count] });
+            _PCs.Add(new data_about_PC { Adress = lst[count].Item2, Name = lst[count].Item1 });
 
             //В переменной lst содержится лист с ip адресами
             //Drawing_label(lst[count], x, y, this);
