@@ -67,9 +67,10 @@ namespace Share_Data
         int y = 100;
         int count = 0;
 
-        public void Draw(object sender,List<string> lst)
+        public void Draw(object sender,List<(string, string)> lst)
         {
-            //В переменной lst содержится лист с ip адресами
+            //В переменной lst содержится лист с name and ip адресами
+            //lst[i].Item1 - name, lst[i]Item2  - ip
             //Drawing_label(lst[count], x, y, this);
             Drawing_picture_for_pc(x,y,this);
             //Здесь производим расчет координат

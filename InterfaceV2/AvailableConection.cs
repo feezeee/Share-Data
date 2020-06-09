@@ -21,14 +21,14 @@ namespace Interface
     {
         public static bool IfWasEdited;
         private static List<GroupMember> GroupMembers = new List<GroupMember>();
-        private static List<string> GroupMembers_str = new List<string>();
+        private static List<(string, string)> GroupMembers_str = new List<(string, string)>();
 
-        private static bool IsExist(string member)
+        private static bool IsExist((string, string) member)
         {
 
             foreach (var memb in GroupMembers_str)
             {
-                if (member == memb) return true;
+                if (member.Item2 == memb.Item2) return true;
             }
 
            return false;
@@ -36,8 +36,8 @@ namespace Interface
                
         public void AddMember(IPAddress ip, string name)
         {
-            
-            string member_str = name + ' ' + ip.ToString();
+
+            (string, string) member_str = (name, ip.ToString());
             GroupMember member = new GroupMember(ip, name);
 
             if (!IsExist(member_str))
@@ -45,14 +45,14 @@ namespace Interface
                 IfWasEdited = true;
                 GroupMembers.Add(member);
                 GroupMembers_str.Add(member_str);
-                if(onAddIpAdress!=null)
-                onAddIpAdress(this,ReturnGroupList());//Вызываем событие если что-то добавилось в лист
+                //if(onAddIpAdress!=null)
+                onAddIpAdress?.Invoke(this,ReturnGroupList());//Вызываем событие если что-то добавилось в лист
             }
         }
-        public delegate void MethodContainer(object sender, List<string> lst);
+        public delegate void MethodContainer(object sender, List<(string, string)> lst);
         public event MethodContainer onAddIpAdress;
 
-        public static List<string> ReturnGroupList()
+        public static List<(string, string)> ReturnGroupList()
         {
             IfWasEdited = false;
             return GroupMembers_str;
