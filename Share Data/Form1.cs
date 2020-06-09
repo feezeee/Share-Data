@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using Interface;
 using IPmanip;
 
+
 namespace Share_Data
 {
     public partial class Form1 : Form
@@ -20,13 +21,13 @@ namespace Share_Data
         /// <summary>
         /// Содержит данные о пк: имя и ip
         /// </summary>
-        List<data_about_PC> _PCs = new List<data_about_PC>();
+        List<Data_about_PC> _PCs = new List<Data_about_PC>();
 
         public Form1()
         {
             InitializeComponent();
-            Drawing_label("Как вы отображаетесь: "+ SelfName.Name, 10,10,this);            
-
+            Drawing_label("Как вы отображаетесь: "+ SelfName.Name, 10,10,this);
+            
             //PictureBox picture = new PictureBox();
             //picture.Image = Properties.Resources.релиз_пк;
             //picture.Width = flowLayoutPanel1.Height-10;
@@ -53,6 +54,7 @@ namespace Share_Data
                 receiveThread.Start(available);
                 Status = true;
             }
+            
 
             Drawing_picture_for_pc(0, 0, this);
 
@@ -71,7 +73,7 @@ namespace Share_Data
 
         public void Draw(object sender,List<(string, string)> lst)
         {
-            _PCs.Add(new data_about_PC { Adress = lst[count].Item2, Name = lst[count].Item1 });
+            _PCs.Add(new Data_about_PC { Adress = lst[count].Item2, Name = lst[count].Item1 });
 
             //В переменной lst содержится лист с ip адресами
             //Drawing_label(lst[count], x, y, this);
@@ -133,9 +135,15 @@ namespace Share_Data
             {
                 Invoke((MethodInvoker)delegate ()
                 {
+
                     PictureBox picture = new PictureBox();
                     Label label = new Label();
+
+                   // label.BackColor = label.Parent.BackColor;
+                    //label.Parent = picture;
+                    label.BackColor = Color.Transparent;
                     label.Text = "Hello";
+
                     picture.Image = Properties.Resources.релиз_пк;
                     picture.Width = flowLayoutPanel1.Height - 30;
                     picture.Height = flowLayoutPanel1.Height - 30;
@@ -152,14 +160,18 @@ namespace Share_Data
                 {
                     PictureBox picture = new PictureBox();
                     Label label = new Label();
-                    label.Text = "Hello";
+
                     picture.Image = Properties.Resources.релиз_пк;
                     picture.Width = flowLayoutPanel1.Height - 30;
                     picture.Height = flowLayoutPanel1.Height - 30;
-                    picture.SizeMode = PictureBoxSizeMode.Zoom;
-                    picture.Parent = label;
+                    picture.SizeMode = PictureBoxSizeMode.Zoom;                    
 
-                    flowLayoutPanel1.Controls.Add(picture);
+                    // label.BackColor = label.Parent.BackColor;
+                    label.Parent = picture;
+                    label.BackColor = Color.Transparent;
+                    label.Text = "Hello";
+
+                    flowLayoutPanel1.Controls.Add(label);
                 }
                 catch { }
             }
