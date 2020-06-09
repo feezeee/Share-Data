@@ -17,16 +17,15 @@ namespace Share_Data
 {
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// Содержит данные о пк: имя и ip
+        /// </summary>
+        List<data_about_PC> _PCs = new List<data_about_PC>();
+
         public Form1()
         {
             InitializeComponent();
-            Drawing_label("Как вы отображаетесь: "+ SelfName.Name, 10,10,this);
-            
-            Button helloButton = new Button();
-            helloButton.BackColor = Color.LightGray;
-            helloButton.ForeColor = Color.Red;
-            helloButton.Location = new Point(30, 30);
-            helloButton.Text = "Привет";
+            Drawing_label("Как вы отображаетесь: "+ SelfName.Name, 10,10,this);            
 
             //PictureBox picture = new PictureBox();
             //picture.Image = Properties.Resources.релиз_пк;
@@ -36,10 +35,7 @@ namespace Share_Data
 
             //flowLayoutPanel1.Controls.Add(picture);
         }
-        /// <summary>
-        /// Содержит данные о пк: имя и ip
-        /// </summary>
-        List<data_about_PC> _PCs = new List<data_about_PC>();
+       
 
         public bool Status = false;
 
@@ -57,7 +53,9 @@ namespace Share_Data
                 receiveThread.Start(available);
                 Status = true;
             }
+
             Drawing_picture_for_pc(0, 0, this);
+
             //PictureBox picture = new PictureBox();
             //picture.Image = Properties.Resources.релиз_пк;
             //picture.Width = flowLayoutPanel1.Height - 30;
