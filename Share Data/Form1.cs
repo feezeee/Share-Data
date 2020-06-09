@@ -56,7 +56,7 @@ namespace Share_Data
             }
             
 
-            Drawing_picture_for_pc(0, 0, this);
+            Drawing_picture_for_pc(this,"hello","ip");
 
             //PictureBox picture = new PictureBox();
             //picture.Image = Properties.Resources.релиз_пк;
@@ -77,7 +77,8 @@ namespace Share_Data
 
             //В переменной lst содержится лист с ip адресами
             //Drawing_label(lst[count], x, y, this);
-            Drawing_picture_for_pc(x,y,this);
+            Drawing_picture_for_pc(this, lst[count].Item1, lst[count].Item2);
+
             //Здесь производим расчет координат
             count++;
             y += 20;            
@@ -129,28 +130,43 @@ namespace Share_Data
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="form"></param>
-        public void Drawing_picture_for_pc(int x,int y,Form form)
+        public void Drawing_picture_for_pc(Form form,string name,string ip)
         {
             if (this.InvokeRequired)
             {
                 Invoke((MethodInvoker)delegate ()
                 {
-
+                    Panel panel = new Panel();
                     PictureBox picture = new PictureBox();
                     Label label = new Label();
 
-                   // label.BackColor = label.Parent.BackColor;
-                    //label.Parent = picture;
-                    label.BackColor = Color.Transparent;
-                    label.Text = "Hello";
+                    // Initialize the Panel control.                    
+                    panel.Size = new Size(flowLayoutPanel1.Height - 30, flowLayoutPanel1.Height - 30);
+                    panel.Name = name;
+                    // Set the Borderstyle for the Panel to three-dimensional.
 
-                    picture.Image = Properties.Resources.релиз_пк;
-                    picture.Width = flowLayoutPanel1.Height - 30;
-                    picture.Height = flowLayoutPanel1.Height - 30;
+                    // Initialize the picturebox control.    
+                    picture.Image = Properties.Resources.pc;
+                    picture.Width = panel.Height - 30;
+                    picture.Height = panel.Height - 30;
                     picture.SizeMode = PictureBoxSizeMode.Zoom;
-                    picture.Parent = label;
 
-                    flowLayoutPanel1.Controls.Add(picture);
+
+
+                    label.Location = new Point(picture.Location.X, picture.Height);
+                    label.Text = name;
+                    label.Size = new Size(picture.Width, 20);
+                    label.TextAlign = ContentAlignment.MiddleCenter;
+                    label.AutoSize = false;
+
+                    flowLayoutPanel1.Controls.Add(panel);
+                    panel.Controls.Add(picture);
+                    panel.Controls.Add(label);
+                    ////////////////
+                    ///Добавляем обработчик
+                    ///
+                    panel.MouseEnter += new EventHandler(panel_MouseEnter);
+                    panel.MouseLeave += new EventHandler(panel_MouseLeave);
                 });
 
             }
@@ -158,24 +174,95 @@ namespace Share_Data
             {
                 try
                 {
+                    Panel panel = new Panel();
                     PictureBox picture = new PictureBox();
                     Label label = new Label();
 
-                    picture.Image = Properties.Resources.релиз_пк;
-                    picture.Width = flowLayoutPanel1.Height - 30;
-                    picture.Height = flowLayoutPanel1.Height - 30;
-                    picture.SizeMode = PictureBoxSizeMode.Zoom;                    
+                    // Initialize the Panel control.                    
+                    panel.Size = new Size(flowLayoutPanel1.Height-30, flowLayoutPanel1.Height-30);
+                    panel.Name = name;
+                    // Set the Borderstyle for the Panel to three-dimensional.
 
-                    // label.BackColor = label.Parent.BackColor;
-                    label.Parent = picture;
-                    label.BackColor = Color.Transparent;
-                    label.Text = "Hello";
+                    // Initialize the picturebox control.    
+                    picture.Image = Properties.Resources.pc;
+                    picture.Width = panel.Height - 30;
+                    picture.Height = panel.Height - 30;
+                    picture.SizeMode = PictureBoxSizeMode.Zoom;
 
-                    flowLayoutPanel1.Controls.Add(label);
+
+                    
+                    label.Location = new Point(picture.Location.X, picture.Height);
+                    label.Text = name;
+                    label.Size = new Size(picture.Width, 20);
+                    label.TextAlign = ContentAlignment.MiddleCenter;
+                    label.AutoSize = false;
+
+                    flowLayoutPanel1.Controls.Add(panel);
+                    panel.Controls.Add(picture);
+                    panel.Controls.Add(label);
+                    ////////////////
+                    ///Добавляем обработчик
+                    ///
+                    panel.MouseEnter += new EventHandler(panel_MouseEnter);
+                    panel.MouseLeave += new EventHandler(panel_MouseLeave);
+
                 }
                 catch { }
             }
 
         }
+
+        private object sendering;
+        private string name;
+        private void panel_MouseLeave(object sender, EventArgs e)
+        {
+            flag = false;
+            keyTimer = true;
+            timer1.Stop();
+
+        }
+
+        private void panel_MouseEnter(object sender, EventArgs e)
+        {
+            Panel panel = (Panel)sender;
+            string str = panel.Name;
+            name = str;
+            string param = flowLayoutPanel1.Controls.Find(name, false).First().Text;
+
+
+            //flag = true;
+            //sendering = sender;
+            //Panel panel = (Panel)sendering;
+            //firstWidth = panel.Width;
+            //timer1.Start();
+        }
+
+        int firstWidth;
+
+        public void AddS(int x)
+        {
+            Panel panel = (Panel)sendering;
+            if ((panel.Width <= firstWidth) || (panel.Width >= firstWidth+x*10 ))
+                keyTimer = false;
+            else keyTimer = true;
+
+            if ((flag) && (keyTimer))
+            {
+                panel.Width += x;
+            }
+            else panel.Width -= x;            
+
+        }
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            //    if (keyTimer)
+            //    {
+            //        AddS(2);
+            //    }
+            //    else timer1.Stop();
+
+        }
+        private bool keyTimer = true; 
+        private bool flag = false;
     }
 }

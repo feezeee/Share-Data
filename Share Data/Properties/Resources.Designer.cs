@@ -63,9 +63,9 @@ namespace Share_Data.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap релиз_пк {
+        internal static System.Drawing.Bitmap pc {
             get {
-                object obj = ResourceManager.GetObject("релиз пк", resourceCulture);
+                object obj = ResourceManager.GetObject("pc", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
