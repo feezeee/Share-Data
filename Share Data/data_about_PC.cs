@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Share_Data
 {
-    class data_about_PC
+    class Data_about_PC
     {
         public string Name { get; set; }
         public string Adress { get; set; }
