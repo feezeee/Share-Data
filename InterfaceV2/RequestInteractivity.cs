@@ -82,7 +82,7 @@ namespace InterfaceV2
                     Console.WriteLine("оджидание запроса...");
                     if (reciever.Available == 0)
                     {
-                        Thread.Sleep(3000);
+                        Thread.Sleep(5000);
                         continue;
                     }
                     var getter = reciever.Accept(); // получение следующего сообщения в очереди

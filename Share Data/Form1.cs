@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Interface;
+using IPmanip;
 
 namespace Share_Data
 {
@@ -19,7 +20,7 @@ namespace Share_Data
         public Form1()
         {
             InitializeComponent();
-            Drawing_label("Как вы отображаетесь: "+getting_name.get_name(),10,10,this);
+            Drawing_label("Как вы отображаетесь: "+ SelfName.Name, 10,10,this);
             
             Button helloButton = new Button();
             helloButton.BackColor = Color.LightGray;
