@@ -9,6 +9,10 @@ namespace IPmanip
     public class SelfName
     {
         static object locker = new object();
+
+        /// <summary>
+        /// Возвращает имя пользователя
+        /// </summary>
         public static string Name
         {
             get
