@@ -4,20 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Share_Data
+namespace IPmanip
 {
-    class getting_name
+    public class SelfName
     {
-        public static string get_name()
+        static object locker = new object();
+        public static string Name
+        {
+            get
+            {
+                lock (locker)
+                {
+                    if (_name == null) _name = GetSelfName();
+                    return _name;
+                }        
+            }
+        }
+        private static string _name = null;
+
+        private static string GetSelfName()
         {
             string name;
 
-            try 
+            try
             {
                 name = System.Net.Dns.GetHostName();
 
             }
-            catch 
+            catch
             {
                 //Создание объекта для генерации чисел
                 Random rnd = new Random();

@@ -25,11 +25,12 @@ namespace Interface
                     IPAddress broadcast = IPAddress.Parse(localaddress.BroadIP);
                     //IPAddress broadcast = IPAddress.Parse(BroadIP);
 
-                    byte[] sendbuf = Encoding.ASCII.GetBytes("offer to conect");// кодируем сообщение из строки в битовый массив
+                    var message = SelfName.Name;
+                    byte[] sendbuf = Encoding.ASCII.GetBytes(message);// кодируем сообщение из строки в битовый массив
                     IPEndPoint ep = new IPEndPoint(broadcast, remotePort);// создаем полыный адрес получателя, тоесть добавляем к IP еще и прот
 
                     s.SendTo(sendbuf, ep);// отправлем сообщение на адрес получателя
-                    Console.WriteLine("Message sent to the broadcast address");
+                    Console.WriteLine("Message was sent to the broadcast address");
 
                     Thread.Sleep(5000);
                 }
