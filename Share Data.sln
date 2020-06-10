@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interface", "InterfaceV2\In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPmanip", "WpfApp1\IPmanip.csproj", "{A6269A54-19B7-4569-83B5-CF8780889C09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharing Data", "Sharing Data\Sharing Data.csproj", "{F3A42FD0-6A58-4CC8-844D-0BBAE119C252}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{A6269A54-19B7-4569-83B5-CF8780889C09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6269A54-19B7-4569-83B5-CF8780889C09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6269A54-19B7-4569-83B5-CF8780889C09}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F3A42FD0-6A58-4CC8-844D-0BBAE119C252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F3A42FD0-6A58-4CC8-844D-0BBAE119C252}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F3A42FD0-6A58-4CC8-844D-0BBAE119C252}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F3A42FD0-6A58-4CC8-844D-0BBAE119C252}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
