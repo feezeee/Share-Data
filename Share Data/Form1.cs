@@ -13,6 +13,7 @@ using System.Timers;
 using System.Windows.Forms;
 using Interface;
 using IPmanip;
+using DrawingAnimations;
 
 namespace Share_Data
 {
@@ -27,8 +28,7 @@ namespace Share_Data
         public Form1()
         {
             InitializeComponent();
-            Drawing_label("Как вы отображаетесь: " + SelfName.Name, 10, 10, this);
-            frm = this;
+            Drawing_label("Как вы отображаетесь: " + SelfName.Name, 10, 10, this);            
 
             //PictureBox picture = new PictureBox();
             //picture.Image = Properties.Resources.релиз_пк;
@@ -135,6 +135,7 @@ namespace Share_Data
         public int count_for_controls = 0;
         public void Drawing_picture_for_pc(Form form, string name, string ip)
         {
+            EventChecker eventChecker = new EventChecker();
             if (this.InvokeRequired)
             {
                 Invoke((MethodInvoker)delegate ()
@@ -153,9 +154,10 @@ namespace Share_Data
                     Label label_up = new Label();
 
                     // Initialize the Panel control.                    
-                    panel.Size = new Size(flowLayoutPanel1.Height - 10, flowLayoutPanel1.Height - 10);
+                    panel.Size = new Size(flowLayoutPanel1.Height, flowLayoutPanel1.Height-30);
                     panel.Name = "panel" + count_for_controls.ToString();
-                    panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    //panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+
                     // Set the Borderstyle for the Panel to three-dimensional.
 
                     ///
@@ -163,27 +165,30 @@ namespace Share_Data
                     panel_up.Size = new Size(panel.Width, panel.Width / 7);
                     panel_up.MaximumSize = new Size(panel.Width, panel.Width / 7);
                     panel_up.MinimumSize = new Size(panel.Width, 0);
-                    panel_up.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    //panel_up.Dock = DockStyle.Top;
+                    //panel_up.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
                     ///
 
                     //левая панель
                     panel_left.Name = "panel_left" + count_for_controls.ToString();
                     panel_left.Location = new Point(panel_up.Location.X, panel_up.Height);
                     panel_left.Size = new Size(panel.Width / 4, panel.Width / 2);
-                    panel_left.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    //panel_left.Dock = DockStyle.Left;
+                    //panel_left.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 
                     //панель для картинки
                     panel_for_picture.Name = "panel_for_picture" + count_for_controls.ToString();
                     panel_for_picture.Location = new Point(panel_left.Width, panel_up.Height);
                     panel_for_picture.Size = new Size(panel.Width / 2, panel.Width / 2);
-                    panel_for_picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    panel_for_picture.Cursor = Cursors.Hand;
+                    //panel_for_picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 
                     // Initialize the picturebox control.    
                     picture.Name = "picture" + count_for_controls.ToString();
                     picture.Image = Properties.Resources.pc;
                     picture.Width = panel_for_picture.Width;
                     picture.Height = panel_for_picture.Width;
-                    picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    //picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
                     //picture.Margin = new Padding(50, 2, 50, 0);
                     picture.SizeMode = PictureBoxSizeMode.Zoom;
 
@@ -191,11 +196,11 @@ namespace Share_Data
 
                     label.Location = new Point(panel_for_picture.Location.X, panel_up.Height + panel_for_picture.Height);
                     label.Text = name;
-                    label.Name = name;
+                    label.Name = "label_name" + count_for_controls;
                     label.Size = new Size(panel_for_picture.Width, (panel.Height - (panel_up.Height + panel_for_picture.Height)) / 2);
                     label.TextAlign = ContentAlignment.MiddleCenter;
                     label.AutoSize = false;
-                    label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    //label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 
                     ////
                     dop_panel.Size = new Size(panel.Width, (panel.Width - (panel_up.Height + panel_for_picture.Height)) / 2);
@@ -205,20 +210,21 @@ namespace Share_Data
 
                     label_ip.Location = new Point(panel_for_picture.Location.X, panel_up.Height + panel_for_picture.Height + label.Height);
                     label_ip.Text = ip;
-                    label_ip.Name = ip;
+                    label_ip.Name = "label_ip" + count_for_controls;
                     label_ip.Size = new Size(panel_for_picture.Width, (panel.Height - (panel_up.Height + panel_for_picture.Height)) / 2);
                     label_ip.TextAlign = ContentAlignment.MiddleCenter;
                     label_ip.AutoSize = false;
-                    label_ip.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    //label_ip.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
                     ////////////
 
                     label_up.Location = new Point(panel_up.Location.X, panel_up.Location.Y);
+                    label_up.Visible = false;
                     label_up.Text = "false";
                     label_up.Name = "label_status" + count_for_controls;
                     label_up.Size = new Size(panel_up.Width, panel_up.Height);
                     label_up.TextAlign = ContentAlignment.MiddleCenter;
                     label_up.AutoSize = false;
-                    label_up.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    //label_up.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 
                     ///
 
@@ -235,31 +241,31 @@ namespace Share_Data
                     ////////////////
                     ///Добавляем обработчик
                     ///
-                    panel.MouseEnter += new EventHandler(panel_MouseEnter);
-                    panel.MouseLeave += new EventHandler(panel_MouseLeave);
+                    //panel.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    //panel.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
 
-                    panel_up.MouseEnter += new EventHandler(panel_MouseEnter);
-                    panel_up.MouseLeave += new EventHandler(panel_MouseLeave);
+                    //panel_up.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    //panel_up.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
 
-                    panel_left.MouseEnter += new EventHandler(panel_MouseEnter);
-                    panel_left.MouseLeave += new EventHandler(panel_MouseLeave);
+                    //panel_left.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    //panel_left.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
 
-                    panel_for_picture.MouseEnter += new EventHandler(panel_MouseEnter);
-                    panel_for_picture.MouseLeave += new EventHandler(panel_MouseLeave);
+                    //panel_for_picture.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    //panel_for_picture.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
 
-                    label.MouseEnter += new EventHandler(panel_MouseEnter);
-                    label.MouseLeave += new EventHandler(panel_MouseLeave);
+                    //label.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    //label.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
 
-                    label_up.MouseEnter += new EventHandler(panel_MouseEnter);
-                    label_up.MouseLeave += new EventHandler(panel_MouseLeave);
+                    //label_up.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    //label_up.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
 
-                    label_ip.MouseEnter += new EventHandler(panel_MouseEnter);
-                    label_ip.MouseLeave += new EventHandler(panel_MouseLeave);
+                    //label_ip.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    //label_ip.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
 
 
-                    picture.MouseEnter += new EventHandler(panel_MouseEnter);
-                    picture.MouseLeave += new EventHandler(panel_MouseLeave);
-
+                    picture.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    picture.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
+                    eventChecker.setForm(this);
 
                 });
 
@@ -281,9 +287,10 @@ namespace Share_Data
                     Label label_up = new Label();
 
                     // Initialize the Panel control.                    
-                    panel.Size = new Size(flowLayoutPanel1.Height - 10, flowLayoutPanel1.Height - 10);
+                    panel.Size = new Size(flowLayoutPanel1.Height, flowLayoutPanel1.Height - 30);
                     panel.Name = "panel" + count_for_controls.ToString();                    
-                    panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    //panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    
                     // Set the Borderstyle for the Panel to three-dimensional.
 
                     ///
@@ -291,29 +298,30 @@ namespace Share_Data
                     panel_up.Size = new Size(panel.Width, panel.Width / 7);
                     panel_up.MaximumSize = new Size(panel.Width, panel.Width / 7);
                     panel_up.MinimumSize = new Size(panel.Width, 0);
-                    panel_up.Dock = DockStyle.Top;
-                    panel_up.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    //panel_up.Dock = DockStyle.Top;
+                    //panel_up.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
                     ///
 
                     //левая панель
                     panel_left.Name = "panel_left" + count_for_controls.ToString();
                     panel_left.Location = new Point(panel_up.Location.X, panel_up.Height);
                     panel_left.Size = new Size(panel.Width / 4, panel.Width / 2);
-                    panel_left.Dock = DockStyle.Left;
-                    panel_left.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    //panel_left.Dock = DockStyle.Left;
+                    //panel_left.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 
                     //панель для картинки
                     panel_for_picture.Name = "panel_for_picture" + count_for_controls.ToString();
                     panel_for_picture.Location = new Point(panel_left.Width, panel_up.Height);
                     panel_for_picture.Size = new Size(panel.Width / 2, panel.Width / 2);
-                    panel_for_picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    panel_for_picture.Cursor = Cursors.Hand;
+                    //panel_for_picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 
                     // Initialize the picturebox control.    
                     picture.Name = "picture" + count_for_controls.ToString();
                     picture.Image = Properties.Resources.pc;
                     picture.Width = panel_for_picture.Width;
                     picture.Height = panel_for_picture.Width;
-                    picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    //picture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
                     //picture.Margin = new Padding(50, 2, 50, 0);
                     picture.SizeMode = PictureBoxSizeMode.Zoom;
 
@@ -325,7 +333,7 @@ namespace Share_Data
                     label.Size = new Size(panel_for_picture.Width, (panel.Height - (panel_up.Height + panel_for_picture.Height)) / 2);
                     label.TextAlign = ContentAlignment.MiddleCenter;
                     label.AutoSize = false;
-                    label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    //label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 
                     ////
                     dop_panel.Size = new Size(panel.Width, (panel.Width - (panel_up.Height + panel_for_picture.Height)) / 2);
@@ -339,16 +347,17 @@ namespace Share_Data
                     label_ip.Size = new Size(panel_for_picture.Width, (panel.Height - (panel_up.Height + panel_for_picture.Height)) / 2);
                     label_ip.TextAlign = ContentAlignment.MiddleCenter;
                     label_ip.AutoSize = false;
-                    label_ip.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    //label_ip.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
                     ////////////
 
                     label_up.Location = new Point(panel_up.Location.X, panel_up.Location.Y);
+                    label_up.Visible = false;
                     label_up.Text = "false";
                     label_up.Name = "label_status"+count_for_controls;
                     label_up.Size = new Size(panel_up.Width, panel_up.Height);
                     label_up.TextAlign = ContentAlignment.MiddleCenter;
                     label_up.AutoSize = false;
-                    label_up.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    //label_up.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 
                     ///
 
@@ -365,47 +374,37 @@ namespace Share_Data
                     ////////////////
                     ///Добавляем обработчик
                     ///
-                    panel.MouseEnter += new EventHandler(panel_MouseEnter);                         
-                    panel.MouseLeave += new EventHandler(panel_MouseLeave);
+                    //panel.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    //panel.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
 
-                    panel_up.MouseEnter += new EventHandler(panel_MouseEnter);
-                    panel_up.MouseLeave += new EventHandler(panel_MouseLeave);
+                    //panel_up.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    //panel_up.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
 
-                    panel_left.MouseEnter += new EventHandler(panel_MouseEnter);
-                    panel_left.MouseLeave += new EventHandler(panel_MouseLeave);
+                    //panel_left.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    //panel_left.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
 
-                    panel_for_picture.MouseEnter += new EventHandler(panel_MouseEnter);
-                    panel_for_picture.MouseLeave += new EventHandler(panel_MouseLeave);
+                    //panel_for_picture.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    //panel_for_picture.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
 
-                    label.MouseEnter += new EventHandler(panel_MouseEnter);
-                    label.MouseLeave += new EventHandler(panel_MouseLeave);
+                    //label.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    //label.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
 
-                    label_up.MouseEnter += new EventHandler(panel_MouseEnter);
-                    label_up.MouseLeave += new EventHandler(panel_MouseLeave);
+                    //label_up.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    //label_up.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
 
-                    label_ip.MouseEnter += new EventHandler(panel_MouseEnter);
-                    label_ip.MouseLeave += new EventHandler(panel_MouseLeave);
+                    //label_ip.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    //label_ip.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
 
 
-                    picture.MouseEnter += new EventHandler(panel_MouseEnter);
-                    picture.MouseLeave += new EventHandler(panel_MouseLeave);
-
+                    picture.MouseEnter += new EventHandler(eventChecker.panel_MouseEnter);
+                    picture.MouseLeave += new EventHandler(eventChecker.panel_MouseLeave);
+                    eventChecker.setForm(this);
 
                 }
                 catch { }
             }
 
-        }
-
-        List<object> sendering;
-
-        private string name;
-
-        private bool mouse_status = false;
-        private bool min_status = true;
-        private bool max_status = false;
-
-        Form frm;
+        }       
         public int cutting(string str)
         {
             int rez =0;
@@ -428,93 +427,7 @@ namespace Share_Data
         }
 
         public int fulling_size = 2;
-        private void panel_MouseEnter(object sender, EventArgs e)
-        {
-            string number="";
-            try 
-            {
-                Panel panel = (Panel)sender;
-                number = panel.Name; 
-            }
-            catch { }
-            try
-            {
-                Label label = (Label)sender;
-                number = label.Name;
-            }
-            catch { }
-            try
-            {
-                PictureBox pictureBox = (PictureBox)sender;
-                number = pictureBox.Name;
-            }
-            catch { }
-
-
-            int num = cutting(number);
-            string label_up = "label_status" + num;
-            string panel_up = "panel_up" + num;
-            string panel_name = "panel" + num;
-            //AddS(number, fulling_size, frm, _PCs[Convert.ToInt32(number) - 1].Name, _PCs[Convert.ToInt32(number) - 1].Adress);
-            //panel.Controls.Find(label_up);
-            foreach (var tb in flowLayoutPanel1.Controls[panel_name].Controls[panel_up].Controls.OfType<Label>())
-            {
-                if (tb.Name == label_up && tb.Text != "true")
-                {
-                    //await Task.Run(() => AddS(num, fulling_size, frm));
-                    tb.Text = "true";
-                    //Thread add = new Thread(new ParameterizedThreadStart(AddS));
-                    var addS = new AddSStruct
-                    {
-                        number = num,
-                        x = fulling_size,
-                        form = frm
-                    };
-                    //add.Start(addS);
-                    System.Timers.Timer timer = new System.Timers.Timer();
-                    timer.Interval = 100;
-                    timer.Elapsed += new System.Timers.ElapsedEventHandler(addS.TimerTick);
-                    timer.AutoReset = true;
-                    //timer.Start();
-
-                    //AddS(num, fulling_size, frm);
-                }
-            }        
-            
-        }
-
-        private void panel_MouseLeave(object sender, EventArgs e)
-        {
-            string number = "";
-            try
-            {
-                Panel panel = (Panel)sender;
-                number = panel.Name;
-            }
-            catch { }
-            try
-            {
-                Label label = (Label)sender;
-                number = label.Name;
-            }
-            catch { }
-            try
-            {
-                PictureBox pictureBox = (PictureBox)sender;
-                number = pictureBox.Name;
-            }
-            catch { }
-
-            int num = cutting(number);
-            string label_up = "label_status" + num;
-            string panel_up = "panel_up" + num;
-            string panel_name = "panel" + num;
-            foreach (var tb in flowLayoutPanel1.Controls[panel_name].Controls[panel_up].Controls.OfType<Label>())
-            {
-                if (tb.Name == label_up)
-                    tb.Text = "false";
-            }
-        }
+        
 
         struct AddSStruct
         {
@@ -593,6 +506,43 @@ namespace Share_Data
             //}
 
         }
-    
+
+        private void pictureBox1_MouseEnter(object sender, EventArgs e)
+        {
+            timer_for_right.Start();
+        }
+
+        private void pictureBox2_MouseEnter(object sender, EventArgs e)
+        {
+            timer_for_left.Start();
+        }
+
+        private void pictureBox1_MouseLeave(object sender, EventArgs e)
+        {
+            timer_for_right.Stop();
+        }
+
+        private void pictureBox2_MouseLeave(object sender, EventArgs e)
+        {
+            timer_for_left.Stop();
+        }
+
+
+        private void timer_for_right_Tick(object sender, EventArgs e)
+        {
+            int peremen = 2;
+            if (flowLayoutPanel1.HorizontalScroll.Value != flowLayoutPanel1.HorizontalScroll.Maximum)
+            {
+                flowLayoutPanel1.HorizontalScroll.Value += peremen;
+            }
+        }
+
+        private void timer_for_left_Tick(object sender, EventArgs e)
+        {
+            if(flowLayoutPanel1.HorizontalScroll.Value>5)
+            flowLayoutPanel1.HorizontalScroll.Value -= 5;
+        }
+
+        
     }
 }
