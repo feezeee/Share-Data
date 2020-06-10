@@ -49,5 +49,18 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\InterfaceV2\Interface.csproj">
+      <Project>{8f95ec8f-1b4a-4a26-84c1-3b7defe2ed84}</Project>
+      <Name>Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfApp1\IPmanip.csproj">
+      <Project>{a6269a54-19b7-4569-83b5-cf8780889c09}</Project>
+      <Name>IPmanip</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
