@@ -35,7 +35,7 @@ namespace InterfaceV2
                 case (int)RequestTipe.Send:
                     break;
                 case (int)RequestTipe.Download:
-                    Download(mes[2]);
+                    //Download(mes[2]);
                     break;
                 default:
                     Console.WriteLine("request isn't distingushed");
@@ -75,6 +75,7 @@ namespace InterfaceV2
             }
 
             return ans;
+            //merger
         }
     }
 }
