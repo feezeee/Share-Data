@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace InterfaceV2
 {
-    public class RequestInteractivity
+    public static class RequestInteractivity
     {
         private static IPAddress localIP = IPAddress.Parse("127.0.0.1");
         private static int port = 2210; 
@@ -24,8 +24,9 @@ namespace InterfaceV2
             string requestString = $"Answer "+ requestMess;
             return requestString;
         }
-        public static void SendRequst(string reciverIPstr, RequestTipe request = RequestTipe.Send, string requestMess = "ans")
+        public static string SendRequst(string reciverIPstr, RequestTipe request = RequestTipe.Send, string requestMess = "ans")
         {
+            string Response = "";
             try
             {
                 IPAddress recieverIP = IPAddress.Parse(reciverIPstr);
@@ -61,11 +62,14 @@ namespace InterfaceV2
 
                 sender.Shutdown(SocketShutdown.Both);
                 sender.Close();
+                Response = response;
             }
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);
             }
+
+            return Response;
         }
 
         public static void DoRequestsRecieveing()
@@ -80,11 +84,12 @@ namespace InterfaceV2
                 while (true)
                 {
                     Console.WriteLine("оджидание запроса...");
-                    if (reciever.Available == 0)
-                    {
-                        Thread.Sleep(5000);
-                        continue;
-                    }
+                    
+                    //if (reciever.Available == 0)
+                    //{
+                    //    Thread.Sleep(5000);
+                    //    continue;
+                    //}
                     var getter = reciever.Accept(); // получение следующего сообщения в очереди
                     Console.WriteLine("обработка запроса...");
                     StringBuilder builder = new StringBuilder();
@@ -109,7 +114,7 @@ namespace InterfaceV2
                         Console.WriteLine("ip отправителя - " + reciverIP.ToString());
 
                         //происходит обработка запроса
-                        var ans = Request.ExecuteRecuest(requestMess); // получаем ответ на запрос
+                        var ans = Request.ExecuteRecuest(requestMess, reciverIP.ToString()); // получаем ответ на запрос
                         Console.WriteLine($"ответ на запрос {ans}");
 
                         byte[] message = Encoding.Unicode.GetBytes(GetAnswerString(ans));
@@ -119,6 +124,7 @@ namespace InterfaceV2
 
                     getter.Shutdown(SocketShutdown.Both);
                     getter.Close();
+                    Thread.Sleep(5000);
                 }
                 
                
@@ -127,6 +133,11 @@ namespace InterfaceV2
             {
                 Console.WriteLine(e.Message);
             }
+        }
+
+        static void SendFile()
+        {
+
         }
     }
 }
