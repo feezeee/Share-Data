@@ -9,11 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interface", "InterfaceV2\In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPmanip", "WpfApp1\IPmanip.csproj", "{A6269A54-19B7-4569-83B5-CF8780889C09}"
 EndProject
-<<<<<<< HEAD
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{4A29EC24-D667-40A1-BE44-40CC01B581D9}"
-=======
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawingAnimations", "DrawingAnimations\DrawingAnimations.csproj", "{F833D9A8-5BD8-48C0-A1BD-A97E348AB53C}"
->>>>>>> 2032397... Добавил анимацию
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,17 +29,10 @@ Global
 		{A6269A54-19B7-4569-83B5-CF8780889C09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6269A54-19B7-4569-83B5-CF8780889C09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6269A54-19B7-4569-83B5-CF8780889C09}.Release|Any CPU.Build.0 = Release|Any CPU
-<<<<<<< HEAD
 		{4A29EC24-D667-40A1-BE44-40CC01B581D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A29EC24-D667-40A1-BE44-40CC01B581D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A29EC24-D667-40A1-BE44-40CC01B581D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A29EC24-D667-40A1-BE44-40CC01B581D9}.Release|Any CPU.Build.0 = Release|Any CPU
-=======
-		{F833D9A8-5BD8-48C0-A1BD-A97E348AB53C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F833D9A8-5BD8-48C0-A1BD-A97E348AB53C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F833D9A8-5BD8-48C0-A1BD-A97E348AB53C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F833D9A8-5BD8-48C0-A1BD-A97E348AB53C}.Release|Any CPU.Build.0 = Release|Any CPU
->>>>>>> 2032397... Добавил анимацию
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

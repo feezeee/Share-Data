@@ -120,10 +120,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DrawingAnimations\DrawingAnimations.csproj">
-      <Project>{f833d9a8-5bd8-48c0-a1bd-a97e348ab53c}</Project>
-      <Name>DrawingAnimations</Name>
-    </ProjectReference>
     <ProjectReference Include="..\InterfaceV2\Interface.csproj">
       <Project>{8f95ec8f-1b4a-4a26-84c1-3b7defe2ed84}</Project>
       <Name>Interface</Name>
