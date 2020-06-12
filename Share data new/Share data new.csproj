@@ -4,17 +4,19 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{89392640-B296-4674-AD00-D074B99E57F7}</ProjectGuid>
-    <OutputType>library</OutputType>
-    <RootNamespace>WpfControlLibrary1</RootNamespace>
-    <AssemblyName>WpfControlLibrary1</AssemblyName>
+    <ProjectGuid>{9443F985-CF4C-480A-9940-C745E3BAFDEA}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Share_data_new</RootNamespace>
+    <AssemblyName>Share data new</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,6 +26,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -48,12 +51,20 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="UserControl1.xaml">
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="UserControl1.xaml.cs">
-      <DependentUpon>UserControl1.xaml</DependentUpon>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -81,7 +92,27 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pc.png" />
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\InterfaceV2\Interface.csproj">
+      <Project>{8F95EC8F-1B4A-4A26-84C1-3B7DEFE2ED84}</Project>
+      <Name>Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\project_pc\project_pc.csproj">
+      <Project>{168c2b9d-06a4-4e3e-adca-fc42ba484df9}</Project>
+      <Name>project_pc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfApp1\IPmanip.csproj">
+      <Project>{a6269a54-19b7-4569-83b5-cf8780889c09}</Project>
+      <Name>IPmanip</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

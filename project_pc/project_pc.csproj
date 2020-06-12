@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{89392640-B296-4674-AD00-D074B99E57F7}</ProjectGuid>
+    <ProjectGuid>{168C2B9D-06A4-4E3E-ADCA-FC42BA484DF9}</ProjectGuid>
     <OutputType>library</OutputType>
-    <RootNamespace>WpfControlLibrary1</RootNamespace>
-    <AssemblyName>WpfControlLibrary1</AssemblyName>
+    <RootNamespace>project_pc</RootNamespace>
+    <AssemblyName>project_pc</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

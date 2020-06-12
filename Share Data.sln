@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawingAnimations", "DrawingAnimations\DrawingAnimations.csproj", "{F833D9A8-5BD8-48C0-A1BD-A97E348AB53C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Share Data WPF", "E:\Проекты\WPF TEST\WpfControlLibrary4\Share Data WPF\Share Data WPF.csproj", "{43B7C8D5-F873-47CB-BAF3-8AB8EDB7E106}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Share Data WPF", "Share Data WPF\Share Data WPF.csproj", "{FA679581-DF57-4F4D-90AF-D4ADB735137F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfControlLibrary1", "WpfControlLibrary1\WpfControlLibrary1.csproj", "{89392640-B296-4674-AD00-D074B99E57F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +37,14 @@ Global
 		{F833D9A8-5BD8-48C0-A1BD-A97E348AB53C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F833D9A8-5BD8-48C0-A1BD-A97E348AB53C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F833D9A8-5BD8-48C0-A1BD-A97E348AB53C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{43B7C8D5-F873-47CB-BAF3-8AB8EDB7E106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{43B7C8D5-F873-47CB-BAF3-8AB8EDB7E106}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{43B7C8D5-F873-47CB-BAF3-8AB8EDB7E106}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{43B7C8D5-F873-47CB-BAF3-8AB8EDB7E106}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA679581-DF57-4F4D-90AF-D4ADB735137F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA679581-DF57-4F4D-90AF-D4ADB735137F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA679581-DF57-4F4D-90AF-D4ADB735137F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA679581-DF57-4F4D-90AF-D4ADB735137F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89392640-B296-4674-AD00-D074B99E57F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89392640-B296-4674-AD00-D074B99E57F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89392640-B296-4674-AD00-D074B99E57F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89392640-B296-4674-AD00-D074B99E57F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
