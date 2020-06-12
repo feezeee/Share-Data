@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Share Data", "Share Data\Share Data.csproj", "{A15D95EF-04A2-4B48-A677-B99233866827}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interface", "InterfaceV2\Interface.csproj", "{8F95EC8F-1B4A-4A26-84C1-3B7DEFE2ED84}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPmanip", "WpfApp1\IPmanip.csproj", "{A6269A54-19B7-4569-83B5-CF8780889C09}"
@@ -13,9 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawingAnimations", "DrawingAnimations\DrawingAnimations.csproj", "{F833D9A8-5BD8-48C0-A1BD-A97E348AB53C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfControlLibrary1", "E:\Проекты\WPF TEST\WpfControlLibrary1\WpfControlLibrary1\WpfControlLibrary1.csproj", "{5B47121E-7A71-4020-9ADD-62733A1C0B29}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfControlLibrary2", "E:\Проекты\WPF TEST\WpfControlLibrary2\WpfControlLibrary2\WpfControlLibrary2.csproj", "{6565D90B-B678-46A9-B32F-C2BE5EF951ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Share Data WPF", "E:\Проекты\WPF TEST\WpfControlLibrary4\Share Data WPF\Share Data WPF.csproj", "{43B7C8D5-F873-47CB-BAF3-8AB8EDB7E106}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A15D95EF-04A2-4B48-A677-B99233866827}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A15D95EF-04A2-4B48-A677-B99233866827}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A15D95EF-04A2-4B48-A677-B99233866827}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A15D95EF-04A2-4B48-A677-B99233866827}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8F95EC8F-1B4A-4A26-84C1-3B7DEFE2ED84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8F95EC8F-1B4A-4A26-84C1-3B7DEFE2ED84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F95EC8F-1B4A-4A26-84C1-3B7DEFE2ED84}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,14 +35,10 @@ Global
 		{F833D9A8-5BD8-48C0-A1BD-A97E348AB53C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F833D9A8-5BD8-48C0-A1BD-A97E348AB53C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F833D9A8-5BD8-48C0-A1BD-A97E348AB53C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B47121E-7A71-4020-9ADD-62733A1C0B29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B47121E-7A71-4020-9ADD-62733A1C0B29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B47121E-7A71-4020-9ADD-62733A1C0B29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B47121E-7A71-4020-9ADD-62733A1C0B29}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6565D90B-B678-46A9-B32F-C2BE5EF951ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6565D90B-B678-46A9-B32F-C2BE5EF951ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6565D90B-B678-46A9-B32F-C2BE5EF951ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6565D90B-B678-46A9-B32F-C2BE5EF951ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43B7C8D5-F873-47CB-BAF3-8AB8EDB7E106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43B7C8D5-F873-47CB-BAF3-8AB8EDB7E106}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43B7C8D5-F873-47CB-BAF3-8AB8EDB7E106}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43B7C8D5-F873-47CB-BAF3-8AB8EDB7E106}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
