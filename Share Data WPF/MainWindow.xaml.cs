@@ -81,16 +81,28 @@ namespace Share_Data_WPF
         }
         private void Drawing_picture_for_pc(string name, string ip)
         {
-            UserControl1 userControl1 = new UserControl1();
-            userControl1.namePc = name;
-            userControl1.ipPc = ip;
-            userControl1.widthForPicture = 120;
-            userControl1.heightForPicture = 120;
-            userControl1.maxheightForPictureh = 150;
-            userControl1.maxwidthForPicture = 150;
-            userControl1.widthAll = 220;
-            userControl1.heightAll = 175;
-            stackpanel.Children.Add(userControl1);
+            Application.Current.Dispatcher.Invoke((Action)delegate {
+                UserControl1 userControl1 = new UserControl1();
+                userControl1.namePc = name;
+                userControl1.ipPc = ip;
+                userControl1.widthForPicture = 120;
+                userControl1.heightForPicture = 120;
+                userControl1.maxheightForPictureh = 150;
+                userControl1.maxwidthForPicture = 150;
+                userControl1.widthAll = 220;
+                userControl1.heightAll = 175;
+                stackpanel.Children.Add(userControl1);
+            });
+            //UserControl1 userControl1 = new UserControl1();
+            //userControl1.namePc = name;
+            //userControl1.ipPc = ip;
+            //userControl1.widthForPicture = 120;
+            //userControl1.heightForPicture = 120;
+            //userControl1.maxheightForPictureh = 150;
+            //userControl1.maxwidthForPicture = 150;
+            //userControl1.widthAll = 220;
+            //userControl1.heightAll = 175;
+            //stackpanel.Children.Add(userControl1);
         }
     }
 }

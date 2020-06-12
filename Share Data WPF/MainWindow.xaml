@@ -6,8 +6,12 @@
         xmlns:local="clr-namespace:Share_Data_WPF"
         xmlns:WpfControlLibrary1="clr-namespace:WpfControlLibrary1;assembly=WpfControlLibrary1" x:Class="Share_Data_WPF.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800">
+        Title="MainWindow" Height="500" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="Black" Offset="0"/>
@@ -19,12 +23,12 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
-        <Button Grid.Row="1" x:Name="searchingbrn" Margin="0,0,0,50" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="300" Height="50" Content="Find"
-                Click="searchingbrn_Click"/>
+        <Button Grid.Row="1" x:Name="searchingbrn" Margin="246,0,246,50" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="300" Height="50" Content="Find"
+                Click="searchingbrn_Click" Grid.ColumnSpan="2"/>
 
 
 
-        <Grid Grid.Row="0" Margin="0,100,0,50">
+        <Grid Grid.Row="0" Margin="0,100,0,50" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
