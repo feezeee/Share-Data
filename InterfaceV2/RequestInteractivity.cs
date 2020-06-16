@@ -24,7 +24,7 @@ namespace InterfaceV2
             string requestString = $"Answer "+ requestMess;
             return requestString;
         }
-        public static string SendRequst(string reciverIPstr, RequestTipe request = RequestTipe.Send, string requestMess = "ans")
+        public static string SendRequst(string reciverIPstr, RequestTipe request = RequestTipe.GetDirectoryFiles, string requestMess = "ans")
         {
             string Response = "";
             try
@@ -40,7 +40,7 @@ namespace InterfaceV2
                 Console.WriteLine($"запрос был отправлен на - {recieverEP.Address}");
                 Console.WriteLine($"содержание запроса - {requestM}");
 
-                Request.DoAfterSend(request); // действие которое необходимо сделать после отпраки запроса
+                //Request.DoAfterSend(request); // действие которое необходимо сделать после отпраки запроса
 
                 // получение ответа от получателя 
                 byte[] data = new byte[256]; // буфер для ответа
@@ -114,7 +114,7 @@ namespace InterfaceV2
                         Console.WriteLine("ip отправителя - " + reciverIP.ToString());
 
                         //происходит обработка запроса
-                        var ans = Request.ExecuteRecuest(requestMess, reciverIP.ToString()); // получаем ответ на запрос
+                        var ans = Request.ExecuteRecuest(requestMess); // получаем ответ на запрос
                         Console.WriteLine($"ответ на запрос {ans}");
 
                         byte[] message = Encoding.Unicode.GetBytes(GetAnswerString(ans));

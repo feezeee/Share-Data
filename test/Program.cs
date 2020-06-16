@@ -12,7 +12,16 @@ namespace test
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
+        {
+            Thread listenThread = new Thread(new ThreadStart(TcpServer.ListenRequest)); //созадем новый поток отдельно для получения
+            listenThread.IsBackground = true;
+            //listenThread.Start();
+            Dain();
+            var client = new TcpSender("127.0.0.1");
+            //client.SendFileRequest("D:\\1.mp4", "D:\\subject\\1.mp4");
+        }
+        static void Dain()
         {
             Thread sendThread = new Thread(new ThreadStart(ConnectionV2.SendBroadcastOfferToConnect)); //созадем новый поток отдельно для получения
             sendThread.IsBackground = true;
@@ -28,22 +37,23 @@ namespace test
             receiveThread.Start(available);
 
             Console.ReadLine();
-            var availbCon = AvailableConection.ReturnGroupList();
+            //var availbCon = AvailableConection.ReturnGroupList();
 
-            for (int i = 0; i < availbCon.Count; i++)
-            {
-                Console.WriteLine($"{i} - {availbCon[i].Item2}");
-            }
-            Console.WriteLine("enter the host number to interact");
-            var p = int.Parse(Console.ReadLine());
-            var reciverIP = availbCon[p].Item2;
+            //for (int i = 0; i < availbCon.Count; i++)
+            //{
+            //    Console.WriteLine($"{i} - {availbCon[i].Item2}");
+            //}
+            //Console.WriteLine("enter the host number to interact");
+            //var p = int.Parse(Console.ReadLine());
+            //var reciverIP = availbCon[p].Item2;
+            var reciverIP = "127.0.0.1";
 
             string pass = ".";
             while (true)
             {
                 var ans = RequestInteractivity.SendRequst(reciverIP, RequestTipe.GetDirectoryFiles, pass);
                 ans = ans.Remove(0, 7);
-                var files = ans.Split(' ');
+                var files = ans.Split('\n');
 
                 foreach (var file in files)
                 {
