@@ -2,6 +2,7 @@
 using InterfaceV2;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,10 +17,10 @@ namespace test
         {
             Thread listenThread = new Thread(new ThreadStart(TcpServer.ListenRequest)); //созадем новый поток отдельно для получения
             listenThread.IsBackground = true;
-            //listenThread.Start();
-            Dain();
-            var client = new TcpSender("127.0.0.1");
-            //client.SendFileRequest("D:\\1.mp4", "D:\\subject\\1.mp4");
+            listenThread.Start();
+            //Dain();
+            var client = new TcpFIleClient("127.0.0.1");
+            client.SendFileRequest("D:\\1.mp4", "D:\\subject\\1.mp4");
         }
         static void Dain()
         {

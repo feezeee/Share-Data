@@ -5,17 +5,25 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace InterfaceV2
 {
     public static class TcpServer
     {
-        private static int port = 3200;
+        private static int port = int.Parse(ConfigurationManager.AppSettings["TcpPort"]);
         private static IPAddress listningIP = IPAddress.Any;
+        private static TcpListener server = new TcpListener(listningIP, port);
 
+        public static void StopServer()
+        {
+            if(server != null && server.Pending())
+            {
+                server.Stop();
+            }
+        }
         public static void ListenRequest()
         {
-            TcpListener server = new TcpListener(listningIP, port);
             try
             {
                 server.Start();
@@ -43,7 +51,7 @@ namespace InterfaceV2
             }
             finally
             {
-                server.Stop();
+                StopServer();
             }
         }
     }
