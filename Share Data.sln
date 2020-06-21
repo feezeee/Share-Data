@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Share Data WPF", "Share Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfControlLibrary1", "WpfControlLibrary1\WpfControlLibrary1.csproj", "{89392640-B296-4674-AD00-D074B99E57F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectedForm", "ConnectedForm\ConnectedForm.csproj", "{6028814A-C00F-4839-B7A3-C34A6975A68A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "interactDomain", "interactDomain\interactDomain.csproj", "{7525C004-1276-4AE2-8ADF-C81526D2A9AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{89392640-B296-4674-AD00-D074B99E57F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89392640-B296-4674-AD00-D074B99E57F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89392640-B296-4674-AD00-D074B99E57F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6028814A-C00F-4839-B7A3-C34A6975A68A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6028814A-C00F-4839-B7A3-C34A6975A68A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6028814A-C00F-4839-B7A3-C34A6975A68A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6028814A-C00F-4839-B7A3-C34A6975A68A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7525C004-1276-4AE2-8ADF-C81526D2A9AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7525C004-1276-4AE2-8ADF-C81526D2A9AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7525C004-1276-4AE2-8ADF-C81526D2A9AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7525C004-1276-4AE2-8ADF-C81526D2A9AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
