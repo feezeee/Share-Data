@@ -38,13 +38,8 @@ namespace interactDomain
 
         public UserControl1()
         {
-
-            setHeight = 1000;
-            setWidth = 1000;
             InitializeComponent();
-            setHeight = 1000;
-            setWidth = 1000;
-            //DataContext = this;
+            DataContext = this;
             //loadInfromationAboutFiles("1", "10", "100");
 
             //loadInfromationAboutFiles("2", "20", "200");

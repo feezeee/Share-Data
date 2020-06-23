@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
 
         <Label x:Name="label_up" Grid.Row="0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Center" Width="auto" Content="{Binding Path=statusForMouse}" Opacity="0"/>
-        <Image x:Name="imagePc"  Grid.Row="1" Height="{Binding Path=heightForPicture}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="{Binding Path=widthForPicture}" Stretch="UniformToFill" Source="pc.png" Cursor="Hand">
+        <Image x:Name="imagePc"  Grid.Row="1" Height="{Binding Path=heightForPicture}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="{Binding Path=widthForPicture}" Stretch="UniformToFill" Source="pc.png" Cursor="Hand" MouseLeftButtonDown="imagePc_MouseLeftButtonDown">
 
             <Image.Triggers>
                 <EventTrigger RoutedEvent="UIElement.MouseEnter">

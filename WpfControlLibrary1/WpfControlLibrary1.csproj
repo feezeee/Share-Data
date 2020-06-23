@@ -83,5 +83,11 @@
   <ItemGroup>
     <Resource Include="pc.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConnectedForm\ConnectedForm.csproj">
+      <Project>{6028814A-C00F-4839-B7A3-C34A6975A68A}</Project>
+      <Name>ConnectedForm</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

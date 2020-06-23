@@ -9,7 +9,7 @@
              xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"           
              
              mc:Ignorable="d" 
-             d:DesignHeight="{Binding Path=setHeight}" d:DesignWidth="{Binding Path=setWidth}" > 
+             d:DesignHeight="{Binding Path=setHeight}" d:DesignWidth="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -20,8 +20,8 @@
 
 
         <Button Grid.Column="0" Width="30" Height="auto"/>
-        
-        
+
+
 
         <Grid x:Name="gridforfunc" Height="auto" Width="auto" VerticalAlignment="Top" Grid.Column="1">
             <Grid.RowDefinitions>
@@ -32,16 +32,18 @@
             <Button Grid.Row="0"/>
 
             <ListView Grid.Row="1" x:Name="listUsers">
-                <ListView.View>
-                    <GridView>                       
-                        <GridViewColumn Header="Имя папки/файла" Width="150" DisplayMemberBinding="{Binding nameFile}"/>
-                        <GridViewColumn Header="Дата создания" Width="150" DisplayMemberBinding="{Binding time}"/>
-                        <GridViewColumn Header="Размер файла" Width="150" DisplayMemberBinding="{Binding sizeFile}"/>
+                
+                <ListView.View>                    
+                    <GridView>
+                        <GridViewColumn Header="Имя папки/файла" Width="{Binding Path=setWidth}" DisplayMemberBinding="{Binding nameFile}"/>
+                        <GridViewColumn Header="Дата создания" Width="{Binding Path=setWidth}" DisplayMemberBinding="{Binding time}"/>
+                        <GridViewColumn Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}" Width="{Binding Path=setWidth}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
         </Grid>
-        
-        
+
+
     </Grid>
 </UserControl>
+
