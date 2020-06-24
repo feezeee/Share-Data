@@ -7,7 +7,7 @@
              mc:Ignorable="d" Width="{Binding Path=widthAll}" Height="{Binding Path=heightAll}">
 
 
-    <Grid x:Name="myGrid" VerticalAlignment="Top">
+    <Grid VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>

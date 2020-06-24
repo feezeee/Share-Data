@@ -88,6 +88,10 @@
       <Project>{6028814A-C00F-4839-B7A3-C34A6975A68A}</Project>
       <Name>ConnectedForm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\InterfaceV2\Interface.csproj">
+      <Project>{8F95EC8F-1B4A-4A26-84C1-3B7DEFE2ED84}</Project>
+      <Name>Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

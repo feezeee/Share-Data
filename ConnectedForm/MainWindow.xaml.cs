@@ -75,5 +75,10 @@ namespace ConnectedForm
             };
             listUsers1.Items.Add(dataFile); // выводим строку в список 
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -83,6 +83,7 @@ namespace Share_Data_WPF
         {
             Application.Current.Dispatcher.Invoke((Action)delegate {
                 UserControl1 userControl1 = new UserControl1();
+                userControl1.Name = "Chel" + count;
                 userControl1.namePc = name;
                 userControl1.ipPc = ip;
                 userControl1.widthForPicture = 120;

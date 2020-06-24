@@ -14,6 +14,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.CompilerServices;
 using ConnectedForm;
+using InterfaceV2;
+using System.Threading;
+using Interface;
 
 namespace WpfControlLibrary1
 {
@@ -97,7 +100,73 @@ namespace WpfControlLibrary1
         private void imagePc_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
+            string txt;
+            Image img = (Image)sender;
+            var obj = img.Parent;
+            Grid grid = (Grid)obj;
+            /////////////////////////
+            string ip, text;
+            /////////////////////////
+            foreach (var label in VisualHelper.FindVisualChildren<Label>(grid))
+            {
+                if(label.Name=="label_text")
+                {
+                    text = label.Content.ToString();
+                }
+                if (label.Name == "label_ip")
+                {
+                    ip = label.Content.ToString();
+                }
+            }
+
+
             mainWindow.Show();
+
+
+            var myIp = "127.0.0.1";
+            string pass = ".";
+            var ans = RequestInteractivity.SendRequst(myIp, RequestTipe.GetDirectoryFiles, pass);
+            ans = ans.Remove(0, 7);
+            var files = ans.Split('\n');
+
+            foreach (var file in files)
+            {
+                Console.WriteLine(file);
+            }
+            string add = "";
+            add = Console.ReadLine();
+            if (pass[pass.Length - 1] == '.')
+            {
+                pass = add;
+            }
+            else
+            {
+                if (pass[pass.Length - 1] != '\\') pass += '\\';
+                pass += add;
+            }
+        }
+
+        public class VisualHelper
+        {
+            public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+            {
+                if (depObj != null)
+                {
+                    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                    {
+                        DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                        if (child != null && child is T)
+                        {
+                            yield return (T)child;
+                        }
+
+                        foreach (T childOfChild in FindVisualChildren<T>(child))
+                        {
+                            yield return childOfChild;
+                        }
+                    }
+                }
+            }
         }
     }
 

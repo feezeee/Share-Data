@@ -47,8 +47,8 @@ namespace test
             //Console.WriteLine("enter the host number to interact");
             //var p = int.Parse(Console.ReadLine());
             //var reciverIP = availbCon[p].Item2;
-            var reciverIP = "127.0.0.1";
 
+            var reciverIP = "127.0.0.1";
             string pass = ".";
             while (true)
             {
