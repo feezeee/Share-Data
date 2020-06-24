@@ -15,6 +15,10 @@ namespace InterfaceV2
         SendFile = 1,
         GetDirectoryFiles,
     }
+    public enum RequestError
+    {
+        FileNotExist = -1
+    }
     public static class Request
     {
         public static string DoSendingRequest(string requestMessage, NetworkStream stream = null)
@@ -74,6 +78,11 @@ namespace InterfaceV2
                     while ((count = fileIO.Read(buffer, 0, buffer.Length)) > 0)
                         stream.Write(buffer, 0, count);
                 }
+            }
+            else
+            {// файл отсутствует 
+                var data = BitConverter.GetBytes((int)RequestError.FileNotExist);
+                stream.Write(data, 0, data.Length);
             }
         }
 

@@ -8,22 +8,39 @@ namespace InterfaceV2
 {
     public class Path
     {
-        private List<string> History;
-        public static string StartPath = ".";
-
-        private string path = ".";
-
-        public string GoToTheDirectory(string direcotryName, string directoryLocaltion = null)
+        public string CurrentPath
         {
-            if (directoryLocaltion == null) directoryLocaltion = path;
-
-            if (directoryLocaltion == ".")
+            get
             {
-                directoryLocaltion = "";
+                if (_path.Count == 0) return Path.ZerroPath;
+                string path = "";
+                for(int i = 0; i < _path.Count; i++)
+                {
+                    path += _path[i];
+                    if(i < _path.Count - 1) path += '\\';
+                }
+                return path;
             }
-            directoryLocaltion += '\\' + direcotryName;
-            History.Add(directoryLocaltion);
-            return directoryLocaltion;
+        }
+        private List<string> _path = new List<string>();
+
+        public void ResetPath(string path)
+        {
+            _path = new List<string>(path.Split('\\'));
+        }
+        public static string ZerroPath = ".";
+        public void GoToThe(string directory)
+        {
+            _path.Add(directory);
+        }
+        public void GoBack()
+        {
+            if(_path.Count == 0)
+            {
+                return;
+            }
+
+            _path.RemoveAt(_path.Count - 1);
         }
     }
 }
