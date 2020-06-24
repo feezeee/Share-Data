@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.CompilerServices;
+using ConnectedForm;
 
 namespace WpfControlLibrary1
 {
@@ -26,10 +27,6 @@ namespace WpfControlLibrary1
             InitializeComponent();
             //this.DataContext = WidthForPicture;
             DataContext = this;
-            namePc = "denis";
-            ipPc = "192.168.1.1";
-            widthForPicture = 120;
-            heightForPicture = 120;
         }
 
 
@@ -95,6 +92,12 @@ namespace WpfControlLibrary1
         {
             get { return this._heightAll; }
             set { _heightAll = value; }
+        }
+
+        private void imagePc_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
         }
     }
 

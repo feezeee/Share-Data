@@ -6,20 +6,90 @@
         xmlns:local="clr-namespace:ConnectedForm"
         xmlns:interactDomain="clr-namespace:interactDomain;assembly=interactDomain" x:Class="ConnectedForm.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" WindowState="Maximized">
+        Title="MainWindow" WindowState="Maximized" x:Name="MainWn">
 
     <Grid Margin="5,5,5,5">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*"/>
-            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="0.5*" x:Name="firstColumn"/>
+            <ColumnDefinition Width="0.5*" x:Name="secondColumn"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
 
-        <interactDomain:UserControl1 Height="1000" Width="1000" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0"/>
-        <interactDomain:UserControl1 HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0"/>
+        <ScrollViewer x:Name="scroll0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <StackPanel x:Name="stackpanel0" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
+                    <Button Grid.Column="0" Width="30" Height="auto"/>
+
+                    <Grid x:Name="gridforfunc0" Height="auto" VerticalAlignment="Top" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Button Grid.Row="0"/>
+
+                        <ListView Grid.Row="1" x:Name="listUsers0">
+
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Имя папки/файла" Width="{Binding Path=setWidth}" DisplayMemberBinding="{Binding nameFile}"/>
+                                    <GridViewColumn Header="Дата создания" Width="{Binding Path=setWidth}" DisplayMemberBinding="{Binding time}"/>
+                                    <GridViewColumn Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}" Width="{Binding Path=setWidth}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+
+
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <ScrollViewer x:Name="scroll1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <StackPanel x:Name="stackpanel1" Orientation="Vertical" Height="auto" Width="{Binding Width, ElementName=secondColumn}">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+
+
+
+                    <Button Grid.Column="0" Width="30" Height="auto"/>
+
+
+
+                    <Grid x:Name="gridforfunc1" Height="auto" Width="auto" VerticalAlignment="Top" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Button Grid.Row="0"/>
+
+                        <ListView Grid.Row="1" x:Name="listUsers1">
+
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Имя папки/файла" Width="{Binding Path=setWidth}" DisplayMemberBinding="{Binding nameFile}"/>
+                                    <GridViewColumn Header="Дата создания" Width="{Binding Path=setWidth}" DisplayMemberBinding="{Binding time}"/>
+                                    <GridViewColumn Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}" Width="{Binding Path=setWidth}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+
+
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

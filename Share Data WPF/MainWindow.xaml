@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Share_Data_WPF"
         xmlns:WpfControlLibrary1="clr-namespace:WpfControlLibrary1;assembly=WpfControlLibrary1" x:Class="Share_Data_WPF.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow">
+        Name="MainLoadWindow" Title="MainWindow" Height="500" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow">
     <Grid>       
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

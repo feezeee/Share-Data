@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using interactDomain;
 
 namespace ConnectedForm
 {
@@ -22,67 +23,57 @@ namespace ConnectedForm
     {
         public MainWindow()
         {
-            InitializeComponent();
             DataContext = this;
-            Height00 = 100;
-            Width00 = 100;
+            setWidth = (int)System.Windows.SystemParameters.PrimaryScreenWidth/6-15;
+            InitializeComponent();
         }
 
-        private int _height00;
-        public int Height00
+
+        public class files
         {
-            get { return _height00; }
-            set { _height00 = value; }
+            public string nameFile { get; set; }
+
+            public string time { get; set; }
+
+            public string sizeFile { get; set; }
         }
 
-        private int _height01;
-        public int Height01
+        private int _width;
+
+        public int setWidth
         {
-            get { return _height01; }
-            set { _height01 = value; }
+            get { return _width; }
+            set { _width = value; }
         }
 
-        private int _height10;
-        public int Height10
+        private int _height;
+
+        public int setHeight
         {
-            get { return _height10; }
-            set { _height10 = value; }
+            get { return _height; }
+            set { _height = value; }
         }
 
-        private int _height11;
-        public int Height11
+        public void loadInfromationAboutFiles0(string nameFile, string time, string sizeFile)
         {
-            get { return _height11; }
-            set { _height11 = value; }
+            files dataFile = new files() // создаём экземпляр класса        
+            {
+                nameFile = nameFile, // указываем имя файла  
+                time = time, // указываем время создания    
+                sizeFile = sizeFile // указываем пароль  
+            };
+            listUsers0.Items.Add(dataFile); // выводим строку в список 
         }
 
-        /////////////////////Ширина
-        ///
-        private int _width00;
-        public int Width00
+        public void loadInfromationAboutFiles1(string nameFile, string time, string sizeFile)
         {
-            get { return _width00; }
-            set { _width00 = value; }
-        }///
-        private int _width01;
-        public int Width01
-        {
-            get { return _width01; }
-            set { _width01 = value; }
-        }
-        ///
-        private int _width10;
-        public int Width10
-        {
-            get { return _width10; }
-            set { _width10 = value; }
-        }
-        ///
-        private int _width11;
-        public int Width11
-        {
-            get { return _width11; }
-            set { _width11 = value; }
+            files dataFile = new files() // создаём экземпляр класса        
+            {
+                nameFile = nameFile, // указываем имя файла  
+                time = time, // указываем время создания    
+                sizeFile = sizeFile // указываем пароль  
+            };
+            listUsers1.Items.Add(dataFile); // выводим строку в список 
         }
     }
 }
