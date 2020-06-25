@@ -105,7 +105,7 @@ namespace WpfControlLibrary1
             var obj = img.Parent;
             Grid grid = (Grid)obj;
             /////////////////////////
-            string ip, text;
+            string ip="", text="";
             /////////////////////////
             foreach (var label in VisualHelper.FindVisualChildren<Label>(grid))
             {
@@ -131,9 +131,32 @@ namespace WpfControlLibrary1
 
             foreach (var file in files)
             {
-                Console.WriteLine(file);
+                mainWindow.loadInfromationAboutFiles0(file.ToString(), "", "");
             }
             string add = "";
+            add = Console.ReadLine();
+            if (pass[pass.Length - 1] == '.')
+            {
+                pass = add;
+            }
+            else
+            {
+                if (pass[pass.Length - 1] != '\\') pass += '\\';
+                pass += add;
+            }
+
+
+            var nextIp = ip;
+            pass = ".";
+            ans = RequestInteractivity.SendRequst(nextIp, RequestTipe.GetDirectoryFiles, pass);
+            ans = ans.Remove(0, 7);
+            files = ans.Split('\n');
+
+            foreach (var file in files)
+            {
+                mainWindow.loadInfromationAboutFiles1(file.ToString(), "", "");
+            }
+            add = "";
             add = Console.ReadLine();
             if (pass[pass.Length - 1] == '.')
             {
