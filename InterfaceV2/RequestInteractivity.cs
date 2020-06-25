@@ -72,7 +72,7 @@ namespace InterfaceV2
             return Response;
         }
 
-        public static void DoRequestsRecieveing()
+        public static void DoRequestsRecieveing()//получает запросы приходящие на сервер
         {
             try 
             { 

@@ -94,7 +94,7 @@ namespace InterfaceV2
                 var disks = DriveInfo.GetDrives();
                 foreach(var disk in disks)
                 {
-                    ans += disk.Name + " ";
+                    ans += disk.Name + "\n";
                 }
                 return ans;
             }
