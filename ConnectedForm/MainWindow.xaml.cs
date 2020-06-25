@@ -28,6 +28,10 @@ namespace ConnectedForm
             InitializeComponent();
         }
 
+        public void setIp(object Ip)
+        {
+            LabelIp1.Content = Ip.ToString();
+        }
 
         public class files
         {
@@ -77,6 +81,15 @@ namespace ConnectedForm
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void listUsers0_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        private void listUsers1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
         }

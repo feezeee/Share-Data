@@ -23,7 +23,7 @@
                 Click="searchingbrn_Click" Grid.ColumnSpan="2"/>
 
 
-
+        <Label x:Name="LabelMyIp" Grid.Row="0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,30,0,0"/>
         <Grid Grid.Row="0" Margin="0,100,0,50" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>

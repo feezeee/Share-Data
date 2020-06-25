@@ -13,7 +13,7 @@
             <ColumnDefinition Width="0.5*" x:Name="firstColumn"/>
             <ColumnDefinition Width="0.5*" x:Name="secondColumn"/>
         </Grid.ColumnDefinitions>
-        <Label Grid.Column="0" Height="30" VerticalAlignment="Top"/>
+        <Label Grid.Column="0" Height="30" VerticalAlignment="Top" x:Name="Labelip0"/>
         <ScrollViewer x:Name="scroll0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="0" Margin="0,30,0,0">
             <StackPanel x:Name="stackpanel0" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
                 <Grid>
@@ -31,7 +31,7 @@
 
                         <Button Grid.Row="0"/>
                         <TextBox Grid.Row="1" TextChanged="TextBox_TextChanged"/>
-                        <ListView Grid.Row="2" x:Name="listUsers0">
+                        <ListView Grid.Row="2" x:Name="listUsers0" MouseDoubleClick="listUsers0_MouseDoubleClick">
 
                             <ListView.View>
                                 <GridView>
@@ -48,7 +48,7 @@
 
             </StackPanel>
         </ScrollViewer>
-        <Label Grid.Column="1" Height="30" VerticalAlignment="Top"/>
+        <Label Grid.Column="1" Height="30" VerticalAlignment="Top" x:Name="LabelIp1"/>
         <ScrollViewer x:Name="scroll1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="1" Margin="0,30,0,0">
             <StackPanel x:Name="stackpanel1" Orientation="Vertical" Height="auto" Width="{Binding Width, ElementName=secondColumn}">
 
@@ -69,7 +69,7 @@
 
                         <Button Grid.Row="0"/>
                         <TextBox Grid.Row="1"/>
-                        <ListView Grid.Row="2" x:Name="listUsers1">
+                        <ListView Grid.Row="2" x:Name="listUsers1" MouseDoubleClick="listUsers1_MouseDoubleClick">
 
                             <ListView.View>
                                 <GridView>
