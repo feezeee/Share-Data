@@ -30,7 +30,7 @@
                         </Grid.RowDefinitions>
 
                         <Button Grid.Row="0"/>
-                        <TextBox Grid.Row="1" TextChanged="TextBox_TextChanged"/>
+                        <TextBox x:Name="pathbox" Grid.Row="1" TextChanged="TextBox_TextChanged"/>
                         <ListView Grid.Row="2" x:Name="listUsers0" MouseDoubleClick="listUsers0_MouseDoubleClick">
 
                             <ListView.View>

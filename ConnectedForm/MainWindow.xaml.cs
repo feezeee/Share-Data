@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -13,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using interactDomain;
+using InterfaceV2;
 
 namespace ConnectedForm
 {
@@ -87,11 +90,49 @@ namespace ConnectedForm
 
         private void listUsers0_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            ListView list = (ListView)sender;
+            if(list.SelectedItems.Count==1)
+            {
+                int index = list.SelectedIndex;
+                object a = listUsers0.Items[index];
+                var txt = a.GetType().GetProperty("nameFile").GetValue(a);
+                listUsers0.Items.Clear();
+
+                string pass = txt.ToString();
+                var myIp = "127.0.0.1";
+                var ans = RequestInteractivity.SendRequst(myIp, RequestTipe.GetDirectoryFiles, pass);
+                ans = ans.Remove(0, 7);
+                var files = ans.Split('\n');
+                files[files.Length - 1] = null;
+
+                foreach (var file in files)
+                {
+                    if (file != null)
+                        loadInfromationAboutFiles0(file.ToString(), "", "");
+                }
+                string add = "";
+                add = Console.ReadLine();
+                if (pass[pass.Length - 1] == '.')
+                {
+                    pass = add;
+                }
+                else
+                {
+                    if (pass[pass.Length - 1] != '\\') pass += '\\';
+                    pass += add;
+                }
+            }
         }
 
         private void listUsers1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            ListView list = (ListView)sender;
+            if (list.SelectedItems.Count == 1)
+            {
+                int index = list.SelectedIndex;
+                object a = listUsers1.Items[index];
+                var file = a.GetType().GetProperty("nameFile").GetValue(a);
+            }
         }
     }
 }

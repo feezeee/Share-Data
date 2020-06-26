@@ -62,7 +62,7 @@ namespace Share_Data_WPF
                 receiveThread.Start(available);
                 Status = true;
             }
-            Drawing_picture_for_pc("denis", "192.168.100.100");
+            Drawing_picture_for_pc("denis", "127.0.0.1");
 
         }
         int count = 0;
