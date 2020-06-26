@@ -16,12 +16,12 @@ namespace InterfaceV2
         private static int port = 2210; 
         private static string GetRequestString(RequestTipe request, string requestMess)
         {
-            string requestString = $"Request " + ((int)request).ToString() + ' ' + requestMess;
+            string requestString = $"Request|" + ((int)request).ToString() + '|' + requestMess;
             return requestString;
         }
         private static string GetAnswerString(string requestMess)
         {
-            string requestString = $"Answer "+ requestMess;
+            string requestString = $"Answer|"+ requestMess;
             return requestString;
         }
         public static string SendRequst(string reciverIPstr, RequestTipe request = RequestTipe.GetDirectoryFiles, string requestMess = "ans")
@@ -109,7 +109,7 @@ namespace InterfaceV2
                     if (requestMess.IndexOf("Request") != -1)
                     {
                         Console.WriteLine("запрос отправителя - " + requestMess);
-                        string[] mess = requestMess.Split(' ');
+                        string[] mess = requestMess.Split('|');
                         IPAddress reciverIP = ((IPEndPoint)getter.RemoteEndPoint).Address; // получаем ip отправителя
                         Console.WriteLine("ip отправителя - " + reciverIP.ToString());
 

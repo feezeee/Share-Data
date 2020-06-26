@@ -25,7 +25,7 @@ namespace InterfaceV2
         {
             string ans = "";
 
-            string[] mes = requestMessage.Split(' ');
+            string[] mes = requestMessage.Split('|');
             int request = int.Parse(mes[1]);
             switch (request)
             {
@@ -46,7 +46,7 @@ namespace InterfaceV2
         {
             string ans = "";
 
-            string[] mes = requestMessage.Split(' ');
+            string[] mes = requestMessage.Split('|');
             int request = int.Parse(mes[1]);
             switch (request)
             {
@@ -102,11 +102,11 @@ namespace InterfaceV2
             var direct = new DirectoryInfo(directoryPass);
             foreach (var file in direct.GetFiles())
             {
-                ans += $"{file.Name} {file.LastWriteTime.ToString()} {file.Length}\n";
+                ans += $"{file.Name}|{file.LastWriteTime.ToString()}|{file.Length}\n";
             }
             foreach (var dir in direct.GetDirectories())
             {
-                ans += $"{dir.Name} {dir.LastWriteTime.ToString()} {-1}\n";
+                ans += $"{dir.Name}|{dir.LastWriteTime.ToString()}|{-1}\n";
             }
 
             return ans;
