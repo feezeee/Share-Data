@@ -118,61 +118,24 @@ namespace WpfControlLibrary1
                     ip = label.Content.ToString();
                 }
             }
-            mainWindow.setIp(ip);
-            mainWindow.Show();
-            
 
             var myIp = "127.0.0.1";
             string pass = ".";
-            var ans = RequestInteractivity.SendRequst(myIp, RequestTipe.GetDirectoryFiles, pass);
-            ans = ans.Remove(0, 7);
-            var files = ans.Split('\n');
-            files[files.Length - 1] = null;
-
-            foreach (var file in files)
-            {
-                if(file!=null)
-                mainWindow.loadInfromationAboutFiles0(file.ToString(), "", "");
-            }
-            string add = "";
-            add = Console.ReadLine();
-            if (pass[pass.Length - 1] == '.')
-            {
-                pass = add;
-            }
-            else
-            {
-                if (pass[pass.Length - 1] != '\\') pass += '\\';
-                pass += add;
-            }
-
-            
+            //*********************************
             var nextIp = ip;
             pass = ".";
-            ans = RequestInteractivity.SendRequst(nextIp, RequestTipe.GetDirectoryFiles, pass);
-            ans = ans.Remove(0, 7);
-            files = ans.Split('\n');
-            files[files.Length - 1] = null;
-            
-
-            foreach (var file in files)
-            {
-                if(file!=null)
-                mainWindow.loadInfromationAboutFiles1(file.ToString(), "", "");
-            }
-            add = "";
-            add = Console.ReadLine();
-            if (pass[pass.Length - 1] == '.')
-            {
-                pass = add;
-            }
-            else
-            {
-                if (pass[pass.Length - 1] != '\\') pass += '\\';
-                pass += add;
-            }
+            loadform(myIp, ip, "", ".");
         }
+        public void loadform(string ip,string nextip,string text,string param)
+        {
 
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.setIp(nextip);
+            mainWindow.Show();
+            mainWindow.loadFiles(mainWindow,ip, param, 0);
+            mainWindow.loadFiles(mainWindow,nextip, param, 1);
+
+        }
         public class VisualHelper
         {
             public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject

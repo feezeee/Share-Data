@@ -61,41 +61,61 @@ namespace ConnectedForm
             set { _height = value; }
         }
 
+        #region загрузка информации в форму 
         public void loadInfromationAboutFiles0(string nameFile, string time, string sizeFile)
         {
-            files dataFile = new files() // создаём экземпляр класса        
+            Application.Current.Dispatcher.Invoke((Action)delegate
             {
-                nameFile = nameFile, // указываем имя файла  
-                time = time, // указываем время создания    
-                sizeFile = sizeFile // указываем пароль  
-            };
-            listUsers0.Items.Add(dataFile); // выводим строку в список 
+                files dataFile = new files() // создаём экземпляр класса        
+                {
+                    nameFile = nameFile, // указываем имя файла  
+                    time = time, // указываем время создания    
+                    sizeFile = sizeFile // указываем пароль  
+                };
+                listUsers0.Items.Add(dataFile); // выводим строку в список 
+            });
         }
 
         public void loadInfromationAboutFiles1(string nameFile, string time, string sizeFile)
         {
-            files dataFile = new files() // создаём экземпляр класса        
+            Application.Current.Dispatcher.Invoke((Action)delegate
             {
-                nameFile = nameFile, // указываем имя файла  
-                time = time, // указываем время создания    
-                sizeFile = sizeFile // указываем пароль  
-            };
-            listUsers1.Items.Add(dataFile); // выводим строку в список 
+                files dataFile = new files() // создаём экземпляр класса        
+                {
+                    nameFile = nameFile, // указываем имя файла  
+                    time = time, // указываем время создания    
+                    sizeFile = sizeFile // указываем пароль  
+                };
+                listUsers1.Items.Add(dataFile); // выводим строку в список 
+            });
         }
+        #endregion
 
-        private void loadFiles(string ip, string path)
+
+
+        public void loadFiles(object sender,string ip, string path,int control=0)
         {
             var myIp = ip;//ip текущего пк
             var ans = RequestInteractivity.SendRequst(myIp, RequestTipe.GetDirectoryFiles, path);
             ans = ans.Remove(0, 7);
             var files = ans.Split('\n');
             files[files.Length - 1] = null;
+            MainWindow mainWindow = (MainWindow)sender;
             foreach (var file in files)
             {
                 if (file != null)
-                    loadInfromationAboutFiles0(file.ToString(), "", "");
+                {
+                    List<(string, string, string)> ps =mainWindow.CuttingMessages(file);
+                    if(control==0)
+                    mainWindow.loadInfromationAboutFiles0(ps[0].Item1, ps[0].Item2,ps[0].Item3);
+                    else if(control==1)
+                    mainWindow.loadInfromationAboutFiles1(ps[0].Item1, ps[0].Item2, ps[0].Item3);
+                }
             }
         }
+
+
+
         private void listUsers0_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ListView list = (ListView)sender;
@@ -107,10 +127,6 @@ namespace ConnectedForm
                 object a = listUsers0.Items[index]; 
                 var txt = a.GetType().GetProperty("nameFile").GetValue(a);
                 //**********************************************************
-                //Очищаем list
-                //************************
-                listUsers0.Items.Clear();
-                //************************
                 if (pathbox0.Text == null || pathbox0.Text == "")
                     pathbox0.Text = txt.ToString();
                 else
@@ -133,26 +149,51 @@ namespace ConnectedForm
                 var txt = a.GetType().GetProperty("nameFile").GetValue(a);
                 //**********************************************************
 
-                // Очищаем list
-                //************************
-                listUsers1.Items.Clear();
-                //************************
             }
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string txt = pathbox0.Text;
 
-            if (txt[txt.Length - 1] == '\\')
+            
+            string txt = pathbox0.Text;
+            if (txt != ""&&txt.Length > 1)
+            if (txt[txt.Length - 1] == '\\'&& txt[txt.Length - 2]!='\\')
             {
-                txt.Remove(txt.Length - 1,1);
-                loadFiles("127.0.0.1", txt);
+                    // Очищаем list
+                    //************************
+                    listUsers0.Items.Clear();
+                    //************************
+                    txt=txt.Remove(txt.Length - 1,1);
+                loadFiles(this,"127.0.0.1", txt);
             }
         }
         private void pathbox1_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+
+        public List<(string,string,string)> CuttingMessages(string message)
+        {
+            List<(string, string, string)> ps = new List<(string, string, string)>();
+            int k = 0;
+            string file = "", date = "",sizefile="";
+            //ps[0].GetType().GetProperty("Item" + k)
+            for (int i = 0; i < message.Length;i++)
+            {
+                if (message[i] != '|' && k == 0)
+                    file += message[i];
+                else if (message[i] != '|' && k == 1)
+                    date += message[i];
+                else if (message[i] != '|' && k == 2)
+                    sizefile += message[i];
+                else
+                    k++;
+            }
+            (string, string, string) member_str = (file, date,sizefile);
+            ps.Add(member_str);
+            return ps;  
         }
         
     }
