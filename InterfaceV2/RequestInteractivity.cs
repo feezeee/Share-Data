@@ -60,6 +60,12 @@ namespace InterfaceV2
                     Console.WriteLine("ответ получателя - " + response);
                 }
 
+                if(response.IndexOf($"{RequestError.DirectoryNotExist}") != -1)
+                {
+                    return RequestError.DirectoryNotExist.ToString();
+                    //throw new Exception("дериктория не найдена");
+                }
+
                 sender.Shutdown(SocketShutdown.Both);
                 sender.Close();
                 Response = response;

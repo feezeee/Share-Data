@@ -74,7 +74,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request.cs" />
     <Compile Include="RequestInteractivity.cs" />
-    <Compile Include="TcpFIleClient.cs" />
+    <Compile Include="TcpFileClient1.cs" />
     <Compile Include="TcpServer.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

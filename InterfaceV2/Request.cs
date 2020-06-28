@@ -17,7 +17,9 @@ namespace InterfaceV2
     }
     public enum RequestError
     {
-        FileNotExist = -1
+        FileNotExist = -1,
+        DirectoryNotExist = -2,
+        RequestIncomprehantable = -3
     }
     public static class Request
     {
@@ -58,6 +60,7 @@ namespace InterfaceV2
                     break;
                 default:
                     System.Diagnostics.Debug.WriteLine("request isn't distingushed");
+                    return RequestError.RequestIncomprehantable.ToString();
                     break;
             }
 
@@ -88,28 +91,35 @@ namespace InterfaceV2
 
         private static string GetDirectory(string directoryPass)
         {
-            string ans = "";
-            if(directoryPass == ".")
+            try
             {
-                var disks = DriveInfo.GetDrives();
-                foreach(var disk in disks)
+                string ans = "";
+                if (directoryPass == ".")
                 {
-                    ans += disk.Name + "\n";
+                    var disks = DriveInfo.GetDrives();
+                    foreach (var disk in disks)
+                    {
+                        ans += disk.Name + "\n";
+                    }
+                    return ans;
                 }
+
+                var direct = new DirectoryInfo(directoryPass);
+                foreach (var file in direct.GetFiles())
+                {
+                    ans += $"{file.Name}|{file.LastWriteTime.ToString()}|{file.Length}\n";
+                }
+                foreach (var dir in direct.GetDirectories())
+                {
+                    ans += $"{dir.Name}|{dir.LastWriteTime.ToString()}|{-1}\n";
+                }
+
                 return ans;
             }
-            
-            var direct = new DirectoryInfo(directoryPass);
-            foreach (var file in direct.GetFiles())
+            catch
             {
-                ans += $"{file.Name}|{file.LastWriteTime.ToString()}|{file.Length}\n";
+                return RequestError.DirectoryNotExist.ToString();
             }
-            foreach (var dir in direct.GetDirectories())
-            {
-                ans += $"{dir.Name}|{dir.LastWriteTime.ToString()}|{-1}\n";
-            }
-
-            return ans;
         }
     }
 }

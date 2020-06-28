@@ -7,12 +7,12 @@ using System.Text;
 
 namespace InterfaceV2
 {
-    public class TcpFIleClient
+    public class TcpFileClient
     {
         private static int port = int.Parse(ConfigurationManager.AppSettings["TcpPort"]);
         public IPAddress RemoteIP;
         private TcpClient client = new TcpClient();
-        public TcpFIleClient(string ip)
+        public TcpFileClient(string ip)
         {
             RemoteIP = IPAddress.Parse(ip);
         }
