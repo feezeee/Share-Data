@@ -157,16 +157,33 @@ namespace ConnectedForm
 
             
             string txt = pathbox0.Text;
-            if (txt != ""&&txt.Length > 1)
-            if (txt[txt.Length - 1] == '\\'&& txt[txt.Length - 2]!='\\')
+            if (txt != "" && txt.Length > 3)
+                if (txt[txt.Length - 1] == '\\'&& txt[txt.Length - 2]!='\\')
+                {
+                        // Очищаем list
+                        //************************
+                        listUsers0.Items.Clear();
+                        //************************
+                        txt=txt.Remove(txt.Length - 1,1);
+                    loadFiles(this,"127.0.0.1", txt,0);
+                }
+            if(txt!=""&&txt.Length==3)
             {
-                    // Очищаем list
-                    //************************
-                    listUsers0.Items.Clear();
-                    //************************
-                    txt=txt.Remove(txt.Length - 1,1);
-                loadFiles(this,"127.0.0.1", txt);
+                // Очищаем list
+                //************************
+                listUsers0.Items.Clear();
+                //************************
+                txt = txt.Remove(txt.Length - 1, 1);
+                loadFiles(this, "127.0.0.1", txt, 0);
             }
+            if(txt=="")
+            {
+                        // Очищаем list
+                        //************************
+                        listUsers0.Items.Clear();
+                        //************************
+                        loadFiles(this, "127.0.0.1", ".",0);
+            }    
         }
         private void pathbox1_TextChanged(object sender, TextChangedEventArgs e)
         {
