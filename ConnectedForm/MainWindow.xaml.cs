@@ -167,13 +167,12 @@ namespace ConnectedForm
                         txt=txt.Remove(txt.Length - 1,1);
                     loadFiles(this,"127.0.0.1", txt,0);
                 }
-            if(txt!=""&&txt.Length==3)
+            if(txt!="" && txt.Length==3)
             {
                 // Очищаем list
                 //************************
                 listUsers0.Items.Clear();
                 //************************
-                txt = txt.Remove(txt.Length - 1, 1);
                 loadFiles(this, "127.0.0.1", txt, 0);
             }
             if(txt=="")
