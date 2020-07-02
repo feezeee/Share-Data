@@ -29,7 +29,8 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Button Grid.Row="0"/>
+                        <Button x:Name="goback0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" />
+                        <Button x:Name="gonext0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0"/>
                         <TextBox x:Name="pathbox0" Grid.Row="1" TextChanged="TextBox_TextChanged"/>
                         <ListView Grid.Row="2" x:Name="listUsers0" MouseDoubleClick="listUsers0_MouseDoubleClick">
 
@@ -67,7 +68,8 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Button Grid.Row="0"/>
+                        <Button x:Name="goback1" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" />
+                        <Button x:Name="gonext1" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0"/>
                         <TextBox x:Name="pathbox1" Grid.Row="1" TextChanged="pathbox1_TextChanged"/>
                         <ListView Grid.Row="2" x:Name="listUsers1" MouseDoubleClick="listUsers1_MouseDoubleClick">
 

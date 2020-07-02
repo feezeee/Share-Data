@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -93,32 +94,74 @@ namespace ConnectedForm
 
 
 
+    /// <summary>
+    /// Загружает файлы в форму по заданному пути
+    /// </summary>
+    /// <param name="sender">Указываем форму, в которой будем отрисовывать</param>
+    /// <param name="ip">Указываем Ip адрес пк, у которого запрашивает директории по указанному пути</param>
+    /// <param name="path">Указываем сам путь</param>
+    /// <param name="control">Рисуем в первом контроле или во втором(по умолчанию - 0, (0/1))</param>
         public void loadFiles(object sender,string ip, string path,int control=0)
         {
-            var myIp = ip;//ip текущего пк
-            var ans = RequestInteractivity.SendRequst(myIp, RequestTipe.GetDirectoryFiles, path);
-            ans = ans.Remove(0, 7);
-            var files = ans.Split('\n');
-            files[files.Length - 1] = null;
-            MainWindow mainWindow = (MainWindow)sender;
-            foreach (var file in files)
-            {
-                if (file != null)
+
+                var myIp = ip;//ip текущего пк
+
+                var ans = RequestInteractivity.SendRequst(myIp, RequestTipe.GetDirectoryFiles, path);
+                ans = ans.Remove(0, 7);
+                var files = ans.Split('\n');
+                files[files.Length - 1] = null;
+                MainWindow mainWindow = (MainWindow)sender;
+                if (control == 0)
+                    this.Dispatcher.Invoke((ThreadStart)delegate
+                    {
+                       // Очищаем list
+                            //************************
+                            listUsers0.Items.Clear();
+                    });
+                else if (control == 1)
+                    this.Dispatcher.Invoke((ThreadStart)delegate
+                    {
+                        // Очищаем list
+                        //************************
+                        listUsers1.Items.Clear();
+                    });
+                foreach (var file in files)
                 {
-                    List<(string, string, string)> ps =mainWindow.CuttingMessages(file);
-                    if(control==0)
-                    mainWindow.loadInfromationAboutFiles0(ps[0].Item1, ps[0].Item2,ps[0].Item3);
-                    else if(control==1)
-                    mainWindow.loadInfromationAboutFiles1(ps[0].Item1, ps[0].Item2, ps[0].Item3);
+                    if (file != null)
+                    {
+                        List<(string, string, string)> ps = mainWindow.CuttingMessages(file);
+                        if (control == 0)
+                        {
+                            this.Dispatcher.Invoke((ThreadStart)delegate
+                            {
+                                pathbox0.IsEnabled = true;
+                                mainWindow.loadInfromationAboutFiles0(ps[0].Item1, ps[0].Item2, ps[0].Item3);
+                            });
+                        }
+
+                        else if (control == 1)
+                        {
+                            this.Dispatcher.Invoke((ThreadStart)delegate
+                            {
+                                pathbox1.IsEnabled = true;
+                                mainWindow.loadInfromationAboutFiles1(ps[0].Item1, ps[0].Item2, ps[0].Item3);
+                            });
+                        }
+                    }
                 }
-            }
+                
         }
 
 
 
+        //**********************************************************************************************
+        //*********************************************************************************************
+        //********************************************************************************************
+        bool status = false;
         private void listUsers0_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ListView list = (ListView)sender;
+            string textbox = pathbox0.Text;
             if(list.SelectedItems.Count==1)
             {
                 int index = list.SelectedIndex;//индекс нажатого итема
@@ -127,10 +170,23 @@ namespace ConnectedForm
                 object a = listUsers0.Items[index]; 
                 var txt = a.GetType().GetProperty("nameFile").GetValue(a);
                 //**********************************************************
-                if (pathbox0.Text == null || pathbox0.Text == "")
+                if ((pathbox0.Text == null || pathbox0.Text == "") && pathbox0.IsEnabled==true)
                     pathbox0.Text = txt.ToString();
-                else
+                else if(pathbox0.IsEnabled==true)
                 {
+                    ok:
+                    if (textbox[textbox.Length - 1] != '\\')
+                    {
+                        status = true;
+                        textbox = textbox.Remove(textbox.Length - 1, 1);
+                        goto ok;
+                    }
+                    if(status==true)
+                    {
+                        status = false;
+                        pathbox0.Text = textbox;
+                    }
+                    else
                     pathbox0.Text += txt.ToString() + "\\";
                 }
             }
@@ -152,44 +208,51 @@ namespace ConnectedForm
             }
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
+        //********************************************************************************************
+        //*********************************************************************************************
+        //**********************************************************************************************
 
+
+        //**********************************************************************************************
+        //*********************************************************************************************
+        //********************************************************************************************
+        private async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
             
             string txt = pathbox0.Text;
             if (txt != "" && txt.Length > 3)
                 if (txt[txt.Length - 1] == '\\'&& txt[txt.Length - 2]!='\\')
                 {
-                        // Очищаем list
-                        //************************
-                        listUsers0.Items.Clear();
-                        //************************
-                        txt=txt.Remove(txt.Length - 1,1);
-                    loadFiles(this,"127.0.0.1", txt,0);
+                    //************************
+                    txt =txt.Remove(txt.Length - 1,1);
+                    pathbox0.IsEnabled = false;
+                    await Task.Run(() => loadFiles(this,"127.0.0.1", txt,0));
                 }
             if(txt!="" && txt.Length==3)
             {
-                // Очищаем list
                 //************************
-                listUsers0.Items.Clear();
-                //************************
-                loadFiles(this, "127.0.0.1", txt, 0);
+                pathbox0.IsEnabled = false;
+                await Task.Run(() => loadFiles(this, "127.0.0.1", txt, 0));
             }
             if(txt=="")
             {
-                        // Очищаем list
-                        //************************
-                        listUsers0.Items.Clear();
-                        //************************
-                        loadFiles(this, "127.0.0.1", ".",0);
+                //************************
+                pathbox0.IsEnabled = false;
+                await Task.Run(() => loadFiles(this, "127.0.0.1", ".",0));
             }    
         }
-        private void pathbox1_TextChanged(object sender, TextChangedEventArgs e)
+        private async void pathbox1_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
 
+        //********************************************************************************************
+        //*********************************************************************************************
+        //**********************************************************************************************
 
+
+        //Сортирует сообщение(файл дата размер)
         public List<(string,string,string)> CuttingMessages(string message)
         {
             List<(string, string, string)> ps = new List<(string, string, string)>();

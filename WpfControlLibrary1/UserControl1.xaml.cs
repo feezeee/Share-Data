@@ -126,14 +126,16 @@ namespace WpfControlLibrary1
             pass = ".";
             loadform(myIp, ip, "", ".");
         }
-        public void loadform(string ip,string nextip,string text,string param)
+        public async void loadform(string ip,string nextip,string text,string param)
         {
 
             MainWindow mainWindow = new MainWindow();
             mainWindow.setIp(nextip);
             mainWindow.Show();
-            mainWindow.loadFiles(mainWindow,ip, param, 0);
-            mainWindow.loadFiles(mainWindow,nextip, param, 1);
+
+            await Task.Run(() => mainWindow.loadFiles(mainWindow, ip, param, 0));
+            await Task.Run(() => mainWindow.loadFiles(mainWindow, nextip, param, 1));
+            
 
         }
         public class VisualHelper
