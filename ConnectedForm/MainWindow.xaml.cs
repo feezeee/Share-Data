@@ -25,6 +25,12 @@ namespace ConnectedForm
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Инициализируем двусвязанный список 
+        /// </summary>
+        DoublyLinkedList<string> linkedList0 = new DoublyLinkedList<string>();
+
+
         public MainWindow()
         {
             DataContext = this;
@@ -32,6 +38,10 @@ namespace ConnectedForm
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Установка ip адреса 2-го пк в лабел 
+        /// </summary>
+        /// <param name="Ip">Передаем сам ip</param>
         public void setIp(object Ip)
         {
             LabelIp1.Content = Ip.ToString();
@@ -105,7 +115,7 @@ namespace ConnectedForm
         {
 
                 var myIp = ip;//ip текущего пк
-
+            linkedList0.Add(path);
                 var ans = RequestInteractivity.SendRequst(myIp, RequestTipe.GetDirectoryFiles, path);
                 ans = ans.Remove(0, 7);
                 var files = ans.Split('\n');
@@ -127,27 +137,29 @@ namespace ConnectedForm
                     });
                 foreach (var file in files)
                 {
-                    if (file != null)
+                if (file != null)
+                {
+                    List<(string, string, string)> ps = mainWindow.CuttingMessages(file);
+                    if (control == 0)
                     {
-                        List<(string, string, string)> ps = mainWindow.CuttingMessages(file);
-                        if (control == 0)
+                        this.Dispatcher.Invoke((ThreadStart)delegate
                         {
-                            this.Dispatcher.Invoke((ThreadStart)delegate
-                            {
-                                pathbox0.IsEnabled = true;
-                                mainWindow.loadInfromationAboutFiles0(ps[0].Item1, ps[0].Item2, ps[0].Item3);
-                            });
-                        }
-
-                        else if (control == 1)
-                        {
-                            this.Dispatcher.Invoke((ThreadStart)delegate
-                            {
-                                pathbox1.IsEnabled = true;
-                                mainWindow.loadInfromationAboutFiles1(ps[0].Item1, ps[0].Item2, ps[0].Item3);
-                            });
-                        }
+                            pathbox0.IsEnabled = true;
+                            mainWindow.loadInfromationAboutFiles0(ps[0].Item1, ps[0].Item2, ps[0].Item3);
+                        });
                     }
+
+                    else if (control == 1)
+                    {
+                        this.Dispatcher.Invoke((ThreadStart)delegate
+                        {
+                            pathbox1.IsEnabled = true;
+                            mainWindow.loadInfromationAboutFiles1(ps[0].Item1, ps[0].Item2, ps[0].Item3);
+                        });
+                    }
+                }
+                else
+                    linkedList0.Remove(path);
                 }
                 
         }
