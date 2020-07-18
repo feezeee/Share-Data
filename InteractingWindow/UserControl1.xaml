@@ -1,0 +1,134 @@
+﻿<UserControl x:Class="InteractingWindow.UserControl1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:InteractingWindow"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+
+    <Grid Margin="5,5,5,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>        
+        <Label Grid.Row="0" Height="30" VerticalAlignment="Top" x:Name="LabelIp"/>            
+        <Grid  Grid.Row="1">                
+        <Grid x:Name="gridforfunc" Height="auto" VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button x:Name="goback0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" />
+            <Button x:Name="gonext0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0"/>
+                <TextBox x:Name="pathbox0" Grid.Row="1" TextChanged="TextBox_TextChanged"/>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" Text="" Background="White" HorizontalAlignment="Left" Width="30">
+                        <TextBox.Template>
+                            <ControlTemplate TargetType="TextBox">
+                                <Border 
+                                    Width="{TemplateBinding Width}"
+                                    Background="White">
+
+                                    <ContentControl Content="{TemplateBinding Text}"/>
+
+                                </Border>
+                            </ControlTemplate>
+                        </TextBox.Template>
+                    </TextBox>
+                    <TextBox Grid.Column="1" Text="Имя файла/папки" Background="White" Width="auto" TextAlignment="Center">
+                        <TextBox.Template>
+                            <ControlTemplate TargetType="TextBox">
+                                <Border 
+                                    Width="{TemplateBinding Width}"
+                                    Background="White"                                    
+                                    >
+                                    
+                                    <ContentControl Content="{TemplateBinding Text}"/>
+
+                                </Border>
+                            </ControlTemplate>
+                        </TextBox.Template>
+                    </TextBox>
+                    <TextBox Grid.Column="2" Text="Дата создания"  Background="White" Width="auto" TextAlignment="Center">
+                        <TextBox.Template>
+                            <ControlTemplate TargetType="TextBox">
+                                <Border 
+                                    Width="{TemplateBinding Width}"
+                                    Background="White"                                    
+                                    >
+
+                                    <ContentControl Content="{TemplateBinding Text}"/>
+
+                                </Border>
+                            </ControlTemplate>
+                        </TextBox.Template>
+                    </TextBox>
+                    <TextBox Grid.Column="3" Text="Размер файла/папки" Background="White" Width="auto" TextAlignment="Center">
+                        <TextBox.Template>
+                            <ControlTemplate TargetType="TextBox">
+                                <Border 
+                                    Width="{TemplateBinding Width}"
+                                    Background="White"                                    
+                                    >
+
+                                    <ContentControl Content="{TemplateBinding Text}"/>
+
+                                </Border>
+                            </ControlTemplate>
+                        </TextBox.Template>
+                    </TextBox>
+                </Grid>
+                
+            
+        <ListBox Grid.Row="3" Height="200" Width="auto" x:Name="lstbox" >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4" Width="370">
+                        <Grid Margin="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock FontWeight="Bold"
+                        Text="{Binding Path=ModelName, Converter={StaticResource StringUpperConverter}}"/>
+                            <TextBlock Grid.Row="1" Text="{Binding ModelNumber}"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+                    
+
+
+        <!--<ScrollViewer Grid.Row="2" x:Name="scroll0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,0,0,0">
+                <StackPanel x:Name="stackpanel0" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
+                    <ListView  x:Name="listUsers0" MouseDoubleClick="listUsers0_MouseDoubleClick">
+
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Имя папки/файла" Width="{Binding Path=setWidth}" DisplayMemberBinding="{Binding nameFile}"/>
+                                <GridViewColumn Header="Дата создания" Width="{Binding Path=setWidth}" DisplayMemberBinding="{Binding time}"/>
+                                <GridViewColumn Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}" Width="{Binding Path=setWidth}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </ScrollViewer>-->
+        </Grid>
+           
+
+</Grid>
+    </Grid>
+</UserControl>
