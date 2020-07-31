@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +21,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using interactDomain;
 using InterfaceV2;
+using Microsoft.SqlServer.Server;
 
 namespace ConnectedForm
 {
@@ -206,18 +211,40 @@ namespace ConnectedForm
 
         private void listUsers1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ListView list = (ListView)sender;
-            if (list.SelectedItems.Count == 1)
+            Application.Current.Dispatcher.Invoke((Action)delegate
             {
-                int index = list.SelectedIndex;//индекс нажатого итема
 
-                // Получаем имя папки/файла
-                //**********************************************************
-                object a = listUsers1.Items[index];
-                var txt = a.GetType().GetProperty("nameFile").GetValue(a);
-                //**********************************************************
-
-            }
+                ListView list = (ListView)sender;
+                string textbox = pathbox1.Text;
+                if (list.SelectedItems.Count == 1)
+                {
+                    int index = list.SelectedIndex;//индекс нажатого итема
+                                                   //получаем имя папки/файла
+                                                   //**********************************************************
+                    object a = listUsers1.Items[index];
+                    var txt = a.GetType().GetProperty("nameFile").GetValue(a);
+                    //**********************************************************
+                    if ((pathbox1.Text == null || pathbox1.Text == "") && pathbox1.IsEnabled == true)
+                        pathbox1.Text = txt.ToString();
+                    else if (pathbox1.IsEnabled == true)
+                    {
+                        ok:
+                        if (textbox[textbox.Length - 1] != '\\')
+                        {
+                            status = true;
+                            textbox = textbox.Remove(textbox.Length - 1, 1);
+                            goto ok;
+                        }
+                        if (status == true)
+                        {
+                            status = false;
+                            pathbox1.Text = textbox;
+                        }
+                        else
+                            pathbox1.Text += txt.ToString() + "\\";
+                    }
+                }
+            });
         }
 
         //********************************************************************************************
@@ -256,7 +283,34 @@ namespace ConnectedForm
         }
         private async void pathbox1_TextChanged(object sender, TextChangedEventArgs e)
         {
+            string ip = "";
 
+            Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+                ip = LabelIp1.Content.ToString();
+            });
+                string txt = pathbox1.Text;
+                if (txt != "" && txt.Length > 3)
+                    if (txt[txt.Length - 1] == '\\' && txt[txt.Length - 2] != '\\')
+                    {
+                        //************************
+                        txt = txt.Remove(txt.Length - 1, 1);
+                        pathbox1.IsEnabled = false;
+                        await Task.Run(() => loadFiles(this, ip, txt, 1));
+                    }
+                if (txt != "" && txt.Length == 3)
+                {
+                    //************************
+                    pathbox1.IsEnabled = false;
+                    await Task.Run(() => loadFiles(this,ip, txt, 1));
+                }
+                if (txt == "")
+                {
+                    //************************
+                    pathbox1.IsEnabled = false;
+                    await Task.Run(() => loadFiles(this,ip, ".", 1));
+                }
+            
         }
 
         //********************************************************************************************
@@ -286,6 +340,91 @@ namespace ConnectedForm
             ps.Add(member_str);
             return ps;  
         }
-        
+
+        private async void listUsers0_Drop(object sender, DragEventArgs e)
+        {
+            
+            await Task.Run(() => ChekingAndLoadingFiles(listUsers0, listUsers1));
+            
+        }
+
+        private async void listUsers1_Drop(object sender, DragEventArgs e)
+        {     
+
+            //object name = e.Data.GetData("System.Windows.Controls.SelectedItemCollection");
+
+            await Task.Run(() => ChekingAndLoadingFiles(listUsers1,listUsers0));
+
+            
+        }
+
+        List<files> _renamedFiles = new List<files>();
+        /// <summary>
+        /// Проверяет, есть ли совпадения в файлах
+        /// </summary>
+        /// <param name="control_in">Указывает, куда добавляем</param>
+        /// <param name="control_from">указывает, откуда копируем</param>
+        private void ChekingAndLoadingFiles(ListView control_in, ListView control_from)
+        {
+            Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+
+                foreach (files files in control_from.SelectedItems)
+                {
+                    bool status = false;
+                    if (files != null)
+                    {
+                        foreach(files files1 in control_in.Items)
+                        {
+                            if(files1.nameFile==files.nameFile)
+                            {
+                                status = true;
+                                _renamedFiles.Add(files);
+                                //AskedAboutRenamed(files);
+                            }
+                            //files1.nameFile
+                        }
+                        if (status != true)
+                        {
+                            //    ListViewItem listViewItem = new ListViewItem();
+                            //    listViewItem.Content = files;
+                            //    listViewItem.Background = new SolidColorBrush(Color.FromArgb(90, 90, 90, 45));
+
+                            
+
+                            control_in.Items.Add(files);
+                        }
+                    }
+                }
+            });
+        }
+
+        private string AskedAboutRenamed(files files)
+        {
+            return "";
+        }
+
+
+        private void ListViewItem_MouseMove(object sender, MouseEventArgs e)
+        {
+            listUsers0.AllowDrop = false;
+            listUsers1.AllowDrop = true;
+            base.OnMouseMove(e);
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragDrop.DoDragDrop(listUsers0, listUsers0.SelectedItems, DragDropEffects.Copy);
+            }
+        }
+
+        private void ListViewItem_MouseMove_1(object sender, MouseEventArgs e)
+        {
+            listUsers0.AllowDrop = true;
+            listUsers1.AllowDrop = false; 
+            base.OnMouseMove(e);
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragDrop.DoDragDrop(listUsers1, listUsers1.SelectedItems, DragDropEffects.Copy);
+            }
+        }
     }
 }

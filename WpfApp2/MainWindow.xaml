@@ -1,30 +1,35 @@
-﻿<UserControl x:Class="InteractingWindow.UserControl1"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:InteractingWindow"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-
-
+﻿<Window x:Class="WpfApp2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style x:Key="MyGridStyle">
+            <Setter Property="Control.Margin" Value="-7,0,-7,0"/>
+            <Setter Property="Control.Width" Value="{Binding ActualWidth, ElementName=lstbox}"/>
+        </Style>
+    </Window.Resources>
+    
     <Grid Margin="5,5,5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>        
-        <Label Grid.Row="0" Height="30" VerticalAlignment="Top" x:Name="LabelIp"/>            
-        <Grid  Grid.Row="1">                
-        <Grid x:Name="gridforfunc" Height="auto" VerticalAlignment="Top">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Height="30" VerticalAlignment="Top" x:Name="LabelIp"/>
+        <Grid  Grid.Row="1">
+            <Grid x:Name="gridforfunc" Height="auto" VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <Button x:Name="goback0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" />
-            <Button x:Name="gonext0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0"/>
+                <Button x:Name="goback0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" />
+                <Button x:Name="gonext0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0" Click="gonext0_Click"/>
                 <TextBox x:Name="pathbox0" Grid.Row="1"/>
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
@@ -54,7 +59,7 @@
                                     Width="{TemplateBinding Width}"
                                     Background="White"                                    
                                     >
-                                    
+
                                     <ContentControl Content="{TemplateBinding Text}"/>
 
                                 </Border>
@@ -66,7 +71,7 @@
                             <ControlTemplate TargetType="TextBox">
                                 <Border 
                                     Width="{TemplateBinding Width}"
-                                    Background="White"                                    
+                                    Background="White"                                  
                                     >
 
                                     <ContentControl Content="{TemplateBinding Text}"/>
@@ -90,11 +95,21 @@
                         </TextBox.Template>
                     </TextBox>
                 </Grid>
+
                 
-            
-        <ListBox Grid.Row="3" Height="200" Width="auto" x:Name="lstbox">
-                    <TextBlock FontWeight="Bold" TextDecorations="Underline" Text="Новинки 2015 года" />
-                    <!--<ListBoxItem Background="LightGray">LG Nexus 5X</ListBoxItem>
+
+                <ListBox Grid.Row="3" x:Name="lstbox">                    
+                    <TextBlock  FontWeight="Bold" TextDecorations="Underline" Text="Новинки 2015 года" />
+                    <Grid Style="{StaticResource MyGridStyle}" Height="30">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="1" Content="12420503502053" HorizontalAlignment="Center"/>
+                    </Grid>
+                    <ListBoxItem Background="LightGray">LG Nexus 5X</ListBoxItem>
                     <ListBoxItem>Huawei Nexus 6P</ListBoxItem>
                     <ListBoxItem Background="LightGray">iPhone 6S</ListBoxItem>
                     <ListBoxItem>iPhone 6S Plus</ListBoxItem>
@@ -106,8 +121,8 @@
                     <ListBoxItem Background="LightGray">iPhone 6S</ListBoxItem>
                     <ListBoxItem>iPhone 6S Plus</ListBoxItem>
                     <ListBoxItem Background="LightGray">Аsus Zenphone 2</ListBoxItem>
-                    <ListBoxItem>Microsoft Lumia 950</ListBoxItem>-->
-                    <!--<ListBox.ItemTemplate>
+                    <ListBoxItem>Microsoft Lumia 950</ListBoxItem>
+                    <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4" Width="370">
                         <Grid Margin="3">
@@ -121,12 +136,12 @@
                         </Grid>
                     </Border>
                 </DataTemplate>
-            </ListBox.ItemTemplate>-->
-        </ListBox>
-                    
+            </ListBox.ItemTemplate>
+                </ListBox>
 
 
-        <!--<ScrollViewer Grid.Row="2" x:Name="scroll0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,0,0,0">
+
+                <ScrollViewer Grid.Row="2" x:Name="scroll0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,0,0,0">
                 <StackPanel x:Name="stackpanel0" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
                     <ListView  x:Name="listUsers0" MouseDoubleClick="listUsers0_MouseDoubleClick">
 
@@ -139,10 +154,11 @@
                         </ListView.View>
                     </ListView>
                 </StackPanel>
-            </ScrollViewer>-->
-        </Grid>
-           
+            </ScrollViewer>
+            </Grid>
 
-</Grid>
+
+        </Grid>
+        
     </Grid>
-</UserControl>
+</Window>

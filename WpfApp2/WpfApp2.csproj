@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6028814A-C00F-4839-B7A3-C34A6975A68A}</ProjectGuid>
+    <ProjectGuid>{968BF4B8-A40C-4B9C-BD4C-32700D1FF13A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ConnectedForm</RootNamespace>
-    <AssemblyName>ConnectedForm</AssemblyName>
+    <RootNamespace>WpfApp2</RootNamespace>
+    <AssemblyName>WpfApp2</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -37,8 +37,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -57,7 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Spisok.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -96,20 +93,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\interactDomain\interactDomain.csproj">
-      <Project>{7525C004-1276-4AE2-8ADF-C81526D2A9AC}</Project>
-      <Name>interactDomain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\InteractingWindow\InteractingWindow.csproj">
-      <Project>{C92B39E8-3ACE-47C6-9C76-54BF191B5BD1}</Project>
-      <Name>InteractingWindow</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\InterfaceV2\Interface.csproj">
-      <Project>{8F95EC8F-1B4A-4A26-84C1-3B7DEFE2ED84}</Project>
-      <Name>Interface</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
