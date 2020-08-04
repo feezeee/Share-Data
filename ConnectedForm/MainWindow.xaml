@@ -7,112 +7,119 @@
         xmlns:interactDomain="clr-namespace:interactDomain;assembly=interactDomain" xmlns:InteractingWindow="clr-namespace:InteractingWindow;assembly=InteractingWindow" x:Class="ConnectedForm.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" WindowState="Maximized" x:Name="MainWn">
-
-    <Grid Margin="5,5,5,5">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*" x:Name="firstColumn"/>
-            <ColumnDefinition Width="0.5*" x:Name="secondColumn"/>
-        </Grid.ColumnDefinitions>      
+    <Grid Margin="5,0,5,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*" x:Name="firstColumn"/>
+                <ColumnDefinition Width="0.5*" x:Name="secondColumn"/>
+            </Grid.ColumnDefinitions>      
         
 
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            
-            <Label Grid.Row="0" Height="30" VerticalAlignment="Top" x:Name="LabelIp0"/>
-            
-            <Grid x:Name="gridforfunc0" Height="auto" VerticalAlignment="Top" Grid.Row="1">
+            <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+            
+                <Label Grid.Row="0" Height="30" VerticalAlignment="Top" x:Name="LabelIp0"/>
+            
+                <Grid x:Name="gridforfunc0" Height="auto" VerticalAlignment="Top" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                <Button x:Name="goback0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" />
-                <Button x:Name="gonext0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0"/>
-                <TextBox x:Name="pathbox0" Grid.Row="1" TextChanged="TextBox_TextChanged"/>
-                <ScrollViewer Grid.Row="2" x:Name="scroll0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <StackPanel  x:Name="stackpanel0" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
-                        <ListView  MouseDoubleClick="listUsers0_MouseDoubleClick"  x:Name="listUsers0" AllowDrop="True" Drop="listUsers0_Drop">
-                            <ListView.View>
-                                <GridView >
-                                    <GridView.Columns>
-                                        <GridViewColumn Width="20" DisplayMemberBinding="{Binding imageFile}"/>
-                                        <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}"/>
-                                        <GridViewColumn Width="{Binding setWidth}" Header="Дата создания" DisplayMemberBinding="{Binding time}"/>
-                                        <GridViewColumn  Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}"/>
-                                    </GridView.Columns>
-                                </GridView>
-                            </ListView.View>
+                    <Button x:Name="goback0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" />
+                    <Button x:Name="gonext0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0"/>
+                    <TextBox x:Name="pathbox0" Grid.Row="1" TextChanged="TextBox_TextChanged"/>
+                    <ScrollViewer Grid.Row="2" x:Name="scroll0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <StackPanel  x:Name="stackpanel0" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
+                            <ListView  MouseDoubleClick="listUsers0_MouseDoubleClick"  x:Name="listUsers0" AllowDrop="True" Drop="listUsers0_Drop">
+                                <ListView.View>
+                                    <GridView >
+                                        <GridView.Columns>
+                                            <GridViewColumn Width="20" DisplayMemberBinding="{Binding imageFile}"/>
+                                            <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}"/>
+                                            <GridViewColumn Width="{Binding setWidth}" Header="Дата создания" DisplayMemberBinding="{Binding time}"/>
+                                            <GridViewColumn  Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}"/>
+                                        </GridView.Columns>
+                                    </GridView>
+                                </ListView.View>
                             
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">                                    
-                                    <EventSetter Event="MouseMove" Handler="ListViewItem_MouseMove"/>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">                                    
+                                        <EventSetter Event="MouseMove" Handler="ListViewItem_MouseMove"/>
                                     
-                                    <Style.Triggers>
-                                        <Trigger Property="IsFocused" Value="True">
-                                            <!--<Setter Property="Background" Value="Blue"/>-->                                            
-                                        </Trigger>                                        
+                                        <Style.Triggers>
+                                            <Trigger Property="IsFocused" Value="True">
+                                                <!--<Setter Property="Background" Value="Blue"/>-->                                            
+                                            </Trigger>                                        
                                         
-                                    </Style.Triggers>
-                                </Style>
-                            </ListView.ItemContainerStyle>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
                             
-                        </ListView>
-                    </StackPanel>
-                </ScrollViewer>
+                            </ListView>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
             </Grid>
-        </Grid>
 
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Height="30" VerticalAlignment="Top" x:Name="LabelIp1"/>
+                    <Label Grid.Row="0" Height="30" VerticalAlignment="Top" x:Name="LabelIp1"/>
 
-            <Grid x:Name="gridforfunc1" Height="auto" VerticalAlignment="Top" Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+                    <Grid x:Name="gridforfunc1" Height="auto" VerticalAlignment="Top" Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                <Button x:Name="goback1" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" />
-                <Button x:Name="gonext1" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0"/>
-                <TextBox x:Name="pathbox1" Grid.Row="1" TextChanged="pathbox1_TextChanged"/>
-                <ScrollViewer Grid.Row="2" x:Name="scroll1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <StackPanel  x:Name="stackpanel1" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
-                        <ListView  MouseDoubleClick="listUsers1_MouseDoubleClick"  x:Name="listUsers1" AllowDrop="True" Drop="listUsers1_Drop">
-                            <ListView.View>
-                                <GridView >
-                                    <GridView.Columns>
-                                        <GridViewColumn Width="20" DisplayMemberBinding="{Binding imageFile}"/>
-                                        <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}"/>
-                                        <GridViewColumn Width="{Binding setWidth}" Header="Дата создания" DisplayMemberBinding="{Binding time}"/>
-                                        <GridViewColumn  Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}"/>
-                                    </GridView.Columns>
-                                </GridView>
-                            </ListView.View>
+                        <Button x:Name="goback1" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" />
+                        <Button x:Name="gonext1" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0"/>
+                        <TextBox x:Name="pathbox1" Grid.Row="1" TextChanged="pathbox1_TextChanged"/>
+                        <ScrollViewer Grid.Row="2" x:Name="scroll1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <StackPanel  x:Name="stackpanel1" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
+                                <ListView  MouseDoubleClick="listUsers1_MouseDoubleClick"  x:Name="listUsers1" AllowDrop="True" Drop="listUsers1_Drop">
+                                    <ListView.View>
+                                        <GridView >
+                                            <GridView.Columns>
+                                                <GridViewColumn Width="20" DisplayMemberBinding="{Binding imageFile}"/>
+                                                <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}"/>
+                                                <GridViewColumn Width="{Binding setWidth}" Header="Дата создания" DisplayMemberBinding="{Binding time}"/>
+                                                <GridViewColumn  Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}"/>
+                                            </GridView.Columns>
+                                        </GridView>
+                                    </ListView.View>
 
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <EventSetter Event="MouseMove" Handler="ListViewItem_MouseMove_1"/>                                    
-                                    <Style.Triggers>
-                                        <Trigger Property="IsFocused" Value="True">
-                                            <!--<Setter Property="Background" Value="Blue"/>-->
-                                        </Trigger>
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <EventSetter Event="MouseMove" Handler="ListViewItem_MouseMove_1"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsFocused" Value="True">
+                                                    <!--<Setter Property="Background" Value="Blue"/>-->
+                                                </Trigger>
 
-                                    </Style.Triggers>
-                                </Style>
-                            </ListView.ItemContainerStyle>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
 
-                        </ListView>
-                    </StackPanel>
-                </ScrollViewer>
+                                </ListView>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>

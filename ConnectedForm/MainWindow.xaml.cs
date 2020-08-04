@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
+using System.Data.Metadata.Edm;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -21,7 +24,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using interactDomain;
 using InterfaceV2;
-using Microsoft.SqlServer.Server;
 
 namespace ConnectedForm
 {
@@ -38,10 +40,12 @@ namespace ConnectedForm
 
         public MainWindow()
         {
+            OncompleteList += StartedAdding;
             DataContext = this;
             setWidth = (int)System.Windows.SystemParameters.PrimaryScreenWidth/6-15;
             InitializeComponent();
         }
+
 
         /// <summary>
         /// Установка ip адреса 2-го пк в лабел 
@@ -344,7 +348,7 @@ namespace ConnectedForm
         private async void listUsers0_Drop(object sender, DragEventArgs e)
         {
             
-            await Task.Run(() => ChekingAndLoadingFiles(listUsers0, listUsers1));
+            await Task.Run(() => ChekingAndLoadingFiles(listUsers0, listUsers1,pathbox0));
             
         }
 
@@ -353,50 +357,107 @@ namespace ConnectedForm
 
             //object name = e.Data.GetData("System.Windows.Controls.SelectedItemCollection");
 
-            await Task.Run(() => ChekingAndLoadingFiles(listUsers1,listUsers0));
+            await Task.Run(() => ChekingAndLoadingFiles(listUsers1,listUsers0,pathbox1));
 
-            
+
         }
 
+        //Лист, в который заносится информация о совпадающих файлах
         List<files> _renamedFiles = new List<files>();
+
+        //Лист, в который заносится информация о нуждающихся в добалении файлов        
+        List<(ListViewItem, ListView, ListView, string, string,string,string,TextBox)> _neededToAdding = new List<(ListViewItem, ListView, ListView, string, string,string,string,TextBox)>();
+        
+
+
         /// <summary>
         /// Проверяет, есть ли совпадения в файлах
         /// </summary>
         /// <param name="control_in">Указывает, куда добавляем</param>
         /// <param name="control_from">указывает, откуда копируем</param>
-        private void ChekingAndLoadingFiles(ListView control_in, ListView control_from)
-        {
-            Application.Current.Dispatcher.Invoke((Action)delegate
+        private void ChekingAndLoadingFiles(ListView control_in, ListView control_from,TextBox box)
+        { 
+            try
             {
-
-                foreach (files files in control_from.SelectedItems)
+                Application.Current.Dispatcher.Invoke((Action)delegate
                 {
-                    bool status = false;
-                    if (files != null)
+
+
+                    foreach (files files in control_from.SelectedItems)
                     {
-                        foreach(files files1 in control_in.Items)
+                        bool status = false;
+                        if (files != null)
                         {
-                            if(files1.nameFile==files.nameFile)
+                            foreach (files files1 in control_in.Items)
                             {
-                                status = true;
-                                _renamedFiles.Add(files);
-                                //AskedAboutRenamed(files);
+                                if (files1 != null)
+                                    if (files1.nameFile == files.nameFile)
+                                    {
+                                        status = true;
+                                        _renamedFiles.Add(files);
+                                        //AskedAboutRenamed(files);
+                                    }
+                                //files1.nameFile
                             }
-                            //files1.nameFile
-                        }
-                        if (status != true)
-                        {
-                            //    ListViewItem listViewItem = new ListViewItem();
-                            //    listViewItem.Content = files;
-                            //    listViewItem.Background = new SolidColorBrush(Color.FromArgb(90, 90, 90, 45));
+                            if (status != true)
+                            {
+                                //    ListViewItem listViewItem = new ListViewItem();
+                                //    listViewItem.Content = files;
+                                //    listViewItem.Background = new SolidColorBrush(Color.FromArgb(90, 90, 90, 45));
 
-                            
-
-                            control_in.Items.Add(files);
+                                ListViewItem lvi = new ListViewItem();
+                                lvi.Content = files;
+                                lvi.Loaded += Lvi_Loaded;
+                                lvi.Background = Brushes.Red;
+                                
+                                (ListViewItem, ListView, ListView, string, string,string,string,TextBox) member = (lvi, control_from, control_in, pathbox0.Text, pathbox1.Text, files.nameFile,files.nameFile, box);
+                                _neededToAdding.Add(member);
+                                
+                            }
                         }
                     }
-                }
-            });
+                });
+                OncompleteList();
+            }
+            catch 
+            { }
+
+        }
+
+        public delegate void MethodContainer();
+
+        //Событие OnCount c типом делегата  OncompleteList.
+        public event MethodContainer OncompleteList;
+
+
+        private void StartedAdding()
+        {
+            Thread thread1 = new Thread(AddingFiles);
+            thread1.Start();
+        }
+
+        private void AddingFiles()
+        {
+            for(int i = 0; i< _neededToAdding.Count;i++)
+            {
+
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {                    
+                    ListView _from = _neededToAdding[i].Item2;//from
+                    ListView _in = _neededToAdding[i].Item3;
+                    //Запускаем функцию отправки
+                    if(_neededToAdding[i].Item5!=_neededToAdding[i].Item8.Text)
+                    _in.Items.Add(_neededToAdding[i].Item1);
+                    //Запускаем функцию отправки
+                    //НЕ ГОТОВОООО!!!!!!""№;!";%!"%№!%
+                });
+            }
+            _neededToAdding.Clear();
+        }
+
+        private void Lvi_Loaded(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
         }
 
         private string AskedAboutRenamed(files files)
