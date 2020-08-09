@@ -23,6 +23,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
+using ConnectedForm.MyProp;
 using interactDomain;
 using InterfaceV2;
 
@@ -43,9 +45,10 @@ namespace ConnectedForm
         public MainWindow()
         {
             OncompleteList += StartedAdding;
-            DataContext = this;
-            setWidth = (int)System.Windows.SystemParameters.PrimaryScreenWidth/6-15;
+            DataContext = this;            
+            setWidth = (int)System.Windows.SystemParameters.PrimaryScreenWidth / 6 - 15;
             InitializeComponent();
+            
         }
 
 
@@ -115,39 +118,39 @@ namespace ConnectedForm
 
 
 
-    /// <summary>
-    /// Загружает файлы в форму по заданному пути
-    /// </summary>
-    /// <param name="sender">Указываем форму, в которой будем отрисовывать</param>
-    /// <param name="ip">Указываем Ip адрес пк, у которого запрашивает директории по указанному пути</param>
-    /// <param name="path">Указываем сам путь</param>
-    /// <param name="control">Рисуем в первом контроле или во втором(по умолчанию - 0, (0/1))</param>
-        public void loadFiles(object sender,string ip, string path,int control=0)
+        /// <summary>
+        /// Загружает файлы в форму по заданному пути
+        /// </summary>
+        /// <param name="sender">Указываем форму, в которой будем отрисовывать</param>
+        /// <param name="ip">Указываем Ip адрес пк, у которого запрашивает директории по указанному пути</param>
+        /// <param name="path">Указываем сам путь</param>
+        /// <param name="control">Рисуем в первом контроле или во втором(по умолчанию - 0, (0/1))</param>
+        public void loadFiles(object sender, string ip, string path, int control = 0)
         {
 
-                var myIp = ip;//ip текущего пк
+            var myIp = ip;//ip текущего пк
             linkedList0.Add(path);
-                var ans = RequestInteractivity.SendRequst(myIp, RequestTipe.GetDirectoryFiles, path);
-                ans = ans.Remove(0, 7);
-                var files = ans.Split('\n');
-                files[files.Length - 1] = null;
-                MainWindow mainWindow = (MainWindow)sender;
-                if (control == 0)
-                    this.Dispatcher.Invoke((ThreadStart)delegate
-                    {
-                       // Очищаем list
-                            //************************
-                            listUsers0.Items.Clear();
-                    });
-                else if (control == 1)
-                    this.Dispatcher.Invoke((ThreadStart)delegate
-                    {
+            var ans = RequestInteractivity.SendRequst(myIp, RequestTipe.GetDirectoryFiles, path);
+            ans = ans.Remove(0, 7);
+            var files = ans.Split('\n');
+            files[files.Length - 1] = null;
+            MainWindow mainWindow = (MainWindow)sender;
+            if (control == 0)
+                this.Dispatcher.Invoke((ThreadStart)delegate
+                {
+                        // Очищаем list
+                        //************************
+                        listUsers0.Items.Clear();
+                });
+            else if (control == 1)
+                this.Dispatcher.Invoke((ThreadStart)delegate
+                {
                         // Очищаем list
                         //************************
                         listUsers1.Items.Clear();
-                    });
-                foreach (var file in files)
-                {
+                });
+            foreach (var file in files)
+            {
                 if (file != null)
                 {
                     List<(string, string, string)> ps = mainWindow.CuttingMessages(file);
@@ -171,8 +174,8 @@ namespace ConnectedForm
                 }
                 else
                     linkedList0.Remove(path);
-                }
-                
+            }
+
         }
 
 
@@ -185,17 +188,17 @@ namespace ConnectedForm
         {
             ListView list = (ListView)sender;
             string textbox = pathbox0.Text;
-            if(list.SelectedItems.Count==1)
+            if (list.SelectedItems.Count == 1)
             {
                 int index = list.SelectedIndex;//индекс нажатого итема
                 //получаем имя папки/файла
                 //**********************************************************
-                object a = listUsers0.Items[index]; 
+                object a = listUsers0.Items[index];
                 var txt = a.GetType().GetProperty("nameFile").GetValue(a);
                 //**********************************************************
-                if ((pathbox0.Text == null || pathbox0.Text == "") && pathbox0.IsEnabled==true)
+                if ((pathbox0.Text == null || pathbox0.Text == "") && pathbox0.IsEnabled == true)
                     pathbox0.Text = txt.ToString();
-                else if(pathbox0.IsEnabled==true)
+                else if (pathbox0.IsEnabled == true)
                 {
                     ok:
                     if (textbox[textbox.Length - 1] != '\\')
@@ -204,13 +207,13 @@ namespace ConnectedForm
                         textbox = textbox.Remove(textbox.Length - 1, 1);
                         goto ok;
                     }
-                    if(status==true)
+                    if (status == true)
                     {
                         status = false;
                         pathbox0.Text = textbox;
                     }
                     else
-                    pathbox0.Text += txt.ToString() + "\\";
+                        pathbox0.Text += txt.ToString() + "\\";
                 }
             }
         }
@@ -263,29 +266,29 @@ namespace ConnectedForm
         //********************************************************************************************
         private async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            
-            
+
+
             string txt = pathbox0.Text;
             if (txt != "" && txt.Length > 3)
-                if (txt[txt.Length - 1] == '\\'&& txt[txt.Length - 2]!='\\')
+                if (txt[txt.Length - 1] == '\\' && txt[txt.Length - 2] != '\\')
                 {
                     //************************
-                    txt =txt.Remove(txt.Length - 1,1);
+                    txt = txt.Remove(txt.Length - 1, 1);
                     pathbox0.IsEnabled = false;
-                    await Task.Run(() => loadFiles(this,"127.0.0.1", txt,0));
+                    await Task.Run(() => loadFiles(this, "127.0.0.1", txt, 0));
                 }
-            if(txt!="" && txt.Length==3)
+            if (txt != "" && txt.Length == 3)
             {
                 //************************
                 pathbox0.IsEnabled = false;
                 await Task.Run(() => loadFiles(this, "127.0.0.1", txt, 0));
             }
-            if(txt=="")
+            if (txt == "")
             {
                 //************************
                 pathbox0.IsEnabled = false;
-                await Task.Run(() => loadFiles(this, "127.0.0.1", ".",0));
-            }    
+                await Task.Run(() => loadFiles(this, "127.0.0.1", ".", 0));
+            }
         }
         private async void pathbox1_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -295,28 +298,28 @@ namespace ConnectedForm
             {
                 ip = LabelIp1.Content.ToString();
             });
-                string txt = pathbox1.Text;
-                if (txt != "" && txt.Length > 3)
-                    if (txt[txt.Length - 1] == '\\' && txt[txt.Length - 2] != '\\')
-                    {
-                        //************************
-                        txt = txt.Remove(txt.Length - 1, 1);
-                        pathbox1.IsEnabled = false;
-                        await Task.Run(() => loadFiles(this, ip, txt, 1));
-                    }
-                if (txt != "" && txt.Length == 3)
+            string txt = pathbox1.Text;
+            if (txt != "" && txt.Length > 3)
+                if (txt[txt.Length - 1] == '\\' && txt[txt.Length - 2] != '\\')
                 {
                     //************************
+                    txt = txt.Remove(txt.Length - 1, 1);
                     pathbox1.IsEnabled = false;
-                    await Task.Run(() => loadFiles(this,ip, txt, 1));
+                    await Task.Run(() => loadFiles(this, ip, txt, 1));
                 }
-                if (txt == "")
-                {
-                    //************************
-                    pathbox1.IsEnabled = false;
-                    await Task.Run(() => loadFiles(this,ip, ".", 1));
-                }
-            
+            if (txt != "" && txt.Length == 3)
+            {
+                //************************
+                pathbox1.IsEnabled = false;
+                await Task.Run(() => loadFiles(this, ip, txt, 1));
+            }
+            if (txt == "")
+            {
+                //************************
+                pathbox1.IsEnabled = false;
+                await Task.Run(() => loadFiles(this, ip, ".", 1));
+            }
+
         }
 
         //********************************************************************************************
@@ -325,13 +328,13 @@ namespace ConnectedForm
 
 
         //Сортирует сообщение(файл дата размер)
-        public List<(string,string,string)> CuttingMessages(string message)
+        public List<(string, string, string)> CuttingMessages(string message)
         {
             List<(string, string, string)> ps = new List<(string, string, string)>();
             int k = 0;
-            string file = "", date = "",sizefile="";
+            string file = "", date = "", sizefile = "";
             //ps[0].GetType().GetProperty("Item" + k)
-            for (int i = 0; i < message.Length;i++)
+            for (int i = 0; i < message.Length; i++)
             {
                 if (message[i] != '|' && k == 0)
                     file += message[i];
@@ -342,24 +345,24 @@ namespace ConnectedForm
                 else
                     k++;
             }
-            (string, string, string) member_str = (file, date,sizefile);
+            (string, string, string) member_str = (file, date, sizefile);
             ps.Add(member_str);
-            return ps;  
+            return ps;
         }
 
         private async void listUsers0_Drop(object sender, DragEventArgs e)
         {
-            
-            await Task.Run(() => ChekingAndLoadingFiles(listUsers0, listUsers1,pathbox0));
-            
+
+            await Task.Run(() => ChekingAndLoadingFiles(listUsers0, listUsers1, pathbox0));
+
         }
 
         private async void listUsers1_Drop(object sender, DragEventArgs e)
-        {     
+        {
 
             //object name = e.Data.GetData("System.Windows.Controls.SelectedItemCollection");
 
-            await Task.Run(() => ChekingAndLoadingFiles(listUsers1,listUsers0,pathbox1));
+            await Task.Run(() => ChekingAndLoadingFiles(listUsers1, listUsers0, pathbox1));
 
 
         }
@@ -368,8 +371,8 @@ namespace ConnectedForm
         List<files> _renamedFiles = new List<files>();
 
         //Лист, в который заносится информация о нуждающихся в добалении файлов        
-        List<(ListViewItem, ListView, ListView, string, string,string,string,TextBox)> _neededToAdding = new List<(ListViewItem, ListView, ListView, string, string,string,string,TextBox)>();
-        
+        List<(ListViewItem, ListView, ListView, string, string, string, string, TextBox)> _neededToAdding = new List<(ListViewItem, ListView, ListView, string, string, string, string, TextBox)>();
+
 
 
         /// <summary>
@@ -377,8 +380,8 @@ namespace ConnectedForm
         /// </summary>
         /// <param name="control_in">Указывает, куда добавляем</param>
         /// <param name="control_from">указывает, откуда копируем</param>
-        private void ChekingAndLoadingFiles(ListView control_in, ListView control_from,TextBox box)
-        { 
+        private void ChekingAndLoadingFiles(ListView control_in, ListView control_from, TextBox box)
+        {
             try
             {
                 Application.Current.Dispatcher.Invoke((Action)delegate
@@ -411,17 +414,17 @@ namespace ConnectedForm
                                 lvi.Content = files;
                                 lvi.Loaded += Lvi_Loaded;
                                 lvi.Background = Brushes.Red;
-                                
-                                (ListViewItem, ListView, ListView, string, string,string,string,TextBox) member = (lvi, control_from, control_in, pathbox0.Text, pathbox1.Text, files.nameFile,files.nameFile, box);
+
+                                (ListViewItem, ListView, ListView, string, string, string, string, TextBox) member = (lvi, control_from, control_in, pathbox0.Text, pathbox1.Text, files.nameFile, files.nameFile, box);
                                 _neededToAdding.Add(member);
-                                
+
                             }
                         }
                     }
                 });
                 OncompleteList();
             }
-            catch 
+            catch
             { }
 
         }
@@ -440,16 +443,16 @@ namespace ConnectedForm
 
         private void AddingFiles()
         {
-            for(int i = 0; i< _neededToAdding.Count;i++)
+            for (int i = 0; i < _neededToAdding.Count; i++)
             {
 
                 Application.Current.Dispatcher.Invoke((Action)delegate
-                {                    
+                {
                     ListView _from = _neededToAdding[i].Item2;//from
                     ListView _in = _neededToAdding[i].Item3;
                     //Запускаем функцию отправки
-                    if(_neededToAdding[i].Item5!=_neededToAdding[i].Item8.Text)
-                    _in.Items.Add(_neededToAdding[i].Item1);
+                    if (_neededToAdding[i].Item5 != _neededToAdding[i].Item8.Text)
+                        _in.Items.Add(_neededToAdding[i].Item1);
                     //Запускаем функцию отправки
                     //НЕ ГОТОВОООО!!!!!!""№;!";%!"%№!%
                 });
@@ -482,24 +485,145 @@ namespace ConnectedForm
         private void ListViewItem_MouseMove_1(object sender, MouseEventArgs e)
         {
             listUsers0.AllowDrop = true;
-            listUsers1.AllowDrop = false; 
+            listUsers1.AllowDrop = false;
             base.OnMouseMove(e);
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 DragDrop.DoDragDrop(listUsers1, listUsers1.SelectedItems, DragDropEffects.Copy);
             }
         }
-      
-        public delegate void IsPress();
-        public event IsPress OnPressedMyBtn;
-
-
-        private void transmit_btn_Click(object sender, RoutedEventArgs e)
+        public bool IsCheckBoxChecked
         {
-            if (IsPressedBtn == false)
-                IsPressedBtn = true;
+            get { return (bool)GetValue(IsCheckBoxCheckedProperty); }
+            set { SetValue(IsCheckBoxCheckedProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for 
+        //IsCheckBoxChecked.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsCheckBoxCheckedProperty =
+            DependencyProperty.Register("IsCheckBoxChecked", typeof(bool),
+            typeof(MainWindow), new UIPropertyMetadata(false));
+
+        private void transmit_chk_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsCheckBoxChecked == false)
+            {
+                IsCheckBoxChecked = true;
+                
+            }
             else
-                IsPressedBtn = false;
+            {
+                IsCheckBoxChecked = false;
+               
+            }
+        }
+
+        private void AddingInDonwloadList(files files,string from,string to, Image image)
+        {
+            Grid grid = new Grid();
+            Thickness position = new Thickness(3,3,3,3);
+            grid.Margin = position;
+
+
+            RowDefinition rowDefinition_01 = new RowDefinition();
+            GridLength gridLength__0 = new GridLength(26);
+            rowDefinition_01.Height = gridLength__0;
+
+            RowDefinition rowDefinition_0 = new RowDefinition();
+            GridLength gridLength__ = new GridLength();
+            rowDefinition_0.Height = gridLength__;
+
+
+            Grid gridInf = new Grid();
+            gridInf.Name = "GridInformation";
+            gridInf.Height = 0;
+
+
+            grid.RowDefinitions.Add(rowDefinition_01);//Делим на строки основной grid 
+            grid.RowDefinitions.Add(rowDefinition_0);
+
+
+
+            Grid.SetRow(gridInf, 1);
+            grid.Children.Add(gridInf);
+
+
+
+
+            ColumnDefinition columnDefinition_0 = new ColumnDefinition();
+            GridLength gridLength_0 = new GridLength(26);
+            columnDefinition_0.Width = gridLength_0;
+            
+
+            ColumnDefinition columnDefinition_1 = new ColumnDefinition();
+            GridLength gridLength_1 = new GridLength(250);
+            columnDefinition_1.Width = gridLength_1;
+
+
+            ColumnDefinition columnDefinition_2 = new ColumnDefinition();
+            GridLength gridLength_2 = new GridLength(26);
+            columnDefinition_2.Width = gridLength_2;
+
+
+            ColumnDefinition columnDefinition_3 = new ColumnDefinition();
+            GridLength gridLength_3 = new GridLength(50);
+            columnDefinition_3.Width = gridLength_3;
+
+
+            ProgressBar progressBar = new ProgressBar();
+            progressBar.Value = 25;
+
+            Button btn_pause = new Button();
+
+
+
+            Button btn_moreInfo = new Button();
+            
+            EventTrigger eventTrigger = new EventTrigger()
+            {
+                //RoutedEvent = btn_moreInfo.Click,
+
+            };
+            
+
+            //Grid.SetColumn(image, 0);
+
+            Grid grid_up = new Grid();
+
+            grid_up.ColumnDefinitions.Add(columnDefinition_0);
+            grid_up.ColumnDefinitions.Add(columnDefinition_1);
+            grid_up.ColumnDefinitions.Add(columnDefinition_2);
+            grid_up.ColumnDefinitions.Add(columnDefinition_3);
+
+            Grid.SetColumn(progressBar, 1);
+            grid_up.Children.Add(progressBar);
+
+
+            Grid.SetColumn(btn_pause, 2);
+            grid_up.Children.Add(btn_pause);
+
+
+            Grid.SetColumn(btn_moreInfo, 3);
+            grid_up.Children.Add(btn_moreInfo);
+
+
+
+            /////////////////////////////////////////////////
+            Grid.SetRow(grid_up, 0);
+            grid.Children.Add(grid_up);
+            /////////////////////////////////////////////////
+            
+            tiktak.Items.Add(grid);
+        }
+
+        private void Btn_moreInfo_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic d = sender;
+            //object predGrid
+        }
+
+        private void ClearList_btn_Click(object sender, RoutedEventArgs e)
+        {
+            AddingInDonwloadList(null,null,null,null);
         }
     }
 }
