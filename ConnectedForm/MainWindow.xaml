@@ -7,6 +7,19 @@
         xmlns:interactDomain="clr-namespace:interactDomain;assembly=interactDomain" xmlns:InteractingWindow="clr-namespace:InteractingWindow;assembly=InteractingWindow" x:Class="ConnectedForm.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" WindowState="Maximized" x:Name="MainWn">
+
+    <Window.Resources>      
+
+        <Style TargetType="Grid" x:Key="grd">
+            <Style.Triggers>
+               
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+
+
+
     <Grid Margin="5,0,5,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -14,62 +27,62 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5*" x:Name="firstColumn"/>
-                <ColumnDefinition Width="0.5*" x:Name="secondColumn"/>
-            </Grid.ColumnDefinitions>      
-        
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*" x:Name="firstColumn"/>
+                    <ColumnDefinition Width="0.5*" x:Name="secondColumn"/>
+                </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-            
-                <Label Grid.Row="0" Height="30" VerticalAlignment="Top" x:Name="LabelIp0"/>
-            
-                <Grid x:Name="gridforfunc0" Height="auto" VerticalAlignment="Top" Grid.Row="1">
+
+                <Grid Grid.Column="0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Button x:Name="goback0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" />
-                    <Button x:Name="gonext0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0"/>
-                    <TextBox x:Name="pathbox0" Grid.Row="1" TextChanged="TextBox_TextChanged"/>
-                    <ScrollViewer Grid.Row="2" x:Name="scroll0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <StackPanel  x:Name="stackpanel0" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
-                            <ListView  MouseDoubleClick="listUsers0_MouseDoubleClick"  x:Name="listUsers0" AllowDrop="True" Drop="listUsers0_Drop">
-                                <ListView.View>
-                                    <GridView >
-                                        <GridView.Columns>
-                                            <GridViewColumn Width="20" DisplayMemberBinding="{Binding imageFile}"/>
-                                            <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}"/>
-                                            <GridViewColumn Width="{Binding setWidth}" Header="Дата создания" DisplayMemberBinding="{Binding time}"/>
-                                            <GridViewColumn  Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}"/>
-                                        </GridView.Columns>
-                                    </GridView>
-                                </ListView.View>
-                            
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">                                    
-                                        <EventSetter Event="MouseMove" Handler="ListViewItem_MouseMove"/>
-                                    
-                                        <Style.Triggers>
-                                            <Trigger Property="IsFocused" Value="True">
-                                                <!--<Setter Property="Background" Value="Blue"/>-->                                            
-                                            </Trigger>                                        
-                                        
-                                        </Style.Triggers>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                            
-                            </ListView>
-                        </StackPanel>
-                    </ScrollViewer>
+                    <Label Grid.Row="0" Height="30" VerticalAlignment="Top" x:Name="LabelIp0"/>
+
+                    <Grid x:Name="gridforfunc0" Height="auto" VerticalAlignment="Top" Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Button x:Name="goback0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" />
+                        <Button x:Name="gonext0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0"/>
+                        <TextBox x:Name="pathbox0" Grid.Row="1" TextChanged="TextBox_TextChanged"/>
+                        <ScrollViewer Grid.Row="2" x:Name="scroll0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <StackPanel  x:Name="stackpanel0" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
+                                <ListView  MouseDoubleClick="listUsers0_MouseDoubleClick"  x:Name="listUsers0" AllowDrop="True" Drop="listUsers0_Drop">
+                                    <ListView.View>
+                                        <GridView >
+                                            <GridView.Columns>
+                                                <GridViewColumn Width="20" DisplayMemberBinding="{Binding imageFile}"/>
+                                                <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}"/>
+                                                <GridViewColumn Width="{Binding setWidth}" Header="Дата создания" DisplayMemberBinding="{Binding time}"/>
+                                                <GridViewColumn  Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}"/>
+                                            </GridView.Columns>
+                                        </GridView>
+                                    </ListView.View>
+
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <EventSetter Event="MouseMove" Handler="ListViewItem_MouseMove"/>
+
+                                            <Style.Triggers>
+                                                <Trigger Property="IsFocused" Value="True">
+                                                    <!--<Setter Property="Background" Value="Blue"/>-->
+                                                </Trigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+
+                                </ListView>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
                 </Grid>
-            </Grid>
 
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
@@ -121,6 +134,51 @@
                     </Grid>
                 </Grid>
             </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Button x:Name="transmit_btn" HorizontalAlignment="Right" Width="20"  Height="20" Click="transmit_btn_Click"/>
+
+            <!--<Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Width" Storyboard.TargetName="Gridfortransmit"
+                                                 From="0" To="240" By="1" Duration="0:0:5" AutoReverse="True"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>-->
+        </Grid>
+        <Grid Style="{StaticResource grd}" x:Name="Gridfortransmit" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="240" Height="240">
+          
+            <!--<Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsPressedBtn}" Value="true">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Width"
+                                                 From="0" To="240" By="1" Duration="0:0:5"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Width"
+                                                 From="240" To="0" By="1" Duration="0:0:5"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>-->
+            <ListView Name="tiktak">
+                
+            </ListView>
         </Grid>
     </Grid>
 </Window>

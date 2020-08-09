@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,6 +38,7 @@ namespace ConnectedForm
         /// </summary>
         DoublyLinkedList<string> linkedList0 = new DoublyLinkedList<string>();
 
+        public bool IsPressedBtn = true;
 
         public MainWindow()
         {
@@ -486,6 +488,18 @@ namespace ConnectedForm
             {
                 DragDrop.DoDragDrop(listUsers1, listUsers1.SelectedItems, DragDropEffects.Copy);
             }
+        }
+      
+        public delegate void IsPress();
+        public event IsPress OnPressedMyBtn;
+
+
+        private void transmit_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsPressedBtn == false)
+                IsPressedBtn = true;
+            else
+                IsPressedBtn = false;
         }
     }
 }
