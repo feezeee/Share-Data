@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConnectedForm"
-        xmlns:interactDomain="clr-namespace:interactDomain;assembly=interactDomain" xmlns:InteractingWindow="clr-namespace:InteractingWindow;assembly=InteractingWindow" xmlns:StatusPanel="clr-namespace:StatusPanel;assembly=StatusPanel" x:Class="ConnectedForm.MainWindow"
+        xmlns:StatusPanel="clr-namespace:StatusPanel;assembly=StatusPanel" x:Class="ConnectedForm.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" WindowState="Maximized" x:Name="MainWn">
 
@@ -179,7 +179,7 @@
             </Grid.RowDefinitions>
             <Button x:Name="ClearList_btn" Grid.Row="0" Content="Очистить" HorizontalAlignment="Left" Click="ClearList_btn_Click"/>
             <ScrollViewer Grid.Row="1">
-                <StatusPanel:UserControl1/>
+                
             </ScrollViewer>
         </Grid>
     </Grid>
