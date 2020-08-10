@@ -178,9 +178,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Button x:Name="ClearList_btn" Grid.Row="0" Content="Очистить" HorizontalAlignment="Left" Click="ClearList_btn_Click"/>
-            <ScrollViewer Grid.Row="1">
-                
-            </ScrollViewer>
+            
         </Grid>
     </Grid>
 </Window>

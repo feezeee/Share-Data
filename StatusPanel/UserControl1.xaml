@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:StatusPanel"
-             mc:Ignorable="d" x:Name="MainWindow" >
+             mc:Ignorable="d">
 
     <Grid Margin="3,3,3,3">
         
@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0" x:Name="image_file" Source="{Binding Path=imageFile__}"/>
-            <ProgressBar Grid.Column="1" x:Name="status_progress" Value="0"/>
+            <ProgressBar Grid.Column="1" x:Name="status_progress" Value="{Binding Path=IsValueProgress}"/>
         </Grid>
         
         <Grid Grid.Row="1">
