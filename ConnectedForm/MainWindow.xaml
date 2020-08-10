@@ -4,18 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConnectedForm"
-        xmlns:interactDomain="clr-namespace:interactDomain;assembly=interactDomain" xmlns:InteractingWindow="clr-namespace:InteractingWindow;assembly=InteractingWindow" x:Class="ConnectedForm.MainWindow"
+        xmlns:interactDomain="clr-namespace:interactDomain;assembly=interactDomain" xmlns:InteractingWindow="clr-namespace:InteractingWindow;assembly=InteractingWindow" xmlns:StatusPanel="clr-namespace:StatusPanel;assembly=StatusPanel" x:Class="ConnectedForm.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" WindowState="Maximized" x:Name="MainWn">
 
-    <Window.Resources>      
+    <Window.Resources>
 
-        <Style TargetType="Grid" x:Key="grd">
+        <Style TargetType="{x:Type Grid}" x:Key="grd">
             <Style.Triggers>
 
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=IsCheckBoxChecked, ElementName=MainWn}" Value="true"/>
+                        <Condition Binding="{Binding IsCheckBoxChecked, ElementName=MainWn}" Value="true"/>
                     </MultiDataTrigger.Conditions>
                     <MultiDataTrigger.EnterActions>
                         <BeginStoryboard>
@@ -35,7 +35,7 @@
                     </MultiDataTrigger.ExitActions>
                 </MultiDataTrigger>
 
-                <EventTrigger RoutedEvent="MouseLeave">
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.3" By="1" Duration="0:0:0.1"/>
@@ -43,7 +43,7 @@
                     </BeginStoryboard>
                 </EventTrigger>
 
-                <EventTrigger RoutedEvent="MouseEnter">
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" By="1" Duration="0:0:0.1"/>
@@ -94,18 +94,16 @@
                                 <ListView  MouseDoubleClick="listUsers0_MouseDoubleClick"  x:Name="listUsers0" AllowDrop="True" Drop="listUsers0_Drop">
                                     <ListView.View>
                                         <GridView >
-                                            <GridView.Columns>
-                                                <GridViewColumn Width="20" DisplayMemberBinding="{Binding imageFile}"/>
-                                                <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}"/>
-                                                <GridViewColumn Width="{Binding setWidth}" Header="Дата создания" DisplayMemberBinding="{Binding time}"/>
-                                                <GridViewColumn  Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}"/>
-                                            </GridView.Columns>
+                                            <GridViewColumn Width="20" DisplayMemberBinding="{Binding imageFile}"/>
+                                            <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}"/>
+                                            <GridViewColumn Width="{Binding setWidth}" Header="Дата создания" DisplayMemberBinding="{Binding time}"/>
+                                            <GridViewColumn  Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}"/>
                                         </GridView>
                                     </ListView.View>
 
                                     <ListView.ItemContainerStyle>
-                                        <Style TargetType="ListViewItem">
-                                            <EventSetter Event="MouseMove" Handler="ListViewItem_MouseMove"/>
+                                        <Style TargetType="{x:Type ListViewItem}">
+                                            <EventSetter Event="UIElement.MouseMove" Handler="ListViewItem_MouseMove"/>
 
                                             <Style.Triggers>
                                                 <Trigger Property="IsFocused" Value="True">
@@ -145,18 +143,16 @@
                                 <ListView  MouseDoubleClick="listUsers1_MouseDoubleClick"  x:Name="listUsers1" AllowDrop="True" Drop="listUsers1_Drop">
                                     <ListView.View>
                                         <GridView >
-                                            <GridView.Columns>
-                                                <GridViewColumn Width="20" DisplayMemberBinding="{Binding imageFile}"/>
-                                                <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}"/>
-                                                <GridViewColumn Width="{Binding setWidth}" Header="Дата создания" DisplayMemberBinding="{Binding time}"/>
-                                                <GridViewColumn  Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}"/>
-                                            </GridView.Columns>
+                                            <GridViewColumn Width="20" DisplayMemberBinding="{Binding imageFile}"/>
+                                            <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}"/>
+                                            <GridViewColumn Width="{Binding setWidth}" Header="Дата создания" DisplayMemberBinding="{Binding time}"/>
+                                            <GridViewColumn  Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}"/>
                                         </GridView>
                                     </ListView.View>
 
                                     <ListView.ItemContainerStyle>
-                                        <Style TargetType="ListViewItem">
-                                            <EventSetter Event="MouseMove" Handler="ListViewItem_MouseMove_1"/>
+                                        <Style TargetType="{x:Type ListViewItem}">
+                                            <EventSetter Event="UIElement.MouseMove" Handler="ListViewItem_MouseMove_1"/>
                                             <Style.Triggers>
                                                 <Trigger Property="IsFocused" Value="True">
                                                     <!--<Setter Property="Background" Value="Blue"/>-->
@@ -183,25 +179,7 @@
             </Grid.RowDefinitions>
             <Button x:Name="ClearList_btn" Grid.Row="0" Content="Очистить" HorizontalAlignment="Left" Click="ClearList_btn_Click"/>
             <ScrollViewer Grid.Row="1">
-                <StackPanel>
-                    <ListView Name="tiktak">
-                        <Grid Height="26" Margin="3,3,3,3">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="26"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="26"/>
-                                <ColumnDefinition Width="50"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <Grid Grid.Column="1" Width="250">
-                                <ProgressBar x:Name="Status_transfer" Value="50" Grid.Row="1"/>
-                            </Grid>
-                            
-                            
-                            
-                        </Grid>
-                    </ListView>
-                </StackPanel>
+                <StatusPanel:UserControl1/>
             </ScrollViewer>
         </Grid>
     </Grid>

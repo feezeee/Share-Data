@@ -25,7 +25,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
 using ConnectedForm.MyProp;
-using interactDomain;
 using InterfaceV2;
 
 namespace ConnectedForm
@@ -577,12 +576,8 @@ namespace ConnectedForm
 
 
             Button btn_moreInfo = new Button();
-            
-            EventTrigger eventTrigger = new EventTrigger()
-            {
-                //RoutedEvent = btn_moreInfo.Click,
+            RoutedEvent routedEvent;
 
-            };
             
 
             //Grid.SetColumn(image, 0);
@@ -612,7 +607,7 @@ namespace ConnectedForm
             grid.Children.Add(grid_up);
             /////////////////////////////////////////////////
             
-            tiktak.Items.Add(grid);
+            //tiktak.Items.Add(grid);
         }
 
         private void Btn_moreInfo_Click(object sender, RoutedEventArgs e)
