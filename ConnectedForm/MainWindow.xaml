@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConnectedForm"
-        xmlns:StatusPanel="clr-namespace:StatusPanel;assembly=StatusPanel" x:Class="ConnectedForm.MainWindow"
+        xmlns:WpfControlLibrary2="clr-namespace:WpfControlLibrary2;assembly=WpfControlLibrary2"
+        x:Class="ConnectedForm.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" WindowState="Maximized" x:Name="MainWn">
 
@@ -15,7 +16,7 @@
 
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding IsCheckBoxChecked, ElementName=MainWn}" Value="true"/>
+                        <Condition Binding="{Binding IsCheckBoxChecked}" Value="true"/>
                     </MultiDataTrigger.Conditions>
                     <MultiDataTrigger.EnterActions>
                         <BeginStoryboard>
@@ -178,7 +179,15 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Button x:Name="ClearList_btn" Grid.Row="0" Content="Очистить" HorizontalAlignment="Left" Click="ClearList_btn_Click"/>
-            
+            <ScrollViewer Grid.Row="1">
+                <StackPanel>
+                    <ListView x:Name="tiktak">
+
+                    </ListView>
+                </StackPanel>
+            </ScrollViewer>
+
+
         </Grid>
     </Grid>
 </Window>

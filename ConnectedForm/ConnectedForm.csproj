@@ -104,9 +104,9 @@
       <Project>{8F95EC8F-1B4A-4A26-84C1-3B7DEFE2ED84}</Project>
       <Name>Interface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StatusPanel\StatusPanel.csproj">
-      <Project>{32347EFB-60E9-4E7D-9FB2-5896733F508F}</Project>
-      <Name>StatusPanel</Name>
+    <ProjectReference Include="..\WpfControlLibrary2\WpfControlLibrary2.csproj">
+      <Project>{A77E3E45-092A-4752-91FA-ACB2EF09B4C5}</Project>
+      <Name>WpfControlLibrary2</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

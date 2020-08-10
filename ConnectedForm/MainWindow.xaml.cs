@@ -1,31 +1,13 @@
-﻿using System;
-using System.Collections;
+﻿using InterfaceV2;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data.Metadata.Edm;
-using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml.Serialization;
-using ConnectedForm.MyProp;
-using InterfaceV2;
+using WpfControlLibrary2;
 
 namespace ConnectedForm
 {
@@ -44,10 +26,10 @@ namespace ConnectedForm
         public MainWindow()
         {
             OncompleteList += StartedAdding;
-            DataContext = this;            
+            DataContext = this;
             setWidth = (int)System.Windows.SystemParameters.PrimaryScreenWidth / 6 - 15;
             InitializeComponent();
-            
+
         }
 
 
@@ -137,16 +119,16 @@ namespace ConnectedForm
             if (control == 0)
                 this.Dispatcher.Invoke((ThreadStart)delegate
                 {
-                        // Очищаем list
-                        //************************
-                        listUsers0.Items.Clear();
+                    // Очищаем list
+                    //************************
+                    listUsers0.Items.Clear();
                 });
             else if (control == 1)
                 this.Dispatcher.Invoke((ThreadStart)delegate
                 {
-                        // Очищаем list
-                        //************************
-                        listUsers1.Items.Clear();
+                    // Очищаем list
+                    //************************
+                    listUsers1.Items.Clear();
                 });
             foreach (var file in files)
             {
@@ -507,107 +489,111 @@ namespace ConnectedForm
             if (IsCheckBoxChecked == false)
             {
                 IsCheckBoxChecked = true;
-                
+
             }
             else
             {
                 IsCheckBoxChecked = false;
-               
+
             }
         }
 
-        private void AddingInDonwloadList(files files,string from,string to, Image image)
+        private void AddingInDonwloadList(files files, string from, string to, Image image)
         {
-            Grid grid = new Grid();
-            Thickness position = new Thickness(3,3,3,3);
-            grid.Margin = position;
+            UserControl1 userControl1 = new UserControl1();
+
+            tiktak.Items.Add(userControl1);
+
+            //Grid grid = new Grid();
+            //Thickness position = new Thickness(3, 3, 3, 3);
+            //grid.Margin = position;
 
 
-            RowDefinition rowDefinition_01 = new RowDefinition();
-            GridLength gridLength__0 = new GridLength(26);
-            rowDefinition_01.Height = gridLength__0;
+            //RowDefinition rowDefinition_01 = new RowDefinition();
+            //GridLength gridLength__0 = new GridLength(26);
+            //rowDefinition_01.Height = gridLength__0;
 
-            RowDefinition rowDefinition_0 = new RowDefinition();
-            GridLength gridLength__ = new GridLength();
-            rowDefinition_0.Height = gridLength__;
-
-
-            Grid gridInf = new Grid();
-            gridInf.Name = "GridInformation";
-            gridInf.Height = 0;
+            //RowDefinition rowDefinition_0 = new RowDefinition();
+            //GridLength gridLength__ = new GridLength();
+            //rowDefinition_0.Height = gridLength__;
 
 
-            grid.RowDefinitions.Add(rowDefinition_01);//Делим на строки основной grid 
-            grid.RowDefinitions.Add(rowDefinition_0);
+            //Grid gridInf = new Grid();
+            //gridInf.Name = "GridInformation";
+            //gridInf.Height = 0;
 
 
-
-            Grid.SetRow(gridInf, 1);
-            grid.Children.Add(gridInf);
-
-
-
-
-            ColumnDefinition columnDefinition_0 = new ColumnDefinition();
-            GridLength gridLength_0 = new GridLength(26);
-            columnDefinition_0.Width = gridLength_0;
-            
-
-            ColumnDefinition columnDefinition_1 = new ColumnDefinition();
-            GridLength gridLength_1 = new GridLength(250);
-            columnDefinition_1.Width = gridLength_1;
-
-
-            ColumnDefinition columnDefinition_2 = new ColumnDefinition();
-            GridLength gridLength_2 = new GridLength(26);
-            columnDefinition_2.Width = gridLength_2;
-
-
-            ColumnDefinition columnDefinition_3 = new ColumnDefinition();
-            GridLength gridLength_3 = new GridLength(50);
-            columnDefinition_3.Width = gridLength_3;
-
-
-            ProgressBar progressBar = new ProgressBar();
-            progressBar.Value = 25;
-
-            Button btn_pause = new Button();
+            //grid.RowDefinitions.Add(rowDefinition_01);//Делим на строки основной grid 
+            //grid.RowDefinitions.Add(rowDefinition_0);
 
 
 
-            Button btn_moreInfo = new Button();
-            RoutedEvent routedEvent;
-
-            
-
-            //Grid.SetColumn(image, 0);
-
-            Grid grid_up = new Grid();
-
-            grid_up.ColumnDefinitions.Add(columnDefinition_0);
-            grid_up.ColumnDefinitions.Add(columnDefinition_1);
-            grid_up.ColumnDefinitions.Add(columnDefinition_2);
-            grid_up.ColumnDefinitions.Add(columnDefinition_3);
-
-            Grid.SetColumn(progressBar, 1);
-            grid_up.Children.Add(progressBar);
-
-
-            Grid.SetColumn(btn_pause, 2);
-            grid_up.Children.Add(btn_pause);
-
-
-            Grid.SetColumn(btn_moreInfo, 3);
-            grid_up.Children.Add(btn_moreInfo);
+            //Grid.SetRow(gridInf, 1);
+            //grid.Children.Add(gridInf);
 
 
 
-            /////////////////////////////////////////////////
-            Grid.SetRow(grid_up, 0);
-            grid.Children.Add(grid_up);
-            /////////////////////////////////////////////////
-            
-            //tiktak.Items.Add(grid);
+
+            //ColumnDefinition columnDefinition_0 = new ColumnDefinition();
+            //GridLength gridLength_0 = new GridLength(26);
+            //columnDefinition_0.Width = gridLength_0;
+
+
+            //ColumnDefinition columnDefinition_1 = new ColumnDefinition();
+            //GridLength gridLength_1 = new GridLength(250);
+            //columnDefinition_1.Width = gridLength_1;
+
+
+            //ColumnDefinition columnDefinition_2 = new ColumnDefinition();
+            //GridLength gridLength_2 = new GridLength(26);
+            //columnDefinition_2.Width = gridLength_2;
+
+
+            //ColumnDefinition columnDefinition_3 = new ColumnDefinition();
+            //GridLength gridLength_3 = new GridLength(50);
+            //columnDefinition_3.Width = gridLength_3;
+
+
+            //ProgressBar progressBar = new ProgressBar();
+            //progressBar.Value = 25;
+
+            //Button btn_pause = new Button();
+
+
+
+            //Button btn_moreInfo = new Button();
+            //RoutedEvent routedEvent;
+
+
+
+            ////Grid.SetColumn(image, 0);
+
+            //Grid grid_up = new Grid();
+
+            //grid_up.ColumnDefinitions.Add(columnDefinition_0);
+            //grid_up.ColumnDefinitions.Add(columnDefinition_1);
+            //grid_up.ColumnDefinitions.Add(columnDefinition_2);
+            //grid_up.ColumnDefinitions.Add(columnDefinition_3);
+
+            //Grid.SetColumn(progressBar, 1);
+            //grid_up.Children.Add(progressBar);
+
+
+            //Grid.SetColumn(btn_pause, 2);
+            //grid_up.Children.Add(btn_pause);
+
+
+            //Grid.SetColumn(btn_moreInfo, 3);
+            //grid_up.Children.Add(btn_moreInfo);
+
+
+
+            ///////////////////////////////////////////////////
+            //Grid.SetRow(grid_up, 0);
+            //grid.Children.Add(grid_up);
+            ///////////////////////////////////////////////////
+
+            ////tiktak.Items.Add(grid);
         }
 
         private void Btn_moreInfo_Click(object sender, RoutedEventArgs e)
@@ -618,7 +604,7 @@ namespace ConnectedForm
 
         private void ClearList_btn_Click(object sender, RoutedEventArgs e)
         {
-            AddingInDonwloadList(null,null,null,null);
+            AddingInDonwloadList(null, null, null, null);
         }
     }
 }
