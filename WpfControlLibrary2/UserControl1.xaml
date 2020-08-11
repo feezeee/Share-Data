@@ -9,7 +9,7 @@
        
     </UserControl.Resources>
 
-    <Grid Margin="3,3,3,3">
+    <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="26"/>
@@ -28,7 +28,12 @@
             </ProgressBar>
             <Button Grid.Column="2" HorizontalAlignment="Left" Width="26"/>
 
-            <Button Grid.Column="3" Click="Button_Click"/>
+            <Button x:Name="btn_checking" Grid.Column="3" Click="Button_Click">                
+                <Button.Background>
+                    <ImageBrush x:Name="imageforbtn" ImageSource="2.jpg"/>
+                </Button.Background>
+               
+            </Button>
 
         </Grid>
 
@@ -53,7 +58,7 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="Height"
-                                                To="300" By="0.5" Duration="0:0:0.5"/>
+                                                To="150" By="0.5" Duration="0:0:0.5"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiDataTrigger.ExitActions>
@@ -61,7 +66,33 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
-            <Button/>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Откуда" HorizontalAlignment="Center"/>
+            
+            <Grid Grid.Row="1" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="label_ip_from" Grid.Column="0" HorizontalAlignment="Left" Width="95" Content="{Binding Path=Ip_From}"/>
+                <Label x:Name="label_path_from" HorizontalAlignment="Left" Grid.Column="1" Width="205" Content="{Binding Path=Path_From}"/>                
+            </Grid>
+            
+            <Label Grid.Row="2" Content="Куда" HorizontalAlignment="Center"/>
+            <Grid Grid.Row="3" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="label_ip_to" Grid.Column="0" HorizontalAlignment="Left" Width="95" Content="{Binding Path=Ip_To}"/>
+                <Label x:Name="label_path_to" Grid.Column="1" HorizontalAlignment="Left" Width="205" Content="{Binding Path=Path_To}"/>
+            </Grid>
         </Grid>
 
 

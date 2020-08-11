@@ -11,6 +11,15 @@ using WpfControlLibrary2;
 
 namespace ConnectedForm
 {
+
+    public class files
+    {
+        public string nameFile { get; set; }
+
+        public string time { get; set; }
+
+        public string sizeFile { get; set; }
+    }
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
@@ -42,14 +51,7 @@ namespace ConnectedForm
             LabelIp1.Content = Ip.ToString();
         }
 
-        public class files
-        {
-            public string nameFile { get; set; }
-
-            public string time { get; set; }
-
-            public string sizeFile { get; set; }
-        }
+        
 
         private int _width;
 
@@ -498,10 +500,14 @@ namespace ConnectedForm
             }
         }
 
-        private void AddingInDonwloadList(files files, string from, string to, Image image)
+        private void AddingInDonwloadList(object files, string from, string to, Image image)
         {
             UserControl1 userControl1 = new UserControl1();
-
+            userControl1.Ip_From = "127.0.0.1";
+            userControl1.Ip_To = "127.0.0.1";
+            userControl1.Path_From = "asgsfgsfasfasfasfasfasf32qfsedgwrhjitoerjh90-5jk";
+            userControl1.Path_To = "123123123123123123123123123123123214534564567568768";
+            userControl1.files_inf = (WpfControlLibrary2.files)files;
             tiktak.Items.Add(userControl1);
 
             //Grid grid = new Grid();
