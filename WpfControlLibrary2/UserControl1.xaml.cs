@@ -95,14 +95,14 @@ namespace WpfControlLibrary2
             {
                 IsCheckBoxChecked = true;
                 ImageSource imageSource1 = new BitmapImage(new Uri("E:\\Share Data\\Share-Data\\WpfControlLibrary2\\1.JPG"));
-                imageforbtn.ImageSource = imageSource1;                
+                            
 
             }
             else
             {
                 IsCheckBoxChecked = false;
                 ImageSource imageSource1 = new BitmapImage(new Uri("E:\\Share Data\\Share-Data\\WpfControlLibrary2\\2.jpg"));
-                imageforbtn.ImageSource = imageSource1;
+                //imageforbtn.ImageSource = imageSource1;
 
             }
 

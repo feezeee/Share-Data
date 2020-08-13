@@ -20,7 +20,7 @@ namespace test
             listenThread.Start();
             //Dain();
             var client = new TcpFileClient("127.0.0.1");
-            client.SendFileRequest("D:\\2.txt","D:\\1.txt");
+            client.SendFileRequest("D:\\2\\4.txt","D:\\1.txt");
         }
         static void Dain()
         {

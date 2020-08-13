@@ -47,6 +47,8 @@ namespace InterfaceV2
             {
 
             }// запрос небыл обработан
+            bool peremen = Execute_(localPathToSave);
+            if(peremen)
             using (var fileIO = File.Create(localPathToSave))
             {
                 while (bytesReceived < fileBytesSize && (count = connectedStream.Read(buffer, 0, buffer.Length)) > 0)
@@ -59,6 +61,28 @@ namespace InterfaceV2
 
             connectedStream.Close();
             client.Close();
+        }
+        private bool Execute_(string path)
+        {
+            try
+            {
+                string[] mes = path.Split('\\');
+                string ans = mes[0]+'\\';
+                int request = int.Parse(mes[1]);
+                for (int i = 1; i < mes.Length - 1; i++)
+                {
+                    ans += mes[i]+'\\';
+                    if (Directory.Exists(ans)==false)
+                    {
+                        Directory.CreateDirectory(ans);
+                    }
+                }
+                return true;
+            }
+            catch            
+            {
+                return false;
+            }
         }
     }
 }
