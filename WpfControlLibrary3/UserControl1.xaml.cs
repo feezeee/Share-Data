@@ -24,5 +24,18 @@ namespace WpfControlLibrary3
         {
             InitializeComponent();
         }
+
+
+        public bool IsCheckBoxChecked
+        {
+            get { return (bool)GetValue(IsCheckBoxCheckedProperty); }
+            set { SetValue(IsCheckBoxCheckedProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for 
+        //IsCheckBoxChecked.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsCheckBoxCheckedProperty =
+            DependencyProperty.Register("IsCheckBoxChecked", typeof(bool),
+            typeof(System.Windows.Controls.UserControl), new UIPropertyMetadata(false));
+
     }
 }

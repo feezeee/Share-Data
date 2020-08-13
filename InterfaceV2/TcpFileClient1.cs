@@ -29,7 +29,7 @@ namespace InterfaceV2
             var connectedStream = client.GetStream();
 
             //Request.DoSendingRequest()
-            var mess = $"Request {(int)RequestTipe.SendFile} {remoteFilePath}";
+            var mess = $"Request|{(int)RequestTipe.SendFile}|{remoteFilePath}";
             var buf = Encoding.UTF8.GetBytes(mess);
             connectedStream.Write(buf, 0, buf.Length);
 

@@ -30,8 +30,8 @@
 
         </Grid>
 
-        <Grid Grid.Row="1" Height="100">
-            <!--<Grid.Style>
+        <Grid Grid.Row="1">
+            <Grid.Style>
                 <Style>
                     <Style.Triggers>
 
@@ -58,29 +58,10 @@
                         </MultiDataTrigger>
                     </Style.Triggers>
                 </Style>
-            </Grid.Style>-->
-
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="1" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-            </Grid>
-            <Grid Grid.Row="3" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Label x:Name="label_ip_to" Grid.Column="0" HorizontalAlignment="Left" Width="95" Content="{Binding Path=Ip_To}"/>
-                <Label x:Name="label_path_to" Grid.Column="1" HorizontalAlignment="Left" Width="205" Content="{Binding Path=Path_To}"/>
-            </Grid>
+            </Grid.Style>
+            <StackPanel x:Name="list_for_papki" Margin="5,0,0,0" Height="auto">
+                
+            </StackPanel>
         </Grid>
 
 
