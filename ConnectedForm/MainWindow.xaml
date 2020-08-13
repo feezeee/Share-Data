@@ -22,7 +22,9 @@
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="Width"
-                                                To="300" By="0.1" Duration="0:0:0.5"/>
+                                                To="400" By="0.1" Duration="0:0:0.5"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Height"
+                                                To="400" By="0.1" Duration="0:0:0.5"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </MultiDataTrigger.EnterActions>
@@ -30,7 +32,9 @@
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="Width"
-                                                To="0" By="0.5" Duration="0:0:0.5"/>
+                                                To="0" By="5" Duration="0:0:0.5"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Height"
+                                                To="0" By="5" Duration="0:0:0.5"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </MultiDataTrigger.ExitActions>
@@ -78,7 +82,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" Height="30" VerticalAlignment="Top" x:Name="LabelIp0"/>
+                    <Label Grid.Row="0" Height="30" VerticalAlignment="Top" x:Name="LabelIp0" Content="123"/>
 
                     <Grid x:Name="gridforfunc0" Height="auto" VerticalAlignment="Top" Grid.Row="1">
                         <Grid.RowDefinitions>
@@ -92,13 +96,13 @@
                         <TextBox x:Name="pathbox0" Grid.Row="1" TextChanged="TextBox_TextChanged"/>
                         <ScrollViewer Grid.Row="2" x:Name="scroll0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                             <StackPanel  x:Name="stackpanel0" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
-                                <ListView  MouseDoubleClick="listUsers0_MouseDoubleClick"  x:Name="listUsers0" AllowDrop="True" Drop="listUsers0_Drop">
+                                <ListView  MouseDoubleClick="listUsers0_MouseDoubleClick"  x:Name="listUsers0" AllowDrop="False" Drop="listUsers0_Drop">
                                     <ListView.View>
                                         <GridView >
                                             <GridViewColumn Width="20" DisplayMemberBinding="{Binding imageFile}"/>
                                             <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}"/>
                                             <GridViewColumn Width="{Binding setWidth}" Header="Дата создания" DisplayMemberBinding="{Binding time}"/>
-                                            <GridViewColumn  Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}"/>
+                                            <GridViewColumn Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}"/>
                                         </GridView>
                                     </ListView.View>
 
@@ -141,7 +145,7 @@
                         <TextBox x:Name="pathbox1" Grid.Row="1" TextChanged="pathbox1_TextChanged"/>
                         <ScrollViewer Grid.Row="2" x:Name="scroll1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                             <StackPanel  x:Name="stackpanel1" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
-                                <ListView  MouseDoubleClick="listUsers1_MouseDoubleClick"  x:Name="listUsers1" AllowDrop="True" Drop="listUsers1_Drop">
+                                <ListView  MouseDoubleClick="listUsers1_MouseDoubleClick"  x:Name="listUsers1" AllowDrop="False" Drop="listUsers1_Drop">
                                     <ListView.View>
                                         <GridView >
                                             <GridViewColumn Width="20" DisplayMemberBinding="{Binding imageFile}"/>

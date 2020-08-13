@@ -109,5 +109,8 @@
       <Name>WpfControlLibrary2</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="papka.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

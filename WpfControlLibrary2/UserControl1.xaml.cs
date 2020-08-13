@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -18,10 +19,21 @@ using System.Windows.Shapes;
 
 namespace WpfControlLibrary2
 {
+
+    public class files
+    {
+        public string nameFile { get; set; }
+
+        public string time { get; set; }
+
+        public string sizeFile { get; set; }
+    }
+
+
     /// <summary>
     /// Логика взаимодействия для UserControl1.xaml
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class UserControl1 : System.Windows.Controls.UserControl
     {
         public files files_inf = new files();
         public UserControl1()
@@ -74,7 +86,7 @@ namespace WpfControlLibrary2
         //IsCheckBoxChecked.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsCheckBoxCheckedProperty =
             DependencyProperty.Register("IsCheckBoxChecked", typeof(bool),
-            typeof(UserControl), new UIPropertyMetadata(false));
+            typeof(System.Windows.Controls.UserControl), new UIPropertyMetadata(false));
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -97,12 +109,4 @@ namespace WpfControlLibrary2
         }
     }
 
-    public class files
-    {
-        public string nameFile { get; set; }
-
-        public string time { get; set; }
-
-        public string sizeFile { get; set; }
-    }
 }
