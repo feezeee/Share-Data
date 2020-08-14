@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Share_Data_WPF"
-        xmlns:WpfControlLibrary1="clr-namespace:WpfControlLibrary1;assembly=WpfControlLibrary1" x:Class="Share_Data_WPF.MainWindow"
+        xmlns:WpfControlLibrary1="clr-namespace:WpfControlLibrary1;assembly=WpfControlLibrary1" xmlns:WpfControlLibrary3="clr-namespace:WpfControlLibrary3;assembly=WpfControlLibrary3" x:Class="Share_Data_WPF.MainWindow"
         mc:Ignorable="d"
-        Name="MainLoadWindow" Title="MainWindow" Height="500" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow">
-    <Grid>       
+        x:Name="MainLoadWindow" Title="MainWindow" Height="500" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow">
+    <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="Black" Offset="0"/>

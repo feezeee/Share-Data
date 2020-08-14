@@ -729,7 +729,18 @@ namespace ConnectedForm
 
         private void ClearList_btn_Click(object sender, RoutedEventArgs e)
         {
-            AddingInDonwloadList(null, null, null, null,null,null);
+            //AddingInDonwloadList(null, null, null, null,null,null);
+
+
+            Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+
+                WpfControlLibrary3.UserControl1 userControl1 = new WpfControlLibrary3.UserControl1();                
+                //userControl1.files_inf = (WpfControlLibrary2.files)files;
+                tiktak.Items.Add(userControl1);
+
+            });
+
         }
     }
 }

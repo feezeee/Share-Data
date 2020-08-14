@@ -108,6 +108,10 @@
       <Project>{A77E3E45-092A-4752-91FA-ACB2EF09B4C5}</Project>
       <Name>WpfControlLibrary2</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WpfControlLibrary3\WpfControlLibrary3.csproj">
+      <Project>{55975ABB-E612-438B-88E3-811BFBA436DB}</Project>
+      <Name>WpfControlLibrary3</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="papka.png" />

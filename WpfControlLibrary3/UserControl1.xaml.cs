@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -20,8 +21,12 @@ namespace WpfControlLibrary3
     /// </summary>
     public partial class UserControl1 : UserControl
     {
+        
+        
         public UserControl1()
         {
+            DataContext = this;
+            IsHeightValue = 300;
             InitializeComponent();
         }
 
@@ -37,5 +42,41 @@ namespace WpfControlLibrary3
             DependencyProperty.Register("IsCheckBoxChecked", typeof(bool),
             typeof(System.Windows.Controls.UserControl), new UIPropertyMetadata(false));
 
+
+        public int IsHeightValue
+        {
+            get { return (int)GetValue(IsHeightValueProperty); }
+            set { SetValue(IsHeightValueProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for 
+        //IsCheckBoxChecked.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsHeightValueProperty =
+            DependencyProperty.Register("IsHeightValue", typeof(int),
+            typeof(System.Windows.Controls.UserControl), new UIPropertyMetadata(250));
+
+
+
+        private void btn_checking_Click(object sender, RoutedEventArgs e)
+        {
+            if(IsCheckBoxChecked==false)
+            {
+                IsCheckBoxChecked = true;
+
+                DoubleAnimation buttonAnimation = new DoubleAnimation();
+                buttonAnimation.To = list_for_papki.Items.Count*20;
+                buttonAnimation.Duration = TimeSpan.FromSeconds(0.3);
+                grid_for_papki.BeginAnimation(Button.HeightProperty, buttonAnimation);
+            }
+            else
+            {
+                IsCheckBoxChecked = false;
+
+                DoubleAnimation buttonAnimation = new DoubleAnimation();
+                buttonAnimation.To = 0;
+                buttonAnimation.Duration = TimeSpan.FromSeconds(0.3);
+                grid_for_papki.BeginAnimation(Button.HeightProperty, buttonAnimation);
+            }    
+        }
     }
+
 }

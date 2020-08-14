@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ConnectedForm"
         xmlns:WpfControlLibrary2="clr-namespace:WpfControlLibrary2;assembly=WpfControlLibrary2"
+        xmlns:WpfControlLibrary3="clr-namespace:WpfControlLibrary3;assembly=WpfControlLibrary3"
         x:Class="ConnectedForm.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" WindowState="Maximized" x:Name="MainWn">
@@ -186,7 +187,7 @@
             <ScrollViewer Grid.Row="1">
                 <StackPanel>
                     <ListView x:Name="tiktak">
-
+                        
                     </ListView>
                 </StackPanel>
             </ScrollViewer>
