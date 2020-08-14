@@ -3,6 +3,7 @@ using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace InterfaceV2
@@ -11,8 +12,8 @@ namespace InterfaceV2
     {
         private static int port = int.Parse(ConfigurationManager.AppSettings["TcpPort"]);
 
-        delegate void SendingMethod(double procents);
-        event SendingMethod SendingEvent;
+        public delegate void SendingMethod(double procents);
+        public event SendingMethod SendingEvent;
 
         public IPAddress RemoteIP;
         private TcpClient client = new TcpClient();
@@ -23,10 +24,17 @@ namespace InterfaceV2
 
         public void SendRequest(RequestTipe request, string messege)
         {
-
         }
-        public void SendFileRequest (string localPathToSave, string remoteFilePath)
+
+        /// <summary>
+        /// куда|откуда
+        /// </summary>
+        /// <param name="obj"></param>
+        public void SendFileRequest (object obj)
         {
+            string[] mes = obj.ToString().Split('|');
+            string localPathToSave = mes[0];
+            string remoteFilePath = mes[1];
             var reciverEP = new IPEndPoint(RemoteIP, port);
             client.Connect(reciverEP);
             while (!client.Connected);
@@ -39,8 +47,10 @@ namespace InterfaceV2
 
             Int64 bytesReceived = 0;
             int count;
-            byte[] buffer = new byte[1024 * 8];
-            connectedStream.Read(buffer, 0, 1024);
+            byte[] buffer = new byte[1024*8];  
+            connectedStream.Read(buffer, 0, 1024);           
+            
+
             Int64 fileBytesSize = BitConverter.ToInt64(buffer, 0);
 
             if(fileBytesSize == -1)
@@ -60,7 +70,8 @@ namespace InterfaceV2
                     fileIO.Write(buffer, 0, count);
 
                     bytesReceived += count;
-                    SendingEvent?.Invoke(bytesReceived / fileBytesSize * 100);
+                        double first = bytesReceived; double second = fileBytesSize;
+                    SendingEvent?.Invoke(first/second*100);
                 }
                 SendingEvent?.Invoke(100);
             }
@@ -74,7 +85,7 @@ namespace InterfaceV2
             {
                 string[] mes = path.Split('\\');
                 string ans = mes[0]+'\\';
-                int request = int.Parse(mes[1]);
+                //int request = int.Parse(mes[1]);
                 for (int i = 1; i < mes.Length - 1; i++)
                 {
                     ans += mes[i]+'\\';

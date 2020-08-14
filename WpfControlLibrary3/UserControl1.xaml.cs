@@ -31,15 +31,15 @@ namespace WpfControlLibrary3
         }
 
 
-        public bool IsCheckBoxChecked
+        public bool IsCheckBoxChecked_papka
         {
-            get { return (bool)GetValue(IsCheckBoxCheckedProperty); }
-            set { SetValue(IsCheckBoxCheckedProperty, value); }
+            get { return (bool)GetValue(IsCheckBoxChecked_papkaProperty); }
+            set { SetValue(IsCheckBoxChecked_papkaProperty, value); }
         }
         // Using a DependencyProperty as the backing store for 
         //IsCheckBoxChecked.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsCheckBoxCheckedProperty =
-            DependencyProperty.Register("IsCheckBoxChecked", typeof(bool),
+        public static readonly DependencyProperty IsCheckBoxChecked_papkaProperty =
+            DependencyProperty.Register("IsCheckBoxChecked_papka", typeof(bool),
             typeof(System.Windows.Controls.UserControl), new UIPropertyMetadata(false));
 
 
@@ -58,9 +58,9 @@ namespace WpfControlLibrary3
 
         private void btn_checking_Click(object sender, RoutedEventArgs e)
         {
-            if(IsCheckBoxChecked==false)
+            if(IsCheckBoxChecked_papka == false)
             {
-                IsCheckBoxChecked = true;
+                IsCheckBoxChecked_papka = true;
 
                 DoubleAnimation buttonAnimation = new DoubleAnimation();
                 buttonAnimation.To = list_for_papki.Items.Count*20;
@@ -69,7 +69,7 @@ namespace WpfControlLibrary3
             }
             else
             {
-                IsCheckBoxChecked = false;
+                IsCheckBoxChecked_papka = false;
 
                 DoubleAnimation buttonAnimation = new DoubleAnimation();
                 buttonAnimation.To = 0;

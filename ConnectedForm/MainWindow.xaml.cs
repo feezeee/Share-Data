@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -611,115 +612,51 @@ namespace ConnectedForm
 
         #endregion
 
-        private void AddingInDonwloadList(object files, string from, string to, System.Drawing.Image image, string ip_from, string ip_to)
+        private async void AddingInDonwloadList(object files, string from, string to, System.Drawing.Image image, string ip_from, string ip_to)
         {
 
             Application.Current.Dispatcher.Invoke((Action)delegate
             {
+                files file = (files)files;
 
-                UserControl1 userControl1 = new UserControl1();
-                userControl1.Ip_From = ip_from;
-                userControl1.Ip_To = ip_to;
-                userControl1.Path_From = from;
-                userControl1.Path_To = to;
-                //userControl1.files_inf = (WpfControlLibrary2.files)files;
-                tiktak.Items.Add(userControl1);
+                if (ip_from == "Этот компьютер")
+                {
+                    if(file.sizeFile=="")
+                    {
+                        WpfControlLibrary3.UserControl1 papka = new WpfControlLibrary3.UserControl1();
+                        tiktak.Items.Add(papka);
+                    }
+                    else
+                    {
+                        UserControl1 flk = new UserControl1();
+                        flk.Ip_From = ip_from;
+                        flk.Ip_To = ip_to;
+                        flk.Path_From = from;
+                        flk.Path_To = to;
+                        //userControl1.files_inf = (WpfControlLibrary2.files)files;
+
+                        tiktak.Items.Add(flk);
+
+                        var client = new TcpFileClient(ip_to);
+                        client.SendingEvent += flk.ChangedvalueForProgressBar;
+                        string path = to + file.nameFile + "|" + from;
+                        Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
+                        receiveThread.IsBackground = true;
+                        receiveThread.Start(path);
+
+                        
+                    }
+                }
+                else
+                {
+
+                }
+
                 
             });
         
 
-
-        //Grid grid = new Grid();
-        //Thickness position = new Thickness(3, 3, 3, 3);
-        //grid.Margin = position;
-
-
-        //RowDefinition rowDefinition_01 = new RowDefinition();
-        //GridLength gridLength__0 = new GridLength(26);
-        //rowDefinition_01.Height = gridLength__0;
-
-        //RowDefinition rowDefinition_0 = new RowDefinition();
-        //GridLength gridLength__ = new GridLength();
-        //rowDefinition_0.Height = gridLength__;
-
-
-        //Grid gridInf = new Grid();
-        //gridInf.Name = "GridInformation";
-        //gridInf.Height = 0;
-
-
-        //grid.RowDefinitions.Add(rowDefinition_01);//Делим на строки основной grid 
-        //grid.RowDefinitions.Add(rowDefinition_0);
-
-
-
-        //Grid.SetRow(gridInf, 1);
-        //grid.Children.Add(gridInf);
-
-
-
-
-        //ColumnDefinition columnDefinition_0 = new ColumnDefinition();
-        //GridLength gridLength_0 = new GridLength(26);
-        //columnDefinition_0.Width = gridLength_0;
-
-
-        //ColumnDefinition columnDefinition_1 = new ColumnDefinition();
-        //GridLength gridLength_1 = new GridLength(250);
-        //columnDefinition_1.Width = gridLength_1;
-
-
-        //ColumnDefinition columnDefinition_2 = new ColumnDefinition();
-        //GridLength gridLength_2 = new GridLength(26);
-        //columnDefinition_2.Width = gridLength_2;
-
-
-        //ColumnDefinition columnDefinition_3 = new ColumnDefinition();
-        //GridLength gridLength_3 = new GridLength(50);
-        //columnDefinition_3.Width = gridLength_3;
-
-
-        //ProgressBar progressBar = new ProgressBar();
-        //progressBar.Value = 25;
-
-        //Button btn_pause = new Button();
-
-
-
-        //Button btn_moreInfo = new Button();
-        //RoutedEvent routedEvent;
-
-
-
-        ////Grid.SetColumn(image, 0);
-
-        //Grid grid_up = new Grid();
-
-        //grid_up.ColumnDefinitions.Add(columnDefinition_0);
-        //grid_up.ColumnDefinitions.Add(columnDefinition_1);
-        //grid_up.ColumnDefinitions.Add(columnDefinition_2);
-        //grid_up.ColumnDefinitions.Add(columnDefinition_3);
-
-        //Grid.SetColumn(progressBar, 1);
-        //grid_up.Children.Add(progressBar);
-
-
-        //Grid.SetColumn(btn_pause, 2);
-        //grid_up.Children.Add(btn_pause);
-
-
-        //Grid.SetColumn(btn_moreInfo, 3);
-        //grid_up.Children.Add(btn_moreInfo);
-
-
-
-        ///////////////////////////////////////////////////
-        //Grid.SetRow(grid_up, 0);
-        //grid.Children.Add(grid_up);
-        ///////////////////////////////////////////////////
-
-        ////tiktak.Items.Add(grid);
-    }
+        }
 
         private void Btn_moreInfo_Click(object sender, RoutedEventArgs e)
         {

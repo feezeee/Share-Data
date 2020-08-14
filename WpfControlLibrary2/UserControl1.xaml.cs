@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InterfaceV2;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -38,10 +39,19 @@ namespace WpfControlLibrary2
         public files files_inf = new files();
         public UserControl1()
         {
+
             InitializeComponent();
-            DataContext = this;
+            DataContext = this;      
             //Thread myThread = new Thread(new ThreadStart(CheckingStatus_progress));
             //myThread.Start(); // запускаем поток
+        }
+
+        private bool _status;
+
+        public bool _Status
+        {
+            get { return _status; }
+            set { _status = value; }
         }
 
         private string _ip_from;
@@ -88,20 +98,28 @@ namespace WpfControlLibrary2
             DependencyProperty.Register("IsCheckBoxChecked", typeof(bool),
             typeof(System.Windows.Controls.UserControl), new UIPropertyMetadata(false));
 
+        public void ChangedvalueForProgressBar(double value)
+        {
+
+            System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+                status_progress.Value = value;
+
+            });
+        }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (IsCheckBoxChecked == false)
             {
                 IsCheckBoxChecked = true;
-                ImageSource imageSource1 = new BitmapImage(new Uri("E:\\Share Data\\Share-Data\\WpfControlLibrary2\\1.JPG"));
-                            
 
             }
             else
             {
                 IsCheckBoxChecked = false;
-                ImageSource imageSource1 = new BitmapImage(new Uri("E:\\Share Data\\Share-Data\\WpfControlLibrary2\\2.jpg"));
+                //ImageSource imageSource1 = new BitmapImage(new Uri("E:\\Share Data\\Share-Data\\WpfControlLibrary2\\2.jpg"));
                 //imageforbtn.ImageSource = imageSource1;
 
             }

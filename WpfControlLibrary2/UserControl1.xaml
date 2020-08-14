@@ -17,15 +17,16 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="26"/>
+                <ColumnDefinition Width="0"/>
                 <ColumnDefinition Width="174"/>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" x:Name="image_file"/>
             <ProgressBar Grid.Column="1" x:Name="status_progress">
               
             </ProgressBar>
+            <Image Grid.Column="1" x:Name="image_file" Source="file.png" HorizontalAlignment="Left" Width="20" Height="20"/>
+            
             <Button Grid.Column="2" HorizontalAlignment="Left" Width="26"/>
 
             <Button x:Name="btn_checking" Grid.Column="3" Click="Button_Click" Content=". . .">                

@@ -36,7 +36,7 @@ namespace InterfaceV2
                     var requestLen = connectedStream.Read(buf, 0, buf.Length);
                     string request = Encoding.UTF8.GetString(buf, 0, requestLen);
 
-                    Request.ExecuteRecuest(request, connectedStream);
+                    Request.ExecuteRecuest(request,"0",connectedStream);
 
 
                     getter.Close();

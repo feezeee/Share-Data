@@ -83,7 +83,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" Height="30" VerticalAlignment="Top" x:Name="LabelIp0" Content="123"/>
+                    <Label Grid.Row="0" Height="30" VerticalAlignment="Top" x:Name="LabelIp0" Content="Этот компьютер"/>
 
                     <Grid x:Name="gridforfunc0" Height="auto" VerticalAlignment="Top" Grid.Row="1">
                         <Grid.RowDefinitions>

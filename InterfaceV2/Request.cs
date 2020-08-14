@@ -78,7 +78,7 @@ namespace InterfaceV2
             string ans = "";
 
             TcpFileClient tcpFileClient = new TcpFileClient(IP);
-            tcpFileClient.SendFileRequest(FileToSend, passToSave);
+            tcpFileClient.SendFileRequest(FileToSend+"|"+passToSave);
             return ans;
         }
         private static void SendFile(string filePath, NetworkStream stream)

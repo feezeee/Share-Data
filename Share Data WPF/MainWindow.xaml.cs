@@ -35,6 +35,11 @@ namespace Share_Data_WPF
             DoRequestsRecieveingThread.IsBackground = true;
             DoRequestsRecieveingThread.Start();// Запускаем процесс получния запросов
 
+
+            Thread listenThread = new Thread(new ThreadStart(TcpServer.ListenRequest)); //созадем новый поток отдельно для получения
+            listenThread.IsBackground = true;
+            listenThread.Start();
+
             InitializeComponent();
         }
 

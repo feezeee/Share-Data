@@ -87,5 +87,14 @@
   <ItemGroup>
     <Resource Include="1.JPG" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\InterfaceV2\Interface.csproj">
+      <Project>{8F95EC8F-1B4A-4A26-84C1-3B7DEFE2ED84}</Project>
+      <Name>Interface</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
