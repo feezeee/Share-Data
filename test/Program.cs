@@ -15,12 +15,17 @@ namespace test
     {
         static void Main()
         {
+           
             Thread listenThread = new Thread(new ThreadStart(TcpServer.ListenRequest)); //созадем новый поток отдельно для получения
             listenThread.IsBackground = true;
             listenThread.Start();
             //Dain();
             var client = new TcpFileClient("127.0.0.1");
             client.SendFileRequest("D:\\2\\4.txt","D:\\1.txt");
+
+            //для обратного 
+            //var ans = RequestInteractivity.SendRequst(ip куда, RequestTipe.GetFileFromMe, "путь для загрузки|путь для сохранения");
+            //если нет то поменяешь в классе Request в функции DoResend там увидешь 
         }
         static void Dain()
         {

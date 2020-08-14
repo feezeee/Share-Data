@@ -14,6 +14,7 @@ namespace InterfaceV2
     {
         SendFile = 1,
         GetDirectoryFiles,
+        GetFileFromMe
     }
     public enum RequestError
     {
@@ -37,6 +38,9 @@ namespace InterfaceV2
                 case (int)RequestTipe.SendFile:
                     SendFile(mes[2], stream);
                     break;
+                case (int)RequestTipe.GetFileFromMe:
+                    //
+                    break;
                 default:
                     System.Diagnostics.Debug.WriteLine("request isn't distingushed");
                     break;
@@ -44,7 +48,7 @@ namespace InterfaceV2
 
             return ans;
         }
-        public static string ExecuteRecuest(string requestMessage, NetworkStream stream = null)
+        public static string ExecuteRecuest(string requestMessage, string IP = "0", NetworkStream stream = null)
         {
             string ans = "";
 
@@ -58,12 +62,23 @@ namespace InterfaceV2
                 case (int)RequestTipe.SendFile:
                     SendFile(mes[2], stream);
                     break;
+                case (int)RequestTipe.GetFileFromMe:
+                    ans = DoResend(mes[2], mes[3], IP);
+                    break;
                 default:
                     System.Diagnostics.Debug.WriteLine("request isn't distingushed");
                     return RequestError.RequestIncomprehantable.ToString();
-                    break;
             }
 
+            return ans;
+        }
+
+        private static string DoResend(string passToSave, string FileToSend, string IP)
+        {
+            string ans = "";
+
+            TcpFileClient tcpFileClient = new TcpFileClient(IP);
+            tcpFileClient.SendFileRequest(FileToSend, passToSave);
             return ans;
         }
         private static void SendFile(string filePath, NetworkStream stream)

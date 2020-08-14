@@ -10,6 +10,10 @@ namespace InterfaceV2
     public class TcpFileClient
     {
         private static int port = int.Parse(ConfigurationManager.AppSettings["TcpPort"]);
+
+        delegate void SendingMethod(double procents);
+        event SendingMethod SendingEvent;
+
         public IPAddress RemoteIP;
         private TcpClient client = new TcpClient();
         public TcpFileClient(string ip)
@@ -21,7 +25,7 @@ namespace InterfaceV2
         {
 
         }
-        public void SendFileRequest(string localPathToSave, string remoteFilePath)
+        public void SendFileRequest (string localPathToSave, string remoteFilePath)
         {
             var reciverEP = new IPEndPoint(RemoteIP, port);
             client.Connect(reciverEP);
@@ -56,7 +60,9 @@ namespace InterfaceV2
                     fileIO.Write(buffer, 0, count);
 
                     bytesReceived += count;
+                    SendingEvent?.Invoke(bytesReceived / fileBytesSize * 100);
                 }
+                SendingEvent?.Invoke(100);
             }
 
             connectedStream.Close();

@@ -23,7 +23,6 @@ namespace Interface
                     // создаем соект для работы по пратоколу UDP, в сети Internet, для передачи дейтаграмных сообщений
                     Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                     IPAddress broadcast = IPAddress.Parse(localaddress.BroadIP);
-                    //IPAddress broadcast = IPAddress.Parse(BroadIP);
 
                     var message = SelfName.Name;
                     byte[] sendbuf = Encoding.ASCII.GetBytes(message);// кодируем сообщение из строки в битовый массив
