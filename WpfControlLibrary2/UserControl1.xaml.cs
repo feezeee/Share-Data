@@ -41,9 +41,18 @@ namespace WpfControlLibrary2
         {
 
             InitializeComponent();
-            DataContext = this;      
+            DataContext = this;
+
             //Thread myThread = new Thread(new ThreadStart(CheckingStatus_progress));
             //myThread.Start(); // запускаем поток
+        }
+
+        private double _widthValue;
+
+        public double _WidthValue
+        {
+            get { return _widthValue; }
+            set { _widthValue = value; }
         }
 
         private bool _status;
@@ -99,12 +108,35 @@ namespace WpfControlLibrary2
             typeof(System.Windows.Controls.UserControl), new UIPropertyMetadata(false));
 
         public void ChangedvalueForProgressBar(double value)
-        {
-
+        {            
             System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
             {
-                status_progress.Value = value;
+                if (label_status.Content.ToString() == "Ожидание")
+                {
+                    System.Windows.Data.Binding binding = new System.Windows.Data.Binding();
+                    binding.Source = status_progress;
+                    binding.Path = new PropertyPath("Value");
+                    label_status.SetBinding(System.Windows.Controls.Label.ContentProperty, binding);
 
+                }
+                status_progress.Value = Math.Round(value,2);
+
+            });
+        }
+
+        public void SendingFailMessage()
+        {
+            System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+                label_status.Content = "Ошибка!";
+            });
+        }
+
+        public void SendingSuccessfullyMessage()
+        {
+            System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+                label_status.Content = "Отправлено";
             });
         }
 

@@ -81,6 +81,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\InterfaceV2\Interface.csproj">
+      <Project>{8F95EC8F-1B4A-4A26-84C1-3B7DEFE2ED84}</Project>
+      <Name>Interface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WpfControlLibrary2\WpfControlLibrary2.csproj">
       <Project>{A77E3E45-092A-4752-91FA-ACB2EF09B4C5}</Project>
       <Name>WpfControlLibrary2</Name>

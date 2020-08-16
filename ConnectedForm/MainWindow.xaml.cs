@@ -515,7 +515,7 @@ namespace ConnectedForm
             thread1.Start();
         }
 
-        private void AddingFiles()
+        private async void AddingFiles()
         {
             for (int i = 0; i < _neededToAdding.Count; i++)
             {
@@ -538,7 +538,14 @@ namespace ConnectedForm
                         else
                             break;
                     }
-                    AddingInDonwloadList(_neededToAdding[i].Item1, from + _neededToAdding[i].Item4, to, null,_neededToAdding[i].Item5, _neededToAdding[i].Item6);
+
+                    (object, string, string, System.Drawing.Image, string, string) obj = (_neededToAdding[i].Item1, from + _neededToAdding[i].Item4, to, null, _neededToAdding[i].Item5, _neededToAdding[i].Item6);
+
+                    Thread receiveThread = new Thread(new ParameterizedThreadStart(AddingInDonwloadList));
+                    receiveThread.IsBackground = true;
+                    receiveThread.Start(obj);
+
+                    //AddingInDonwloadList(_neededToAdding[i].Item1, from + _neededToAdding[i].Item4, to, null,_neededToAdding[i].Item5, _neededToAdding[i].Item6);
                     //ListView _from = _neededToAdding[i].Item2;//from
                     //ListView _in = _neededToAdding[i].Item3;
                     ////Запускаем функцию отправки
@@ -612,8 +619,18 @@ namespace ConnectedForm
 
         #endregion
 
-        private async void AddingInDonwloadList(object files, string from, string to, System.Drawing.Image image, string ip_from, string ip_to)
+        // object files, string from, string to, System.Drawing.Image image, string ip_from, string ip_to
+        private void AddingInDonwloadList(object obj)
         {
+
+            dynamic MyObj = obj;
+
+            object files=MyObj.Item1; 
+            string from= MyObj.Item2; 
+            string to= MyObj.Item3; 
+            System.Drawing.Image image= MyObj.Item4; 
+            string ip_from= MyObj.Item5; 
+            string ip_to= MyObj.Item6;
 
             Application.Current.Dispatcher.Invoke((Action)delegate
             {
@@ -624,6 +641,17 @@ namespace ConnectedForm
                     if(file.sizeFile=="")
                     {
                         WpfControlLibrary3.UserControl1 papka = new WpfControlLibrary3.UserControl1();
+
+                        papka.Ip_From = ip_from;
+                        papka.Ip_To = ip_to;
+                        papka.Path_From = from;
+                        papka.Path_To = to+file.nameFile;
+
+
+                        Thread receiveThread = new Thread(new ParameterizedThreadStart(papka.CheckingDirectory));
+                        receiveThread.IsBackground = true;
+                        receiveThread.Start(from);
+
                         tiktak.Items.Add(papka);
                     }
                     else
@@ -632,19 +660,22 @@ namespace ConnectedForm
                         flk.Ip_From = ip_from;
                         flk.Ip_To = ip_to;
                         flk.Path_From = from;
-                        flk.Path_To = to;
+                        flk.Path_To = to;                        
                         //userControl1.files_inf = (WpfControlLibrary2.files)files;
 
                         tiktak.Items.Add(flk);
 
                         var client = new TcpFileClient(ip_to);
+
+                        //Подписываемся на события
                         client.SendingEvent += flk.ChangedvalueForProgressBar;
+                        client.FailEvent += flk.SendingFailMessage;
+                        client.ReadyEvent += flk.SendingSuccessfullyMessage;
+
                         string path = to + file.nameFile + "|" + from;
                         Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
                         receiveThread.IsBackground = true;
-                        receiveThread.Start(path);
-
-                        
+                        receiveThread.Start(path);                        
                     }
                 }
                 else

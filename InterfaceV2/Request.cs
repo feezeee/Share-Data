@@ -14,7 +14,8 @@ namespace InterfaceV2
     {
         SendFile = 1,
         GetDirectoryFiles,
-        GetFileFromMe
+        GetFileFromMe,
+        CreateDirrectory
     }
     public enum RequestError
     {
@@ -65,6 +66,9 @@ namespace InterfaceV2
                 case (int)RequestTipe.GetFileFromMe:
                     ans = DoResend(mes[2], mes[3], IP);
                     break;
+                case (int)RequestTipe.CreateDirrectory:
+                    ans = DoCreateDirrectory(mes[2]);
+                    break;
                 default:
                     System.Diagnostics.Debug.WriteLine("request isn't distingushed");
                     return RequestError.RequestIncomprehantable.ToString();
@@ -73,6 +77,20 @@ namespace InterfaceV2
             return ans;
         }
 
+        private static string DoCreateDirrectory(string path)
+        {
+                           
+            DirectoryInfo drInfo = new DirectoryInfo(path);
+            if (!drInfo.Exists)
+            {
+                drInfo.Create();
+                return "Выполнено";
+            }
+            else
+            {
+                return "Не выполнено";
+            }
+        }
         private static string DoResend(string passToSave, string FileToSend, string IP)
         {
             string ans = "";
@@ -88,7 +106,10 @@ namespace InterfaceV2
                 using (var fileIO = File.OpenRead(filePath))
                 {
                     //stream.Write(BitConverter.GetBytes(fileIO.Length), 0, 8);
-                    stream.Write(BitConverter.GetBytes(fileIO.Length), 0, fileIO.Length.ToString().Length);
+                    var b = BitConverter.GetBytes(fileIO.Length);                    
+                    //fileIO.Length.ToString().Length
+                    //stream.Write(b, 0, fileIO.Length.ToString().Length);
+                    stream.Write(b, 0, b.Length);
 
                     var buffer = new byte[1024 * 8];
                     int count;
@@ -103,7 +124,6 @@ namespace InterfaceV2
                 stream.Write(data, 0, data.Length);
             }
         }
-
         private static string GetDirectory(string directoryPass)
         {
             try

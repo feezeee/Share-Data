@@ -29,7 +29,7 @@ namespace Share_Data_WPF
 
             Thread sendThread = new Thread(new ThreadStart(ConnectionV2.SendBroadcastOfferToConnect)); //созадем новый поток отдельно для получения
             sendThread.IsBackground = true;
-            sendThread.Start(); // запускаем процесс отправки сообщений
+            sendThread.Start(); // запускаем процесс отправки сообщений на широковещательный
 
             Thread DoRequestsRecieveingThread = new Thread(new ThreadStart(RequestInteractivity.DoRequestsRecieveing)); //созадем новый поток отдельно для получения
             DoRequestsRecieveingThread.IsBackground = true;

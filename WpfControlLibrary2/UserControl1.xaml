@@ -9,7 +9,7 @@
        
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Width="350">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="26"/>
@@ -17,17 +17,18 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0"/>
-                <ColumnDefinition Width="174"/>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="0*"/>
+                <ColumnDefinition Width="17*"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
             <ProgressBar Grid.Column="1" x:Name="status_progress">
-              
+                
             </ProgressBar>
-            <Image Grid.Column="1" x:Name="image_file" Source="file.png" HorizontalAlignment="Left" Width="20" Height="20"/>
+            <Label Grid.Column="1" x:Name="label_status" HorizontalAlignment="Center" Content="Ожидание"/>
+            <Image Grid.Column="1" x:Name="image_file" Source="file.png" HorizontalAlignment="Left" Height="20"/>
             
-            <Button Grid.Column="2" HorizontalAlignment="Left" Width="26"/>
+            <Button Grid.Column="2" Width="26" HorizontalAlignment="Left"/>
 
             <Button x:Name="btn_checking" Grid.Column="3" Click="Button_Click" Content=". . .">                
                 
@@ -36,7 +37,7 @@
 
         </Grid>
 
-        <Grid Grid.Row="1" Height="100">
+        <Grid Grid.Row="1" Height="0">
             <Grid.Style>
                 <Style>
                     <Style.Triggers>
@@ -57,7 +58,7 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="Height"
-                                                To="150" By="0.5" Duration="0:0:0.5"/>
+                                                To="100" By="0.5" Duration="0:0:0.5"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiDataTrigger.ExitActions>
@@ -76,21 +77,21 @@
             
             <Grid Grid.Row="1" >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
-                <Label x:Name="label_ip_from" Grid.Column="0" HorizontalAlignment="Left" Width="95" Content="{Binding Path=Ip_From}"/>
-                <Label x:Name="label_path_from" HorizontalAlignment="Left" Grid.Column="1" Width="205" Content="{Binding Path=Path_From}"/>                
+                <Label x:Name="label_ip_from" Grid.Column="0" HorizontalAlignment="Left" Content="{Binding Path=Ip_From}"/>
+                <Label x:Name="label_path_from" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding Path=Path_From}"/>                
             </Grid>
             
             <Label Grid.Row="2" Content="Куда" HorizontalAlignment="Center"/>
             <Grid Grid.Row="3" >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
-                <Label x:Name="label_ip_to" Grid.Column="0" HorizontalAlignment="Left" Width="95" Content="{Binding Path=Ip_To}"/>
-                <Label x:Name="label_path_to" Grid.Column="1" HorizontalAlignment="Left" Width="205" Content="{Binding Path=Path_To}"/>
+                <Label x:Name="label_ip_to" Grid.Column="0" HorizontalAlignment="Left" Content="{Binding Path=Ip_To}"/>
+                <Label x:Name="label_path_to" Grid.Column="1" HorizontalAlignment="Left" Content="{Binding Path=Path_To}"/>
             </Grid>
         </Grid>
 
