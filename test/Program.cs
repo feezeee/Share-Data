@@ -20,11 +20,11 @@ namespace test
             listenThread.IsBackground = true;
             listenThread.Start();
             //Dain();
-            var client = new TcpFileClient("127.0.0.1");
-            client.SendFileRequest("D:\\2\\4.txt","D:\\1.txt");
+            var client = new TcpFileClient("192.168.100.10");
+            client.SendFileRequest("D:\\2\\4.txt|E:\\1.txt");
 
             //для обратного 
-            //var ans = RequestInteractivity.SendRequst(ip куда, RequestTipe.GetFileFromMe, "путь для загрузки|путь для сохранения");
+            var ans = RequestInteractivity.SendRequst(ip куда, RequestTipe.GetFileFromMe, "путь для загрузки|путь для сохранения");
             //если нет то поменяешь в классе Request в функции DoResend там увидешь 
         }
         static void Dain()

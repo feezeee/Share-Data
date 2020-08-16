@@ -15,6 +15,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using WpfControlLibrary2;
 
 namespace WpfControlLibrary3
@@ -83,17 +84,22 @@ namespace WpfControlLibrary3
             set { _path_to = value; }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path">путь по которому надо создать папку</param>
         public void CheckingDirectory(object path)
         {
-            Application.Current.Dispatcher.Invoke((Action)delegate
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
+            () =>
+            
             {
                 if (Ip_From == "Этот компьютер")
                 {
-                    var SetDirectory = RequestInteractivity.SendRequst(Ip_To, RequestTipe.CreateDirrectory, Path_To);
+                    var SetDirectory = RequestInteractivity.SendRequst(Ip_To, RequestTipe.CreateDirrectory, path.ToString());
                     if (SetDirectory == "Answer|Выполнено")
                     {
-                        var ans = RequestInteractivity.SendRequst("127.0.0.1", RequestTipe.GetDirectoryFiles, path.ToString());
+                        var ans = RequestInteractivity.SendRequst("127.0.0.1", RequestTipe.GetDirectoryFiles, Path_From); //Получить папки от удаленного пк (здесь от отправителя)
                         ans = ans.Remove(0, 7);
                         var files = ans.Split('\n');
                         files[files.Length - 1] = null;
@@ -121,7 +127,7 @@ namespace WpfControlLibrary3
 
                                     Thread receiveThread = new Thread(new ParameterizedThreadStart(userControl1.CheckingDirectory));
                                     receiveThread.IsBackground = true;
-                                    receiveThread.Start(userControl1.Path_From);
+                                    receiveThread.Start(userControl1.Path_To);
 
                                     list_for_papki.Items.Add(userControl1);
                                 }
@@ -137,17 +143,17 @@ namespace WpfControlLibrary3
 
                                     list_for_papki.Items.Add(flk);
 
-                                    var client = new TcpFileClient(Ip_To);
+                                    //var client = new TcpFileClient(Ip_From);
 
-                                    //Подписываемся на события
-                                    client.SendingEvent += flk.ChangedvalueForProgressBar;
-                                    client.FailEvent += flk.SendingFailMessage;
-                                    client.ReadyEvent += flk.SendingSuccessfullyMessage;
+                                    ////Подписываемся на события
+                                    //client.SendingEvent += flk.ChangedvalueForProgressBar;
+                                    //client.FailEvent += flk.SendingFailMessage;
+                                    //client.ReadyEvent += flk.SendingSuccessfullyMessage;
 
-                                    string _path = flk.Path_To + "|" + flk.Path_From;
-                                    Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
-                                    receiveThread.IsBackground = true;
-                                    receiveThread.Start(_path);
+                                    //string _path = flk.Path_To + "|" + flk.Path_From;
+                                    //Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
+                                    //receiveThread.IsBackground = true;
+                                    //receiveThread.Start(_path);
 
                                 }
 
@@ -161,26 +167,77 @@ namespace WpfControlLibrary3
                 }
                 else
                 {
-                    //var ans = RequestInteractivity.SendRequst(Ip_From, RequestTipe.GetDirectoryFiles, path.ToString());
-                    //ans = ans.Remove(0, 7);
-                    //var files = ans.Split('\n');
-                    //files[files.Length - 1] = null;
-                    //foreach (var file in files)
-                    //{
-                    //    if (file != null)
-                    //    {
-                    //        List<(string, string, string)> ps = CuttingMessages(file);
-                    //        files files1 = new files() // создаём экземпляр класса        
-                    //        {
-                    //            nameFile = ps[0].Item1, // указываем имя файла  
-                    //            time = ps[0].Item2, // указываем время создания    
-                    //            sizeFile = ps[0].Item3, // указываем пароль        
-                    //        };
-                    //    }                    
-                    //}
+                    var SetDirectory = RequestInteractivity.SendRequst("127.0.0.1", RequestTipe.CreateDirrectory, path.ToString());
+                    if (SetDirectory == "Answer|Выполнено")
+                    {
+                        var ans = RequestInteractivity.SendRequst(Ip_From, RequestTipe.GetDirectoryFiles, Path_From); //Получить папки от удаленного пк (здесь от отправителя)
+                        ans = ans.Remove(0, 7);
+                        var files = ans.Split('\n');
+                        files[files.Length - 1] = null;
+                        foreach (var file in files)
+                        {
+                            if (file != null)
+                            {
+                                List<(string, string, string)> ps = CuttingMessages(file);
+                                files files1 = new files() // создаём экземпляр класса        
+                                {
+                                    nameFile = ps[0].Item1, // указываем имя файла  
+                                    time = ps[0].Item2, // указываем время создания    
+                                    sizeFile = ps[0].Item3, // указываем пароль        
+                                };
+                                if (files1.sizeFile == "-1")
+                                {
+                                    // Если это папка
+                                    WpfControlLibrary3.UserControl1 userControl1 = new WpfControlLibrary3.UserControl1();
+
+                                    userControl1.Ip_From = Ip_From;
+                                    userControl1.Ip_To = Ip_To;
+                                    userControl1.Path_From = Path_From + "\\" + files1.nameFile;
+                                    userControl1.Path_To = Path_To + "\\" + files1.nameFile;
+
+
+                                    Thread receiveThread = new Thread(new ParameterizedThreadStart(userControl1.CheckingDirectory));
+                                    receiveThread.IsBackground = true;
+                                    receiveThread.Start(userControl1.Path_To);
+
+                                    list_for_papki.Items.Add(userControl1);
+                                }
+                                else
+                                {
+                                    // Если это файл
+                                    WpfControlLibrary2.UserControl1 flk = new WpfControlLibrary2.UserControl1();
+                                    flk.Ip_From = Ip_From;
+                                    flk.Ip_To = Ip_To;
+                                    flk.Path_From = Path_From + "\\" + files1.nameFile;
+                                    flk.Path_To = Path_To + "\\" + files1.nameFile;
+
+
+                                    list_for_papki.Items.Add(flk);
+
+                                    //var client = new TcpFileClient(Ip_From);
+
+                                    ////Подписываемся на события
+                                    //client.SendingEvent += flk.ChangedvalueForProgressBar;
+                                    //client.FailEvent += flk.SendingFailMessage;
+                                    //client.ReadyEvent += flk.SendingSuccessfullyMessage;
+
+                                    //string _path = flk.Path_To + "|" + flk.Path_From;
+                                    //Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
+                                    //receiveThread.IsBackground = true;
+                                    //receiveThread.Start(_path);
+
+                                }
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        /// . . . 
+                    }
                 }
 
-            });
+            }));
         }
 
         //Сортирует сообщение(файл дата размер)
@@ -237,7 +294,7 @@ namespace WpfControlLibrary3
                 IsCheckBoxChecked_papka = true;
 
                 DoubleAnimation buttonAnimation = new DoubleAnimation();
-                buttonAnimation.To = list_for_papki.Items.Count*26;
+                buttonAnimation.To = list_for_papki.Items.Count*26+50;
                 buttonAnimation.Duration = TimeSpan.FromSeconds(0.3);
                 grid_for_papki.BeginAnimation(Button.HeightProperty, buttonAnimation);
             }

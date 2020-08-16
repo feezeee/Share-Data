@@ -51,8 +51,7 @@ namespace InterfaceV2
                 //Request.DoSendingRequest()
                 var mess = $"Request|{(int)RequestTipe.SendFile}|{remoteFilePath}";
                 var buf = Encoding.UTF8.GetBytes(mess);
-                connectedStream.Write(buf, 0, buf.Length);
-                System.Threading.Thread.Sleep(5000);
+                connectedStream.Write(buf, 0, buf.Length);                
                 Int64 bytesReceived = 0;
                 int count;
                 byte[] buffer = new byte[1024 * 8];
@@ -84,14 +83,14 @@ namespace InterfaceV2
                         SendingEvent?.Invoke(100);
                     }
 
-                ReadyEvent();
+                ReadyEvent?.Invoke();
                 connectedStream.Close();
                 client.Close();
             }
             catch(Exception e)
             {
                 System.Diagnostics.Debug.WriteLine(e.Message);
-                FailEvent();
+                FailEvent?.Invoke();
             }
         }
         private bool Execute_(string path)

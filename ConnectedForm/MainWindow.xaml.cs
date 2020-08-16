@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using WpfControlLibrary2;
 
 namespace ConnectedForm
@@ -76,7 +77,8 @@ namespace ConnectedForm
         #region загрузка информации в форму 
         public void loadInfromationAboutFiles0(string nameFile, string time, string sizeFile)
         {
-            Application.Current.Dispatcher.Invoke((Action)delegate
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+            () =>
             {
                 string nameSize = "b";
 
@@ -113,12 +115,13 @@ namespace ConnectedForm
                     sizeFile = sizeFile, // указываем пароль        
                 };
                 listUsers0.Items.Add(dataFile); // выводим строку в список 
-            });
+            }));
         }
 
         public void loadInfromationAboutFiles1(string nameFile, string time, string sizeFile)
         {
-            Application.Current.Dispatcher.Invoke((Action)delegate
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+            () =>
             {
                 string nameSize = "b";
 
@@ -155,7 +158,7 @@ namespace ConnectedForm
                     sizeFile = sizeFile, // указываем пароль 
                 };
                 listUsers1.Items.Add(dataFile);                // выводим строку в список
-            });
+            }));
         }
         #endregion
 
@@ -179,19 +182,22 @@ namespace ConnectedForm
             files[files.Length - 1] = null;
             MainWindow mainWindow = (MainWindow)sender;
             if (control == 0)
-                this.Dispatcher.Invoke((ThreadStart)delegate
+                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+                () =>
                 {
-                    // Очищаем list
-                    //************************
-                    listUsers0.Items.Clear();
-                });
+                // Очищаем list
+                //************************
+                listUsers0.Items.Clear();
+                }));
             else if (control == 1)
-                this.Dispatcher.Invoke((ThreadStart)delegate
-                {
+                    Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+                    () =>
+                    {
+            
                     // Очищаем list
                     //************************
                     listUsers1.Items.Clear();
-                });
+                    }));
             foreach (var file in files)
             {
                 if (file != null)
@@ -199,20 +205,20 @@ namespace ConnectedForm
                     List<(string, string, string)> ps = mainWindow.CuttingMessages(file);
                     if (control == 0)
                     {
-                        this.Dispatcher.Invoke((ThreadStart)delegate
-                        {
-                            
+                        Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+                        () =>
+                        {     
                             mainWindow.loadInfromationAboutFiles0(ps[0].Item1, ps[0].Item2, ps[0].Item3);
-                        });
+                        }));
                     }
 
                     else if (control == 1)
                     {
-                        this.Dispatcher.Invoke((ThreadStart)delegate
+                        Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+                        () =>
                         {
-                            
-                            mainWindow.loadInfromationAboutFiles1(ps[0].Item1, ps[0].Item2, ps[0].Item3);
-                        });
+                             mainWindow.loadInfromationAboutFiles1(ps[0].Item1, ps[0].Item2, ps[0].Item3);
+                        }));
                     }
                 }
                 else
@@ -220,19 +226,21 @@ namespace ConnectedForm
             }
             if(control == 0)
                     {
-                this.Dispatcher.Invoke((ThreadStart)delegate
+                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+                () =>
                 {
-                    pathbox0.IsEnabled = true;
+                pathbox0.IsEnabled = true;
                     
-                });
+                }));
             }
             else if (control == 1)
             {
-                this.Dispatcher.Invoke((ThreadStart)delegate
+                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+                () =>
                 {
-                    pathbox1.IsEnabled = true;
+                pathbox1.IsEnabled = true;
                     
-                });
+                }));
             }
         }
 
@@ -244,41 +252,46 @@ namespace ConnectedForm
         bool status = false;
         private void listUsers0_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ListView list = (ListView)sender;
-            string textbox = pathbox0.Text;
-            if (list.SelectedItems.Count == 1)
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+            () =>
             {
-                int index = list.SelectedIndex;//индекс нажатого итема
-                //получаем имя папки/файла
-                //**********************************************************
-                object a = listUsers0.Items[index];
-                var txt = a.GetType().GetProperty("nameFile").GetValue(a);
-                //**********************************************************
-                if ((pathbox0.Text == null || pathbox0.Text == "") && pathbox0.IsEnabled == true)
-                    pathbox0.Text = txt.ToString();
-                else if (pathbox0.IsEnabled == true)
+                ListView list = (ListView)sender;
+                string textbox = pathbox0.Text;
+                if (list.SelectedItems.Count == 1)
                 {
-                    ok:
-                    if (textbox[textbox.Length - 1] != '\\')
+                    int index = list.SelectedIndex;//индекс нажатого итема
+                                                   //получаем имя папки/файла
+                                                   //**********************************************************
+                    object a = listUsers0.Items[index];
+                    var txt = a.GetType().GetProperty("nameFile").GetValue(a);
+                    //**********************************************************
+                    if ((pathbox0.Text == null || pathbox0.Text == "") && pathbox0.IsEnabled == true)
+                        pathbox0.Text = txt.ToString();
+                    else if (pathbox0.IsEnabled == true)
                     {
-                        status = true;
-                        textbox = textbox.Remove(textbox.Length - 1, 1);
-                        goto ok;
+                        ok:
+                        if (textbox[textbox.Length - 1] != '\\')
+                        {
+                            status = true;
+                            textbox = textbox.Remove(textbox.Length - 1, 1);
+                            goto ok;
+                        }
+                        if (status == true)
+                        {
+                            status = false;
+                            pathbox0.Text = textbox;
+                        }
+                        else
+                            pathbox0.Text += txt.ToString() + "\\";
                     }
-                    if (status == true)
-                    {
-                        status = false;
-                        pathbox0.Text = textbox;
-                    }
-                    else
-                        pathbox0.Text += txt.ToString() + "\\";
                 }
-            }
+            }));
         }
 
         private void listUsers1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            Application.Current.Dispatcher.Invoke((Action)delegate
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+            () =>
             {
 
                 ListView list = (ListView)sender;
@@ -311,7 +324,7 @@ namespace ConnectedForm
                             pathbox1.Text += txt.ToString() + "\\";
                     }
                 }
-            });
+            }));
         }
 
         //********************************************************************************************
@@ -325,9 +338,12 @@ namespace ConnectedForm
        
         private async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-
-
-            string txt = pathbox0.Text;
+            string txt = "";
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+            () =>
+            {
+                txt = pathbox0.Text;
+            }));
             if (txt != "" && txt.Length > 3)
                 if (txt[txt.Length - 1] == '\\' && txt[txt.Length - 2] != '\\')
                 {
@@ -353,10 +369,11 @@ namespace ConnectedForm
         {
             string ip = "";
 
-            Application.Current.Dispatcher.Invoke((Action)delegate
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+            () =>
             {
                 ip = LabelIp1.Content.ToString();
-            });
+            }));
             string txt = pathbox1.Text;
             if (txt != "" && txt.Length > 3)
                 if (txt[txt.Length - 1] == '\\' && txt[txt.Length - 2] != '\\')
@@ -467,7 +484,8 @@ namespace ConnectedForm
         {
             try
             {
-                Application.Current.Dispatcher.Invoke((Action)delegate
+                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+                () =>
                 {
 
                     foreach (files files in control_from.SelectedItems)
@@ -495,7 +513,7 @@ namespace ConnectedForm
                             }
                         }
                     }
-                });
+                }));
                 OncompleteList();
             }
             catch
@@ -515,12 +533,13 @@ namespace ConnectedForm
             thread1.Start();
         }
 
-        private async void AddingFiles()
+        private void AddingFiles()
         {
             for (int i = 0; i < _neededToAdding.Count; i++)
             {
 
-                Application.Current.Dispatcher.Invoke((Action)delegate
+                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+                () =>
                 {
                     string from = _neededToAdding[i].Item2;
                     string to = _neededToAdding[i].Item3;
@@ -553,7 +572,7 @@ namespace ConnectedForm
                     //    _in.Items.Add(_neededToAdding[i].Item1);
                     //Запускаем функцию отправки
                     //НЕ ГОТОВОООО!!!!!!""№;!";%!"%№!%
-                });
+                }));
             }
             _neededToAdding.Clear();
         }
@@ -632,25 +651,26 @@ namespace ConnectedForm
             string ip_from= MyObj.Item5; 
             string ip_to= MyObj.Item6;
 
-            Application.Current.Dispatcher.Invoke((Action)delegate
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+            ()=>
             {
                 files file = (files)files;
 
                 if (ip_from == "Этот компьютер")
                 {
-                    if(file.sizeFile=="")
+                    if (file.sizeFile == "")
                     {
                         WpfControlLibrary3.UserControl1 papka = new WpfControlLibrary3.UserControl1();
 
                         papka.Ip_From = ip_from;
                         papka.Ip_To = ip_to;
                         papka.Path_From = from;
-                        papka.Path_To = to+file.nameFile;
+                        papka.Path_To = to + file.nameFile;
 
 
                         Thread receiveThread = new Thread(new ParameterizedThreadStart(papka.CheckingDirectory));
                         receiveThread.IsBackground = true;
-                        receiveThread.Start(from);
+                        receiveThread.Start(papka.Path_To);
 
                         tiktak.Items.Add(papka);
                     }
@@ -660,31 +680,69 @@ namespace ConnectedForm
                         flk.Ip_From = ip_from;
                         flk.Ip_To = ip_to;
                         flk.Path_From = from;
-                        flk.Path_To = to;                        
+                        flk.Path_To = to + file.nameFile;
                         //userControl1.files_inf = (WpfControlLibrary2.files)files;
 
                         tiktak.Items.Add(flk);
 
-                        var client = new TcpFileClient(ip_to);
+                        //var client = new TcpFileClient(ip_from);
 
                         //Подписываемся на события
-                        client.SendingEvent += flk.ChangedvalueForProgressBar;
-                        client.FailEvent += flk.SendingFailMessage;
-                        client.ReadyEvent += flk.SendingSuccessfullyMessage;
+                        //client.SendingEvent += flk.ChangedvalueForProgressBar;
+                        //client.FailEvent += flk.SendingFailMessage;
+                        //client.ReadyEvent += flk.SendingSuccessfullyMessage;
 
-                        string path = to + file.nameFile + "|" + from;
-                        Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
-                        receiveThread.IsBackground = true;
-                        receiveThread.Start(path);                        
+
+                        //var ans = RequestInteractivity.SendRequst(ip_to, RequestTipe.GetFileFromMe,flk.Path_To+ "|"+flk.Path_From);
+
                     }
+
                 }
                 else
                 {
+                    if (file.sizeFile == "")
+                    {
+                        WpfControlLibrary3.UserControl1 papka = new WpfControlLibrary3.UserControl1();
 
+                        papka.Ip_From = ip_from;
+                        papka.Ip_To = ip_to;
+                        papka.Path_From = from;
+                        papka.Path_To = to + file.nameFile;
+
+
+                        Thread receiveThread = new Thread(new ParameterizedThreadStart(papka.CheckingDirectory));
+                        receiveThread.IsBackground = true;
+                        receiveThread.Start(papka.Path_To);
+
+                        tiktak.Items.Add(papka);
+                    }
+                    else
+                    {
+                        UserControl1 flk = new UserControl1();
+                        flk.Ip_From = ip_from;
+                        flk.Ip_To = ip_to;
+                        flk.Path_From = from;
+                        flk.Path_To = to + file.nameFile;
+                        //userControl1.files_inf = (WpfControlLibrary2.files)files;
+
+                        tiktak.Items.Add(flk);
+
+                        //var client = new TcpFileClient(ip_from);
+
+                        ////Подписываемся на события
+                        //client.SendingEvent += flk.ChangedvalueForProgressBar;
+                        //client.FailEvent += flk.SendingFailMessage;
+                        //client.ReadyEvent += flk.SendingSuccessfullyMessage;
+
+                        //string path = flk.Path_To + "|" + flk.Path_From;
+                        //Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
+                        //receiveThread.IsBackground = true;
+                        //receiveThread.Start(path);
+                    }
                 }
 
                 
-            });
+            }));
         
 
         }
@@ -700,14 +758,15 @@ namespace ConnectedForm
             //AddingInDonwloadList(null, null, null, null,null,null);
 
 
-            Application.Current.Dispatcher.Invoke((Action)delegate
-            {
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+             () =>
+             {
 
                 WpfControlLibrary3.UserControl1 userControl1 = new WpfControlLibrary3.UserControl1();                
                 //userControl1.files_inf = (WpfControlLibrary2.files)files;
                 tiktak.Items.Add(userControl1);
 
-            });
+            }));
 
         }
     }
