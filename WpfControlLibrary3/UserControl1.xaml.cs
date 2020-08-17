@@ -148,19 +148,20 @@ namespace WpfControlLibrary3
 
 
                                     list_for_papki.Items.Add(flk);
+                                    
+
+                                    var client = new TcpFileClient(Ip_To);
+
+                                        //Подписываемся на события
+                                        client.SendingEvent += flk.ChangedvalueForProgressBar;
+                                        client.FailEvent += flk.SendingFailMessage;
+                                        client.ReadyEvent += flk.SendingSuccessfullyMessage;
+
+                                        string _path = flk.Path_To + "|" + flk.Path_From;
+                                        Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
+                                        receiveThread.IsBackground = true;
+                                        receiveThread.Start(_path);
                                     }));
-
-                                    //var client = new TcpFileClient(Ip_From);
-
-                                    ////Подписываемся на события
-                                    //client.SendingEvent += flk.ChangedvalueForProgressBar;
-                                    //client.FailEvent += flk.SendingFailMessage;
-                                    //client.ReadyEvent += flk.SendingSuccessfullyMessage;
-
-                                    //string _path = flk.Path_To + "|" + flk.Path_From;
-                                    //Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
-                                    //receiveThread.IsBackground = true;
-                                    //receiveThread.Start(_path);
 
                                 }
 
@@ -230,6 +231,9 @@ namespace WpfControlLibrary3
 
 
                                     list_for_papki.Items.Add(flk);
+
+                                        var ansv = RequestInteractivity.SendRequst(Ip_From, RequestTipe.GetFileFromMe, flk.Path_To + "|" + flk.Path_From);
+
                                     }));
 
                                     //var client = new TcpFileClient(Ip_From);

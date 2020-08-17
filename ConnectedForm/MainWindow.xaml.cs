@@ -678,15 +678,19 @@ namespace ConnectedForm
 
                         tiktak.Items.Add(flk);
 
-                        //var client = new TcpFileClient(ip_from);
+                        var client = new TcpFileClient(ip_to);
 
                         //Подписываемся на события
-                        //client.SendingEvent += flk.ChangedvalueForProgressBar;
-                        //client.FailEvent += flk.SendingFailMessage;
-                        //client.ReadyEvent += flk.SendingSuccessfullyMessage;
-
+                        client.SendingEvent += flk.ChangedvalueForProgressBar;
+                        client.FailEvent += flk.SendingFailMessage;
+                        client.ReadyEvent += flk.SendingSuccessfullyMessage;
 
                         //var ans = RequestInteractivity.SendRequst(ip_to, RequestTipe.GetFileFromMe,flk.Path_To+ "|"+flk.Path_From);
+
+                        string path = flk.Path_To + "|" + flk.Path_From;
+                        Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
+                        receiveThread.IsBackground = true;
+                        receiveThread.Start(path);
 
                     }
 
@@ -719,6 +723,8 @@ namespace ConnectedForm
                         //userControl1.files_inf = (WpfControlLibrary2.files)files;
 
                         tiktak.Items.Add(flk);
+
+                        var ans = RequestInteractivity.SendRequst(ip_from, RequestTipe.GetFileFromMe,flk.Path_To+ "|"+flk.Path_From);
 
                         //var client = new TcpFileClient(ip_from);
 
