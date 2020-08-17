@@ -90,55 +90,53 @@ namespace WpfControlLibrary3
         /// <param name="path">путь по которому надо создать папку</param>
         public void CheckingDirectory(object path)
         {
-                if (Ip_From == "Этот компьютер")
+            if (Ip_From == "Этот компьютер")
+            {
+                var SetDirectory = RequestInteractivity.SendRequst(Ip_To, RequestTipe.CreateDirrectory, path.ToString());
+                if (SetDirectory == "Answer|Выполнено")
                 {
-                    var SetDirectory = RequestInteractivity.SendRequst(Ip_To, RequestTipe.CreateDirrectory, path.ToString());
-                    if (SetDirectory == "Answer|Выполнено")
+                    var ans = RequestInteractivity.SendRequst("127.0.0.1", RequestTipe.GetDirectoryFiles, Path_From); //Получить папки от удаленного пк (здесь от отправителя)
+                    ans = ans.Remove(0, 7);
+                    var files = ans.Split('\n');
+                    files[files.Length - 1] = null;
+                    foreach (var file in files)
                     {
-                        var ans = RequestInteractivity.SendRequst("127.0.0.1", RequestTipe.GetDirectoryFiles, Path_From); //Получить папки от удаленного пк (здесь от отправителя)
-                        ans = ans.Remove(0, 7);
-                        var files = ans.Split('\n');
-                        files[files.Length - 1] = null;
-                        foreach (var file in files)
+                        if (file != null)
                         {
-                            if (file != null)
+                            List<(string, string, string)> ps = CuttingMessages(file);
+                            files files1 = new files() // создаём экземпляр класса        
                             {
-                                List<(string, string, string)> ps = CuttingMessages(file);
-                                files files1 = new files() // создаём экземпляр класса        
-                                {
-                                    nameFile = ps[0].Item1, // указываем имя файла  
-                                    time = ps[0].Item2, // указываем время создания    
-                                    sizeFile = ps[0].Item3, // указываем пароль        
-                                };
-                                if (files1.sizeFile == "-1")
-                                {
+                                nameFile = ps[0].Item1, // указываем имя файла  
+                                time = ps[0].Item2, // указываем время создания    
+                                sizeFile = ps[0].Item3, // указываем пароль        
+                            };
+                            if (files1.sizeFile == "-1")
+                            {
                                 // Если это папка
+                                Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
+                                () =>
+                                {
+                                    WpfControlLibrary3.UserControl1 userControl1 = new WpfControlLibrary3.UserControl1();
 
-                                    Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
-                                    () =>
-                                    {
-                                        WpfControlLibrary3.UserControl1 userControl1 = new WpfControlLibrary3.UserControl1();
-
-                                        userControl1.Ip_From = Ip_From;
-                                        userControl1.Ip_To = Ip_To;
-                                        userControl1.Path_From = Path_From + "\\" + files1.nameFile;
-                                        userControl1.Path_To = Path_To + "\\" + files1.nameFile;
+                                    userControl1.Ip_From = Ip_From;
+                                    userControl1.Ip_To = Ip_To;
+                                    userControl1.Path_From = Path_From + "\\" + files1.nameFile;
+                                    userControl1.Path_To = Path_To + "\\" + files1.nameFile;
 
 
-                                        Thread receiveThread = new Thread(new ParameterizedThreadStart(userControl1.CheckingDirectory));
-                                        receiveThread.IsBackground = true;
-                                        receiveThread.Start(userControl1.Path_To);
+                                    Thread receiveThread = new Thread(new ParameterizedThreadStart(userControl1.CheckingDirectory));
+                                    receiveThread.IsBackground = true;
+                                    receiveThread.Start(userControl1.Path_To);
 
-                                        list_for_papki.Items.Add(userControl1);
-                                    }));
-                                }
-                                else
+                                    list_for_papki.Items.Add(userControl1);
+                                }));
+                            }
+                            else
+                            {
+                                Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
+                                () =>
                                 {
 
-                                    Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
-                                    () =>
-
-                                    {
                                     // Если это файл
                                     WpfControlLibrary2.UserControl1 flk = new WpfControlLibrary2.UserControl1();
                                     flk.Ip_From = Ip_From;
@@ -148,58 +146,57 @@ namespace WpfControlLibrary3
 
 
                                     list_for_papki.Items.Add(flk);
-                                    
+
 
                                     var client = new TcpFileClient(Ip_To);
 
-                                        //Подписываемся на события
-                                        client.SendingEvent += flk.ChangedvalueForProgressBar;
-                                        client.FailEvent += flk.SendingFailMessage;
-                                        client.ReadyEvent += flk.SendingSuccessfullyMessage;
+                                    //Подписываемся на события
+                                    client.SendingEvent += flk.ChangedvalueForProgressBar;
+                                    client.FailEvent += flk.SendingFailMessage;
+                                    client.ReadyEvent += flk.SendingSuccessfullyMessage;
 
-                                        string _path = flk.Path_To + "|" + flk.Path_From;
-                                        Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
-                                        receiveThread.IsBackground = true;
-                                        receiveThread.Start(_path);
-                                    }));
-
-                                }
+                                    string _path = flk.Path_To + "|" + flk.Path_From;
+                                    Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
+                                    receiveThread.IsBackground = true;
+                                    receiveThread.Start(_path);
+                                }));
 
                             }
+
                         }
-                    }
-                    else
-                    {
-                        /// . . . 
                     }
                 }
                 else
                 {
-                    var SetDirectory = RequestInteractivity.SendRequst("127.0.0.1", RequestTipe.CreateDirrectory, path.ToString());
-                    if (SetDirectory == "Answer|Выполнено")
+                    /// . . . 
+                }
+            }
+            else
+            {
+                var SetDirectory = RequestInteractivity.SendRequst("127.0.0.1", RequestTipe.CreateDirrectory, path.ToString());
+                if (SetDirectory == "Answer|Выполнено")
+                {
+                    var ans = RequestInteractivity.SendRequst(Ip_From, RequestTipe.GetDirectoryFiles, Path_From); //Получить папки от удаленного пк (здесь от отправителя)
+                    ans = ans.Remove(0, 7);
+                    var files = ans.Split('\n');
+                    files[files.Length - 1] = null;
+                    foreach (var file in files)
                     {
-                        var ans = RequestInteractivity.SendRequst(Ip_From, RequestTipe.GetDirectoryFiles, Path_From); //Получить папки от удаленного пк (здесь от отправителя)
-                        ans = ans.Remove(0, 7);
-                        var files = ans.Split('\n');
-                        files[files.Length - 1] = null;
-                        foreach (var file in files)
+                        if (file != null)
                         {
-                            if (file != null)
+                            List<(string, string, string)> ps = CuttingMessages(file);
+                            files files1 = new files() // создаём экземпляр класса        
                             {
-                                List<(string, string, string)> ps = CuttingMessages(file);
-                                files files1 = new files() // создаём экземпляр класса        
-                                {
-                                    nameFile = ps[0].Item1, // указываем имя файла  
-                                    time = ps[0].Item2, // указываем время создания    
-                                    sizeFile = ps[0].Item3, // указываем пароль        
-                                };
-                                if (files1.sizeFile == "-1")
-                                {
-
+                                nameFile = ps[0].Item1, // указываем имя файла  
+                                time = ps[0].Item2, // указываем время создания    
+                                sizeFile = ps[0].Item3, // указываем пароль        
+                            };
+                            if (files1.sizeFile == "-1")
+                            {
                                 Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
                                 () =>
-
                                 {
+
                                     // Если это папка
                                     WpfControlLibrary3.UserControl1 userControl1 = new WpfControlLibrary3.UserControl1();
 
@@ -215,14 +212,13 @@ namespace WpfControlLibrary3
 
                                     list_for_papki.Items.Add(userControl1);
                                 }));
-                                }
-                                else
+                            }
+                            else
+                            {
+                                Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
+                                () =>
                                 {
-
-                                    Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
-                                    () =>
-                                    {
-                                    // Если это файл
+                                        // Если это файл
                                     WpfControlLibrary2.UserControl1 flk = new WpfControlLibrary2.UserControl1();
                                     flk.Ip_From = Ip_From;
                                     flk.Ip_To = Ip_To;
@@ -230,34 +226,34 @@ namespace WpfControlLibrary3
                                     flk.Path_To = Path_To + "\\" + files1.nameFile;
 
 
+
                                     list_for_papki.Items.Add(flk);
 
-                                        var ansv = RequestInteractivity.SendRequst(Ip_From, RequestTipe.GetFileFromMe, flk.Path_To + "|" + flk.Path_From);
+                                }));
+                                var ansv = RequestInteractivity.SendRequst(Ip_From, RequestTipe.GetFileFromMe, Path_To + "\\" + files1.nameFile + "|" + Path_From + "\\" + files1.nameFile);
 
-                                    }));
+                                //var client = new TcpFileClient(Ip_From);
 
-                                    //var client = new TcpFileClient(Ip_From);
+                                ////Подписываемся на события
+                                //client.SendingEvent += flk.ChangedvalueForProgressBar;
+                                //client.FailEvent += flk.SendingFailMessage;
+                                //client.ReadyEvent += flk.SendingSuccessfullyMessage;
 
-                                    ////Подписываемся на события
-                                    //client.SendingEvent += flk.ChangedvalueForProgressBar;
-                                    //client.FailEvent += flk.SendingFailMessage;
-                                    //client.ReadyEvent += flk.SendingSuccessfullyMessage;
-
-                                    //string _path = flk.Path_To + "|" + flk.Path_From;
-                                    //Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
-                                    //receiveThread.IsBackground = true;
-                                    //receiveThread.Start(_path);
-
-                                }
+                                //string _path = flk.Path_To + "|" + flk.Path_From;
+                                //Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
+                                //receiveThread.IsBackground = true;
+                                //receiveThread.Start(_path);
 
                             }
+
                         }
                     }
-                    else
-                    {
-                        /// . . . 
-                    }
                 }
+                else
+                {
+                    /// . . . 
+                }
+            }
 
             
         }

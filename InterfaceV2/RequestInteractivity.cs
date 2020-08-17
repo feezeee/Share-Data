@@ -120,7 +120,7 @@ namespace InterfaceV2
                         Console.WriteLine("ip отправителя - " + reciverIP.ToString());
 
                         //происходит обработка запроса
-                        var ans = Request.ExecuteRecuest(requestMess); // получаем ответ на запрос
+                        var ans = Request.ExecuteRecuest(requestMess,reciverIP.ToString()); // получаем ответ на запрос
                         Console.WriteLine($"ответ на запрос {ans}");
 
                         byte[] message = Encoding.Unicode.GetBytes(GetAnswerString(ans));

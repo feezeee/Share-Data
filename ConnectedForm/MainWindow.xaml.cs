@@ -644,14 +644,14 @@ namespace ConnectedForm
             string ip_from= MyObj.Item5; 
             string ip_to= MyObj.Item6;
 
-            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
-            ()=>
-            {
                 files file = (files)files;
 
-                if (ip_from == "Этот компьютер")
+            if (ip_from == "Этот компьютер")
+            {
+                if (file.sizeFile == "")
                 {
-                    if (file.sizeFile == "")
+                    Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
+                    () =>
                     {
                         WpfControlLibrary3.UserControl1 papka = new WpfControlLibrary3.UserControl1();
 
@@ -666,8 +666,12 @@ namespace ConnectedForm
                         receiveThread.Start(papka.Path_To);
 
                         tiktak.Items.Add(papka);
-                    }
-                    else
+                    }));
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
+                    () =>
                     {
                         UserControl1 flk = new UserControl1();
                         flk.Ip_From = ip_from;
@@ -676,7 +680,9 @@ namespace ConnectedForm
                         flk.Path_To = to + file.nameFile;
                         //userControl1.files_inf = (WpfControlLibrary2.files)files;
 
+
                         tiktak.Items.Add(flk);
+
 
                         var client = new TcpFileClient(ip_to);
 
@@ -691,59 +697,64 @@ namespace ConnectedForm
                         Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
                         receiveThread.IsBackground = true;
                         receiveThread.Start(path);
-
-                    }
+                    }));
 
                 }
-                else
+
+            }
+            else
+            {
+                if (file.sizeFile == "")
                 {
-                    if (file.sizeFile == "")
+                    Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
+                    () =>
                     {
                         WpfControlLibrary3.UserControl1 papka = new WpfControlLibrary3.UserControl1();
+                    
 
                         papka.Ip_From = ip_from;
                         papka.Ip_To = ip_to;
                         papka.Path_From = from;
                         papka.Path_To = to + file.nameFile;
-
+                        tiktak.Items.Add(papka);             
 
                         Thread receiveThread = new Thread(new ParameterizedThreadStart(papka.CheckingDirectory));
                         receiveThread.IsBackground = true;
                         receiveThread.Start(papka.Path_To);
+                    }));
 
-                        tiktak.Items.Add(papka);
-                    }
-                    else
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
+                    () =>
                     {
                         UserControl1 flk = new UserControl1();
                         flk.Ip_From = ip_from;
                         flk.Ip_To = ip_to;
                         flk.Path_From = from;
                         flk.Path_To = to + file.nameFile;
-                        //userControl1.files_inf = (WpfControlLibrary2.files)files;
-
+                    //userControl1.files_inf = (WpfControlLibrary2.files)files;
                         tiktak.Items.Add(flk);
+                    }));
 
-                        var ans = RequestInteractivity.SendRequst(ip_from, RequestTipe.GetFileFromMe,flk.Path_To+ "|"+flk.Path_From);
+                    var ans = RequestInteractivity.SendRequst(ip_from, RequestTipe.GetFileFromMe, to + file.nameFile + "|" + from);
 
-                        //var client = new TcpFileClient(ip_from);
+                    //var client = new TcpFileClient(ip_from);
 
-                        ////Подписываемся на события
-                        //client.SendingEvent += flk.ChangedvalueForProgressBar;
-                        //client.FailEvent += flk.SendingFailMessage;
-                        //client.ReadyEvent += flk.SendingSuccessfullyMessage;
+                    ////Подписываемся на события
+                    //client.SendingEvent += flk.ChangedvalueForProgressBar;
+                    //client.FailEvent += flk.SendingFailMessage;
+                    //client.ReadyEvent += flk.SendingSuccessfullyMessage;
 
-                        //string path = flk.Path_To + "|" + flk.Path_From;
-                        //Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
-                        //receiveThread.IsBackground = true;
-                        //receiveThread.Start(path);
-                    }
+                    //string path = flk.Path_To + "|" + flk.Path_From;
+                    //Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
+                    //receiveThread.IsBackground = true;
+                    //receiveThread.Start(path);
                 }
 
-                
-            }));
-        
-
+            }           
+           
         }
 
         private void Btn_moreInfo_Click(object sender, RoutedEventArgs e)
