@@ -99,8 +99,7 @@
                             <StackPanel  x:Name="stackpanel0" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
                                 <ListView  MouseDoubleClick="listUsers0_MouseDoubleClick"  x:Name="listUsers0" AllowDrop="False" Drop="listUsers0_Drop">
                                     <ListView.View>
-                                        <GridView >
-                                            <GridViewColumn Width="20" DisplayMemberBinding="{Binding imageFile}"/>
+                                        <GridView>                                            
                                             <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}"/>
                                             <GridViewColumn Width="{Binding setWidth}" Header="Дата создания" DisplayMemberBinding="{Binding time}"/>
                                             <GridViewColumn Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}"/>
@@ -148,8 +147,7 @@
                             <StackPanel  x:Name="stackpanel1" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
                                 <ListView  MouseDoubleClick="listUsers1_MouseDoubleClick"  x:Name="listUsers1" AllowDrop="False" Drop="listUsers1_Drop">
                                     <ListView.View>
-                                        <GridView >
-                                            <GridViewColumn Width="20" DisplayMemberBinding="{Binding imageFile}"/>
+                                        <GridView >                                            
                                             <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}"/>
                                             <GridViewColumn Width="{Binding setWidth}" Header="Дата создания" DisplayMemberBinding="{Binding time}"/>
                                             <GridViewColumn  Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}"/>
@@ -178,7 +176,7 @@
         <Grid Grid.Row="1">
             <Button x:Name="transmit_chk" Click="transmit_chk_Click" HorizontalAlignment="Right" Width="20"  Height="20"/>
         </Grid>
-        <Grid x:Name="Gridfortransmit" MaxWidth="400" Style="{StaticResource grd}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="400" Height="240" Background="Transparent">
+        <Grid x:Name="Gridfortransmit" MaxWidth="400" Style="{StaticResource grd}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="0" Height="0" Background="Transparent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="*"/>

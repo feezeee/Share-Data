@@ -140,14 +140,15 @@ namespace InterfaceV2
                 }
 
                 var direct = new DirectoryInfo(directoryPass);
-                foreach (var file in direct.GetFiles())
-                {
-                    ans += $"{file.Name}|{file.LastWriteTime.ToString()}|{file.Length}\n";
-                }
                 foreach (var dir in direct.GetDirectories())
                 {
-                    ans += $"{dir.Name}|{dir.LastWriteTime.ToString()}|{-1}\n";
+                    
+                    ans += $"{dir.Name}|{dir.CreationTime.ToString()}|{-1}\n";
                 }
+                foreach (var file in direct.GetFiles())
+                {
+                    ans += $"{file.Name}|{file.CreationTime.ToString()}|{file.Length}\n";
+                }                
 
                 return ans;
             }

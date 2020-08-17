@@ -77,9 +77,7 @@ namespace ConnectedForm
         #region загрузка информации в форму 
         public void loadInfromationAboutFiles0(string nameFile, string time, string sizeFile)
         {
-            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
-            () =>
-            {
+            
                 string nameSize = "b";
 
                 if (sizeFile == "-1")
@@ -114,15 +112,16 @@ namespace ConnectedForm
                     time = time, // указываем время создания    
                     sizeFile = sizeFile, // указываем пароль        
                 };
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+            () =>
+            {
                 listUsers0.Items.Add(dataFile); // выводим строку в список 
             }));
         }
 
         public void loadInfromationAboutFiles1(string nameFile, string time, string sizeFile)
         {
-            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
-            () =>
-            {
+            
                 string nameSize = "b";
 
                 if (sizeFile == "-1")
@@ -157,6 +156,9 @@ namespace ConnectedForm
                     time = time, // указываем время создания   
                     sizeFile = sizeFile, // указываем пароль 
                 };
+            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+            () =>
+            {
                 listUsers1.Items.Add(dataFile);                // выводим строку в список
             }));
         }
@@ -205,20 +207,16 @@ namespace ConnectedForm
                     List<(string, string, string)> ps = mainWindow.CuttingMessages(file);
                     if (control == 0)
                     {
-                        Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
-                        () =>
-                        {     
+                          
                             mainWindow.loadInfromationAboutFiles0(ps[0].Item1, ps[0].Item2, ps[0].Item3);
-                        }));
+                        
                     }
 
                     else if (control == 1)
                     {
-                        Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
-                        () =>
-                        {
+                        
                              mainWindow.loadInfromationAboutFiles1(ps[0].Item1, ps[0].Item2, ps[0].Item3);
-                        }));
+                        
                     }
                 }
                 else
@@ -339,11 +337,8 @@ namespace ConnectedForm
         private async void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string txt = "";
-            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
-            () =>
-            {
-                txt = pathbox0.Text;
-            }));
+            txt = pathbox0.Text;
+            
             if (txt != "" && txt.Length > 3)
                 if (txt[txt.Length - 1] == '\\' && txt[txt.Length - 2] != '\\')
                 {
@@ -368,13 +363,11 @@ namespace ConnectedForm
         private async void pathbox1_TextChanged(object sender, TextChangedEventArgs e)
         {
             string ip = "";
+            string txt = "";
 
-            Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
-            () =>
-            {
-                ip = LabelIp1.Content.ToString();
-            }));
-            string txt = pathbox1.Text;
+            ip = LabelIp1.Content.ToString();
+            txt = pathbox1.Text;
+            
             if (txt != "" && txt.Length > 3)
                 if (txt[txt.Length - 1] == '\\' && txt[txt.Length - 2] != '\\')
                 {
