@@ -538,9 +538,7 @@ namespace ConnectedForm
             for (int i = 0; i < _neededToAdding.Count; i++)
             {
 
-                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
-                () =>
-                {
+                
                     string from = _neededToAdding[i].Item2;
                     string to = _neededToAdding[i].Item3;
                     while (true)
@@ -559,7 +557,9 @@ namespace ConnectedForm
                     }
 
                     (object, string, string, System.Drawing.Image, string, string) obj = (_neededToAdding[i].Item1, from + _neededToAdding[i].Item4, to, null, _neededToAdding[i].Item5, _neededToAdding[i].Item6);
-
+                Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+                () =>
+                {
                     Thread receiveThread = new Thread(new ParameterizedThreadStart(AddingInDonwloadList));
                     receiveThread.IsBackground = true;
                     receiveThread.Start(obj);

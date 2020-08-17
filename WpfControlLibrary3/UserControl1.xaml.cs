@@ -90,10 +90,6 @@ namespace WpfControlLibrary3
         /// <param name="path">путь по которому надо создать папку</param>
         public void CheckingDirectory(object path)
         {
-            Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
-            () =>
-            
-            {
                 if (Ip_From == "Этот компьютер")
                 {
                     var SetDirectory = RequestInteractivity.SendRequst(Ip_To, RequestTipe.CreateDirrectory, path.ToString());
@@ -116,23 +112,33 @@ namespace WpfControlLibrary3
                                 };
                                 if (files1.sizeFile == "-1")
                                 {
-                                    // Если это папка
-                                    WpfControlLibrary3.UserControl1 userControl1 = new WpfControlLibrary3.UserControl1();
+                                // Если это папка
 
-                                    userControl1.Ip_From = Ip_From;
-                                    userControl1.Ip_To = Ip_To;
-                                    userControl1.Path_From = Path_From + "\\" + files1.nameFile;
-                                    userControl1.Path_To = Path_To + "\\" + files1.nameFile;
+                                    Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
+                                    () =>
+                                    {
+                                        WpfControlLibrary3.UserControl1 userControl1 = new WpfControlLibrary3.UserControl1();
+
+                                        userControl1.Ip_From = Ip_From;
+                                        userControl1.Ip_To = Ip_To;
+                                        userControl1.Path_From = Path_From + "\\" + files1.nameFile;
+                                        userControl1.Path_To = Path_To + "\\" + files1.nameFile;
 
 
-                                    Thread receiveThread = new Thread(new ParameterizedThreadStart(userControl1.CheckingDirectory));
-                                    receiveThread.IsBackground = true;
-                                    receiveThread.Start(userControl1.Path_To);
+                                        Thread receiveThread = new Thread(new ParameterizedThreadStart(userControl1.CheckingDirectory));
+                                        receiveThread.IsBackground = true;
+                                        receiveThread.Start(userControl1.Path_To);
 
-                                    list_for_papki.Items.Add(userControl1);
+                                        list_for_papki.Items.Add(userControl1);
+                                    }));
                                 }
                                 else
                                 {
+
+                                    Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
+                                    () =>
+
+                                    {
                                     // Если это файл
                                     WpfControlLibrary2.UserControl1 flk = new WpfControlLibrary2.UserControl1();
                                     flk.Ip_From = Ip_From;
@@ -142,6 +148,7 @@ namespace WpfControlLibrary3
 
 
                                     list_for_papki.Items.Add(flk);
+                                    }));
 
                                     //var client = new TcpFileClient(Ip_From);
 
@@ -187,6 +194,11 @@ namespace WpfControlLibrary3
                                 };
                                 if (files1.sizeFile == "-1")
                                 {
+
+                                Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
+                                () =>
+
+                                {
                                     // Если это папка
                                     WpfControlLibrary3.UserControl1 userControl1 = new WpfControlLibrary3.UserControl1();
 
@@ -201,9 +213,14 @@ namespace WpfControlLibrary3
                                     receiveThread.Start(userControl1.Path_To);
 
                                     list_for_papki.Items.Add(userControl1);
+                                }));
                                 }
                                 else
                                 {
+
+                                    Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
+                                    () =>
+                                    {
                                     // Если это файл
                                     WpfControlLibrary2.UserControl1 flk = new WpfControlLibrary2.UserControl1();
                                     flk.Ip_From = Ip_From;
@@ -213,6 +230,7 @@ namespace WpfControlLibrary3
 
 
                                     list_for_papki.Items.Add(flk);
+                                    }));
 
                                     //var client = new TcpFileClient(Ip_From);
 
@@ -237,7 +255,7 @@ namespace WpfControlLibrary3
                     }
                 }
 
-            }));
+            
         }
 
         //Сортирует сообщение(файл дата размер)
