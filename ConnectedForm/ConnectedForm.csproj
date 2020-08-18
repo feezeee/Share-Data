@@ -58,8 +58,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ClassAboutFiles.cs" />
     <Compile Include="MyProp\DetectedPressed.cs" />
     <Compile Include="Spisok.cs" />
+    <Compile Include="TransmitingFiles.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
