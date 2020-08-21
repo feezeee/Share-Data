@@ -84,202 +84,16 @@ namespace WpfControlLibrary3
             set { _path_to = value; }
         }
 
+
+        private int cout = 0;
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="path">путь по которому надо создать папку</param>
-        public void CheckingDirectory(object path)
-        {
-            if (Ip_From == "Этот компьютер")
-            {
-                var SetDirectory = RequestInteractivity.SendRequst(Ip_To, RequestTipe.CreateDirrectory, path.ToString());
-                if (SetDirectory == "Answer|Выполнено")
-                {
-                    var ans = RequestInteractivity.SendRequst("127.0.0.1", RequestTipe.GetDirectoryFiles, Path_From); //Получить папки от удаленного пк (здесь от отправителя)
-                    ans = ans.Remove(0, 7);
-                    var files = ans.Split('\n');
-                    files[files.Length - 1] = null;
-                    foreach (var file in files)
-                    {
-                        if (file != null)
-                        {
-                            List<(string, string, string)> ps = CuttingMessages(file);
-                            files files1 = new files() // создаём экземпляр класса        
-                            {
-                                nameFile = ps[0].Item1, // указываем имя файла  
-                                time = ps[0].Item2, // указываем время создания    
-                                sizeFile = ps[0].Item3, // указываем пароль        
-                            };
-                            if (files1.sizeFile == "-1")
-                            {
-                                // Если это папка
-                                Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
-                                () =>
-                                {
-                                    WpfControlLibrary3.UserControl1 userControl1 = new WpfControlLibrary3.UserControl1();
+        
 
-                                    userControl1.Ip_From = Ip_From;
-                                    userControl1.Ip_To = Ip_To;
-                                    userControl1.Path_From = Path_From + "\\" + files1.nameFile;
-                                    userControl1.Path_To = Path_To + "\\" + files1.nameFile;
-
-
-                                    Thread receiveThread = new Thread(new ParameterizedThreadStart(userControl1.CheckingDirectory));
-                                    receiveThread.IsBackground = true;
-                                    receiveThread.Start(userControl1.Path_To);
-
-                                    list_for_papki.Items.Add(userControl1);
-                                }));
-                            }
-                            else
-                            {
-                                Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
-                                () =>
-                                {
-
-                                    // Если это файл
-                                    WpfControlLibrary2.UserControl1 flk = new WpfControlLibrary2.UserControl1();
-                                    flk.Ip_From = Ip_From;
-                                    flk.Ip_To = Ip_To;
-                                    flk.Path_From = Path_From + "\\" + files1.nameFile;
-                                    flk.Path_To = Path_To + "\\" + files1.nameFile;
-
-
-                                    list_for_papki.Items.Add(flk);
-
-
-                                    var client = new TcpFileClient(Ip_To);
-
-                                    //Подписываемся на события
-                                    client.SendingEvent += flk.ChangedvalueForProgressBar;
-                                    client.FailEvent += flk.SendingFailMessage;
-                                    client.ReadyEvent += flk.SendingSuccessfullyMessage;
-
-                                    string _path = flk.Path_To + "|" + flk.Path_From;
-                                    Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
-                                    receiveThread.IsBackground = true;
-                                    receiveThread.Start(_path);
-                                }));
-
-                            }
-
-                        }
-                    }
-                }
-                else
-                {
-                    /// . . . 
-                }
-            }
-            else
-            {
-                var SetDirectory = RequestInteractivity.SendRequst("127.0.0.1", RequestTipe.CreateDirrectory, path.ToString());
-                if (SetDirectory == "Answer|Выполнено")
-                {
-                    var ans = RequestInteractivity.SendRequst(Ip_From, RequestTipe.GetDirectoryFiles, Path_From); //Получить папки от удаленного пк (здесь от отправителя)
-                    ans = ans.Remove(0, 7);
-                    var files = ans.Split('\n');
-                    files[files.Length - 1] = null;
-                    foreach (var file in files)
-                    {
-                        if (file != null)
-                        {
-                            List<(string, string, string)> ps = CuttingMessages(file);
-                            files files1 = new files() // создаём экземпляр класса        
-                            {
-                                nameFile = ps[0].Item1, // указываем имя файла  
-                                time = ps[0].Item2, // указываем время создания    
-                                sizeFile = ps[0].Item3, // указываем пароль        
-                            };
-                            if (files1.sizeFile == "-1")
-                            {
-                                Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
-                                () =>
-                                {
-
-                                    // Если это папка
-                                    WpfControlLibrary3.UserControl1 userControl1 = new WpfControlLibrary3.UserControl1();
-
-                                    userControl1.Ip_From = Ip_From;
-                                    userControl1.Ip_To = Ip_To;
-                                    userControl1.Path_From = Path_From + "\\" + files1.nameFile;
-                                    userControl1.Path_To = Path_To + "\\" + files1.nameFile;
-
-
-                                    Thread receiveThread = new Thread(new ParameterizedThreadStart(userControl1.CheckingDirectory));
-                                    receiveThread.IsBackground = true;
-                                    receiveThread.Start(userControl1.Path_To);
-
-                                    list_for_papki.Items.Add(userControl1);
-                                }));
-                            }
-                            else
-                            {
-                                Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new Action(
-                                () =>
-                                {
-                                        // Если это файл
-                                    WpfControlLibrary2.UserControl1 flk = new WpfControlLibrary2.UserControl1();
-                                    flk.Ip_From = Ip_From;
-                                    flk.Ip_To = Ip_To;
-                                    flk.Path_From = Path_From + "\\" + files1.nameFile;
-                                    flk.Path_To = Path_To + "\\" + files1.nameFile;
-
-
-
-                                    list_for_papki.Items.Add(flk);
-
-                                }));
-                                var ansv = RequestInteractivity.SendRequst(Ip_From, RequestTipe.GetFileFromMe, Path_To + "\\" + files1.nameFile + "|" + Path_From + "\\" + files1.nameFile);
-
-                                //var client = new TcpFileClient(Ip_From);
-
-                                ////Подписываемся на события
-                                //client.SendingEvent += flk.ChangedvalueForProgressBar;
-                                //client.FailEvent += flk.SendingFailMessage;
-                                //client.ReadyEvent += flk.SendingSuccessfullyMessage;
-
-                                //string _path = flk.Path_To + "|" + flk.Path_From;
-                                //Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
-                                //receiveThread.IsBackground = true;
-                                //receiveThread.Start(_path);
-
-                            }
-
-                        }
-                    }
-                }
-                else
-                {
-                    /// . . . 
-                }
-            }
-
-            
-        }
-
-        //Сортирует сообщение(файл дата размер)
-        private List<(string, string, string)> CuttingMessages(string message)
-        {
-            List<(string, string, string)> ps = new List<(string, string, string)>();
-            int k = 0;
-            string file = "", date = "", sizefile = "";
-            //ps[0].GetType().GetProperty("Item" + k)
-            for (int i = 0; i < message.Length; i++)
-            {
-                if (message[i] != '|' && k == 0)
-                    file += message[i];
-                else if (message[i] != '|' && k == 1)
-                    date += message[i];
-                else if (message[i] != '|' && k == 2)
-                    sizefile += message[i];
-                else
-                    k++;
-            }
-            (string, string, string) member_str = (file, date, sizefile);
-            ps.Add(member_str);
-            return ps;
-        }
+        //Сортирует сообщение(файл дата размер)      
 
         public bool IsCheckBoxChecked_papka
         {
@@ -302,29 +116,50 @@ namespace WpfControlLibrary3
         //IsCheckBoxChecked.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsHeightValueProperty =
             DependencyProperty.Register("IsHeightValue", typeof(int),
-            typeof(System.Windows.Controls.UserControl), new UIPropertyMetadata(250));
+            typeof(System.Windows.Controls.UserControl), new UIPropertyMetadata(0));
 
+        public delegate void MethodContainer();
+
+        //Событие OnCount c типом делегата  OncompleteList.
+        public event MethodContainer OnCompleteTransmit;
+
+        public void ChangedvalueForProgressBar()
+        {
+            System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
+            {
+                cout++;
+                double how = cout;
+                double all = IsHeightValue;
+                double value = how / all * 100;
+                status_progress.Value = value;
+                status_label.Content = cout + "|" + IsHeightValue;
+                if (cout == IsHeightValue)
+                {
+                    OnCompleteTransmit?.Invoke();
+                }
+            });
+        }
 
         private void btn_checking_Click(object sender, RoutedEventArgs e)
         {
-            if(IsCheckBoxChecked_papka == false)
-            {
-                IsCheckBoxChecked_papka = true;
+            //if(IsCheckBoxChecked_papka == false)
+            //{
+            //    IsCheckBoxChecked_papka = true;
 
-                DoubleAnimation buttonAnimation = new DoubleAnimation();
-                buttonAnimation.To = list_for_papki.Items.Count*26+50;
-                buttonAnimation.Duration = TimeSpan.FromSeconds(0.3);
-                grid_for_papki.BeginAnimation(Button.HeightProperty, buttonAnimation);
-            }
-            else
-            {
-                IsCheckBoxChecked_papka = false;
+            //    DoubleAnimation buttonAnimation = new DoubleAnimation();
+            //    buttonAnimation.To = list_for_papki.Items.Count*26+50;
+            //    buttonAnimation.Duration = TimeSpan.FromSeconds(0.3);
+            //    grid_for_papki.BeginAnimation(Button.HeightProperty, buttonAnimation);
+            //}
+            //else
+            //{
+            //    IsCheckBoxChecked_papka = false;
 
-                DoubleAnimation buttonAnimation = new DoubleAnimation();
-                buttonAnimation.To = 0;
-                buttonAnimation.Duration = TimeSpan.FromSeconds(0.3);
-                grid_for_papki.BeginAnimation(Button.HeightProperty, buttonAnimation);
-            }    
+            //    DoubleAnimation buttonAnimation = new DoubleAnimation();
+            //    buttonAnimation.To = 0;
+            //    buttonAnimation.Duration = TimeSpan.FromSeconds(0.3);
+            //    grid_for_papki.BeginAnimation(Button.HeightProperty, buttonAnimation);
+            //}    
         }
 
     }

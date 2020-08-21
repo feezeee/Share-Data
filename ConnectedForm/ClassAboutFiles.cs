@@ -80,6 +80,34 @@ namespace ConnectedForm
         }
 
 
+        private string _LocalParentName;
+        public string LocalParentName
+        {
+            get
+            {
+                return _LocalParentName;
+            }
+            set
+            {
+                _LocalParentName = value;
+            }
+        }
+
+        private string _RemoteParentName;
+        public string RemoteParentName
+        {
+            get
+            {
+                return _RemoteParentName;
+            }
+            set
+            {
+                _RemoteParentName = value;
+            }
+        }
+
+
+
         private string _sender;
         private string _receiver;
 
@@ -128,7 +156,7 @@ namespace ConnectedForm
             this.LocalParentPath = LocalParentPath;
         }
 
-        public ClassAboutFilesAdding(string Name, string Time, string Size, string RootLocationFilesOrDirectory, string RemoteLocationFilesOrDirectory, string SenderIp, string Receiverip, string LocalParentPath, string RemoteParentPath)
+        public ClassAboutFilesAdding(string Name, string Time, string Size, string RootLocationFilesOrDirectory, string RemoteLocationFilesOrDirectory, string SenderIp, string Receiverip, string LocalParentPath, string RemoteParentPath, string LocalParentName, string RemoteParentName)
         {
             this.nameFile = Name;
             this.time = Time;
@@ -139,6 +167,8 @@ namespace ConnectedForm
             this.Receiver = Receiverip;
             this.LocalParentPath = LocalParentPath;
             this.RemoteParentPath = RemoteParentPath;
+            this.LocalParentName = LocalParentName;
+            this.RemoteParentName = RemoteParentName;
         }
     }
 }

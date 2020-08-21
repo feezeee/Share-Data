@@ -164,7 +164,7 @@ namespace ConnectedForm
         /// <param name="ip">Указываем Ip адрес пк, у которого запрашивает директории по указанному пути</param>
         /// <param name="path">Указываем сам путь</param>
         /// <param name="control">Рисуем в первом контроле или во втором(по умолчанию - 0, (0/1))</param>
-        public void loadFiles(object sender, string ip, string path, int control = 0)
+        public async void loadFiles(object sender, string ip, string path, int control = 0)
         {
 
             var myIp = ip;//ip текущего пк
@@ -198,15 +198,15 @@ namespace ConnectedForm
                     List<(string, string, string)> ps = mainWindow.CuttingMessages(file);
                     if (control == 0)
                     {
-                          
-                            mainWindow.loadInfromationAboutFiles0(ps[0].Item1, ps[0].Item2, ps[0].Item3);
+
+                        await Task.Run(() => mainWindow.loadInfromationAboutFiles0(ps[0].Item1, ps[0].Item2, ps[0].Item3));
                         
                     }
 
                     else if (control == 1)
                     {
-                        
-                             mainWindow.loadInfromationAboutFiles1(ps[0].Item1, ps[0].Item2, ps[0].Item3);                        
+
+                        await Task.Run(() => mainWindow.loadInfromationAboutFiles1(ps[0].Item1, ps[0].Item2, ps[0].Item3));                        
                     }
                 }
                 else
@@ -230,7 +230,7 @@ namespace ConnectedForm
                 Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(
                 () =>
                 {
-                pathbox1.IsEnabled = true;
+                    pathbox1.IsEnabled = true;
                     
                 }));
             }

@@ -40,9 +40,9 @@ namespace InterfaceV2
         {
             try
             {
-                string[] mes = obj.ToString().Split('|');
-                string localPathToSave = mes[0];
+                string[] mes = obj.ToString().Split('|');                
                 string remoteFilePath = mes[1];
+                string localPathToSave = mes[0];
                 var reciverEP = new IPEndPoint(RemoteIP, port);
                 client.Connect(reciverEP);
                 while (!client.Connected) ;

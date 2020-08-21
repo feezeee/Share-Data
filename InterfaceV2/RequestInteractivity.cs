@@ -47,10 +47,11 @@ namespace InterfaceV2
                 StringBuilder ansBuilder = new StringBuilder();
                 int bytes = 0; // количество полученных байт
                 do
-                {
+                {                    
                     bytes = sender.Receive(data);
                     ansBuilder.Append(Encoding.Unicode.GetString(data, 0, bytes));
-                }
+                    Thread.Sleep(100);
+                }                
                 while (sender.Available > 0);
 
                 var response = ansBuilder.ToString();

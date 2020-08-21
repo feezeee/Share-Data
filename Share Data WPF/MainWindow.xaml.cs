@@ -33,6 +33,7 @@ namespace Share_Data_WPF
 
             Thread DoRequestsRecieveingThread = new Thread(new ThreadStart(RequestInteractivity.DoRequestsRecieveing)); //созадем новый поток отдельно для получения
             DoRequestsRecieveingThread.IsBackground = true;
+            DoRequestsRecieveingThread.Priority = ThreadPriority.Highest;
             DoRequestsRecieveingThread.Start();// Запускаем процесс получния запросов
 
 
@@ -67,7 +68,7 @@ namespace Share_Data_WPF
                 receiveThread.Start(available);
                 Status = true;
             }
-            Drawing_picture_for_pc("denis", "127.0.0.1");
+            Drawing_picture_for_pc("denis", "192.168.100.234");
 
         }
         int count = 0;

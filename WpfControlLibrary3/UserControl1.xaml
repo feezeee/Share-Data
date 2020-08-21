@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfControlLibrary3"
              mc:Ignorable="d"              >
-    <Grid Width="350"> 
-
+    <Grid Width="240">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="26"/>
             <RowDefinition Height="auto"/>
@@ -19,11 +19,12 @@
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>                          
             <ProgressBar Grid.Column="1" x:Name="status_progress">
-
+             
             </ProgressBar>
             <Image Grid.Column="1" x:Name="image_file" Source="papka.png" HorizontalAlignment="Left" />
+            <Label Grid.Column="1" x:Name="status_label" HorizontalAlignment="Center"/>            
             <Button Grid.Column="2" HorizontalAlignment="Left" Width="26"/>
-            <Button x:Name="btn_checking" Grid.Column="3" Click="btn_checking_Click" Content="{Binding ElementName=list_for_papki,Path=Items.Count}">
+            <Button x:Name="btn_checking" Grid.Column="3" Click="btn_checking_Click" Content="{Binding IsHeightValue}">
 
 
             </Button>
@@ -31,9 +32,7 @@
         </Grid>
 
         <Grid x:Name="grid_for_papki" Grid.Row="1" Height="0">
-            <ListView x:Name="list_for_papki">
-                
-            </ListView>
+            
         </Grid>
 
 

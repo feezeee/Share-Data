@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 
+
 namespace WpfControlLibrary2
 {
 
@@ -79,6 +80,14 @@ namespace WpfControlLibrary2
             set { _ip_to = value; }
         }
 
+        private string _name;
+
+        public string Name_
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
         private string _path_from;
 
         public string Path_From
@@ -132,17 +141,24 @@ namespace WpfControlLibrary2
             });
         }
 
+        public delegate void MethodContainer();
+
+        //Событие OnCount c типом делегата  OncompleteList.
+        public event MethodContainer OnCompleteTransmit;
+
         public void SendingSuccessfullyMessage()
         {
             System.Windows.Application.Current.Dispatcher.Invoke((Action)delegate
             {
                 label_status.Content = "Отправлено";
+                OnCompleteTransmit?.Invoke();
             });
         }
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            //OnCompleteTransmit?.Invoke();
             if (IsCheckBoxChecked == false)
             {
                 IsCheckBoxChecked = true;
