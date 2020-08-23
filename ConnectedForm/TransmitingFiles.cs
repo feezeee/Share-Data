@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Principal;
@@ -221,7 +222,7 @@ namespace ConnectedForm
 
         object sbros = null;
 
-        private MenuItem CreateDirectoryNode(object direct)
+        private MenuItem CreateDirectoryNodeForRemote(object direct)
         {
             ClassAboutFilesAdding directoryInfo = (ClassAboutFilesAdding)direct;
             
@@ -301,7 +302,7 @@ namespace ConnectedForm
                         if (ps[0].Item3 == "" || ps[0].Item3 == "-1")
                         {
                             sbros = directoryNode.flk;
-                            directoryNode.Items.Add(CreateDirectoryNode(files1));
+                            directoryNode.Items.Add(CreateDirectoryNodeForRemote(files1));
                         }
                         else
                         {
@@ -352,9 +353,175 @@ namespace ConnectedForm
             
         }
 
+        private MenuItem CreateDirectoryNodeForLocal(object direct)
+        {
+            ClassAboutFilesAdding directoryInfo = (ClassAboutFilesAdding)direct;
+
+            string ip_sender = "";
+            if (directoryInfo.Sender == "Этот компьютер")
+            {
+                ip_sender = "127.0.0.1";
+            }
+            else
+            {
+                ip_sender = directoryInfo.Sender;
+            }
+
+            //var ans = RequestInteractivity.SendRequst(ip_sender, RequestTipe.GetDirectoryFiles, directoryInfo.RootLocationFilesOrDirectory + directoryInfo.nameFile); //Получить папки от удаленного пк (здесь от отправителя)
+
+            var ans = GetDirectoryLocal(directoryInfo.RootLocationFilesOrDirectory + directoryInfo.nameFile);
+
+            if (ans!="False")
+            {                
+                var files = ans.Split('\n');
+                files[files.Length - 1] = null;
+
+                object papka_ = null;
+                System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(
+                () =>
+                {
+                    WpfControlLibrary3.UserControl1 papka = new WpfControlLibrary3.UserControl1();
+
+                    papka.Ip_From = directoryInfo.Sender;
+                    papka.Ip_To = directoryInfo.Receiver;
+                    papka.Path_From = directoryInfo.RootLocationFilesOrDirectory + directoryInfo.nameFile;
+                    papka.Path_To = directoryInfo.RemoteLocationFilesOrDirectory + directoryInfo.nameFile;
+                    papka.IsHeightValue = files.Length - 1;
+                    if (sbros != null)
+                    {
+                        WpfControlLibrary3.UserControl1 tyc = (WpfControlLibrary3.UserControl1)sbros;
+                        papka.OnCompleteTransmit += tyc.ChangedvalueForProgressBar;
+                    }
+                    papka_ = papka;
+
+                }));
+
+                var directoryNode = new MenuItem() { Title = directoryInfo.nameFile, flk = papka_ };//создаем фалй или папку, пока что мы не знаем
+
+
+                foreach (var file in files)
+                {
+                    if (file != null)
+                    {
+                        string name = "";
+
+                        List<(string, string, string)> ps = CuttingMessages(file);
+
+                        if (ps[0].Item3 == "-1")
+                            name = ps[0].Item1 + "\\";
+                        else
+                            name = ps[0].Item1;
+
+                        ClassAboutFilesAdding files1 = new ClassAboutFilesAdding() // создаём экземпляр класса        
+                        {
+                            nameFile = ps[0].Item1, // указываем имя файла  
+                            time = ps[0].Item2, // указываем время создания    
+                            sizeFile = ps[0].Item3, // указываем размер  
+                            LocalParentPath = directoryInfo.RootLocationFilesOrDirectory,
+                            LocalParentName = directoryInfo.nameFile,
+                            RootLocationFilesOrDirectory = directoryInfo.RootLocationFilesOrDirectory + directoryInfo.nameFile + "\\",
+                            Receiver = directoryInfo.Receiver,
+                            Sender = directoryInfo.Sender,
+                            RemoteLocationFilesOrDirectory = directoryInfo.RemoteLocationFilesOrDirectory + directoryInfo.nameFile + "\\",
+                            RemoteParentName = directoryInfo.nameFile,
+                            RemoteParentPath = directoryInfo.RemoteLocationFilesOrDirectory
+
+                        };
+
+                        if (ps[0].Item3 == "" || ps[0].Item3 == "-1")
+                        {
+                            sbros = directoryNode.flk;
+                            directoryNode.Items.Add(CreateDirectoryNodeForLocal(files1));
+                        }
+                        else
+                        {
+                            System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(
+                               () =>
+                               {
+                                   UserControl1 flk = new UserControl1();
+                                   flk.Ip_From = files1.Sender;
+                                   flk.Ip_To = files1.Receiver;
+                                   flk.Path_From = files1.RootLocationFilesOrDirectory + files1.nameFile;
+                                   flk.Path_To = files1.RemoteLocationFilesOrDirectory + files1.nameFile;
+                                   WpfControlLibrary3.UserControl1 _papka = (WpfControlLibrary3.UserControl1)directoryNode.flk;
+                                   flk.OnCompleteTransmit += _papka.ChangedvalueForProgressBar;
+
+                                   if (files1.Sender != "Этот компьютер")
+                                   {
+
+                                       var client = new TcpFileClient(files1.Sender);
+
+                                       //Подписываемся на события
+                                       client.SendingEvent += flk.ChangedvalueForProgressBar;
+                                       client.FailEvent += flk.SendingFailMessage;
+                                       client.ReadyEvent += flk.SendingSuccessfullyMessage;
+
+                                       ////var ans = RequestInteractivity.SendRequst(ip_to, RequestTipe.GetFileFromMe, flk.Path_To + "|" + flk.Path_From);
+
+                                       string path = flk.Path_To + files1.nameFile + "|" + flk.Path_From + files1.nameFile;
+                                       Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
+                                       receiveThread.IsBackground = true;
+                                       receiveThread.Start(path);
+                                   }
+
+                                   directoryNode.Items.Add(new MenuItem() { Title = ps[0].Item1, flk = flk });
+
+                               }));
+                            if (files1.Sender == "Этот компьютер")
+                            {
+                                var ansv = RequestInteractivity.SendRequst(files1.Receiver, RequestTipe.GetFileFromMe, files1.RemoteLocationFilesOrDirectory + files1.nameFile + "|" + files1.RootLocationFilesOrDirectory + files1.nameFile);
+                            }
+                        }
+                    }
+                }
+
+                return directoryNode;
+            }
+            else
+                return null;
+
+        }
+
+        private string GetDirectoryLocal(string directoryPass)
+        {
+            try
+            {
+                string ans = "";
+                
+                var direct = new DirectoryInfo(directoryPass);
+                foreach (var dir in direct.GetDirectories())
+                {
+
+                    ans += $"{dir.Name}|{dir.CreationTime.ToString()}|{-1}\n";
+                }
+                foreach (var file in direct.GetFiles())
+                {
+                    ans += $"{file.Name}|{file.CreationTime.ToString()}|{file.Length}\n";
+                }
+
+                return ans;
+            }
+            catch
+            {
+                return "Fail";
+            }
+        }
+
         public void _calculatingForDirectory(object rootDirectory)
         {
-            MenuItem treeNode = CreateDirectoryNode(rootDirectory);
+            ClassAboutFilesAdding directoryInfo = (ClassAboutFilesAdding)rootDirectory;
+
+            MenuItem treeNode = new MenuItem();
+
+            if (directoryInfo.Sender!="Этот компьютер" && directoryInfo.Sender != "127.0.0.1") 
+            {
+                treeNode = CreateDirectoryNodeForRemote(rootDirectory);
+            }
+            else 
+            {
+                treeNode = CreateDirectoryNodeForLocal(rootDirectory);// Если с локального куда-то
+            }
+            
             
             System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(
             () =>
