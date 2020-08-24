@@ -72,22 +72,24 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="Откуда" HorizontalAlignment="Center"/>
+            <Label Grid.Row="0" Content="{Binding NameFile}" HorizontalContentAlignment="Center"/>
+            <Label Grid.Row="1" Content="Откуда" HorizontalAlignment="Center"/>
             
-            <Grid Grid.Row="1" >
+            <Grid Grid.Row="2" Height="200">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label x:Name="label_ip_from" Grid.Column="0" HorizontalAlignment="Left" Content="{Binding Path=Ip_From}"/>
                 <Label x:Name="label_path_from" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding Path=Path_From}"/>                
             </Grid>
             
-            <Label Grid.Row="2" Content="Куда" HorizontalAlignment="Center"/>
-            <Grid Grid.Row="3" >
+            <Label Grid.Row="3" Content="Куда" HorizontalAlignment="Center"/>
+            <Grid Grid.Row="4" >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label x:Name="label_ip_to" Grid.Column="0" HorizontalAlignment="Left" Content="{Binding Path=Ip_To}"/>

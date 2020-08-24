@@ -88,6 +88,14 @@ namespace WpfControlLibrary2
             set { _name = value; }
         }
 
+        private string _namefile;
+
+        public string NameFile
+        {
+            get { return _namefile; }
+            set { _namefile = value; }
+        }
+
         private string _path_from;
 
         public string Path_From
@@ -154,8 +162,7 @@ namespace WpfControlLibrary2
                 OnCompleteTransmit?.Invoke();
             });
         }
-
-
+        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             //OnCompleteTransmit?.Invoke();

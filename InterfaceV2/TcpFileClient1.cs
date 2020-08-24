@@ -70,6 +70,7 @@ namespace InterfaceV2
                 }// запрос небыл обработан
                 bool peremen = Execute_(localPathToSave);
                 if (peremen)
+                {
                     using (var fileIO = File.Create(localPathToSave))
                     {
                         while (bytesReceived < fileBytesSize && (count = connectedStream.Read(buffer, 0, buffer.Length)) > 0)
@@ -83,7 +84,12 @@ namespace InterfaceV2
                         SendingEvent?.Invoke(100);
                     }
 
-                ReadyEvent?.Invoke();
+                    ReadyEvent?.Invoke();
+                }
+                else
+                {
+                    FailEvent?.Invoke();
+                }
                 connectedStream.Close();
                 client.Close();
             }

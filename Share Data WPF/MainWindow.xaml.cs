@@ -27,7 +27,7 @@ namespace Share_Data_WPF
         public MainWindow()
         {
 
-            Thread sendThread = new Thread(new ThreadStart(ConnectionV2.SendBroadcastOfferToConnect)); //созадем новый поток отдельно для получения
+            Thread sendThread = new Thread(new ThreadStart(ConnectionV2.SendBroadcastOfferToConnect)); //созадем новый поток для отправки сообщения на широковещательный
             sendThread.IsBackground = true;
             sendThread.Start(); // запускаем процесс отправки сообщений на широковещательный
 
@@ -37,7 +37,7 @@ namespace Share_Data_WPF
             DoRequestsRecieveingThread.Start();// Запускаем процесс получния запросов
 
 
-            Thread listenThread = new Thread(new ThreadStart(TcpServer.ListenRequest)); //созадем новый поток отдельно для получения
+            Thread listenThread = new Thread(new ThreadStart(TcpServer.ListenRequest)); //созадем новый поток отдельно для получения сообщений
             listenThread.IsBackground = true;
             listenThread.Start();
 
@@ -100,16 +100,6 @@ namespace Share_Data_WPF
                 userControl1.heightAll = 175;
                 stackpanel.Children.Add(userControl1);
             });
-            //UserControl1 userControl1 = new UserControl1();
-            //userControl1.namePc = name;
-            //userControl1.ipPc = ip;
-            //userControl1.widthForPicture = 120;
-            //userControl1.heightForPicture = 120;
-            //userControl1.maxheightForPictureh = 150;
-            //userControl1.maxwidthForPicture = 150;
-            //userControl1.widthAll = 220;
-            //userControl1.heightAll = 175;
-            //stackpanel.Children.Add(userControl1);
         }
     }
 }

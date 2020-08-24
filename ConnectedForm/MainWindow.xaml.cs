@@ -606,6 +606,19 @@ namespace ConnectedForm
             DependencyProperty.Register("IsCheckBoxChecked", typeof(bool),
             typeof(MainWindow), new UIPropertyMetadata(false));
 
+
+        public bool IsCheckBoxChecked_1
+        {
+            get { return (bool)GetValue(IsCheckBoxCheckedProperty_1); }
+            set { SetValue(IsCheckBoxCheckedProperty_1, value); }
+        }
+        // Using a DependencyProperty as the backing store for 
+        //IsCheckBoxChecked.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsCheckBoxCheckedProperty_1 =
+            DependencyProperty.Register("IsCheckBoxChecked_1", typeof(bool),
+            typeof(MainWindow), new UIPropertyMetadata(false));
+
+
         private void transmit_chk_Click(object sender, RoutedEventArgs e)
         {
             if (IsCheckBoxChecked == false)
@@ -620,10 +633,24 @@ namespace ConnectedForm
             }
         }
 
+        private void wait_chk_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsCheckBoxChecked_1 == false)
+            {
+                IsCheckBoxChecked_1 = true;
+
+            }
+            else
+            {
+                IsCheckBoxChecked_1 = false;
+
+            }
+        }
+
         #endregion
 
         // object files, string from, string to, System.Drawing.Image image, string ip_from, string ip_to
-       
+
 
         private void Btn_moreInfo_Click(object sender, RoutedEventArgs e)
         {
@@ -647,5 +674,7 @@ namespace ConnectedForm
             //}));
 
         }
+
+        
     }
 }

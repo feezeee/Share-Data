@@ -17,7 +17,7 @@ namespace ConnectedForm
 
         public string sizeFile { get; set; }
     }
-        public class ClassAboutFilesRenamed
+    public class ClassAboutFilesRenamed
     {
 
     }

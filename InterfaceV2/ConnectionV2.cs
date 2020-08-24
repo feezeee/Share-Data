@@ -29,7 +29,7 @@ namespace Interface
                     IPEndPoint ep = new IPEndPoint(broadcast, remotePort);// создаем полыный адрес получателя, тоесть добавляем к IP еще и прот
 
                     s.SendTo(sendbuf, ep);// отправлем сообщение на адрес получателя
-                    Console.WriteLine("Message was sent to the broadcast address");
+                    // Console.WriteLine("Message was sent to the broadcast address");
 
                     Thread.Sleep(5000);
                 }
@@ -57,7 +57,7 @@ namespace Interface
             {   
                 while (true)
                 {
-                    Console.WriteLine("Waiting for broadcast");
+                    // Console.WriteLine("Waiting for broadcast");
                     byte[] bytes = listener.Receive(ref groupEP); // получаем сообщение
                     
                     if (IsLocalAddress(groupEP.Address.ToString())) continue;

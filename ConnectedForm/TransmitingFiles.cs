@@ -314,6 +314,7 @@ namespace ConnectedForm
                                    flk.Ip_To = files1.Receiver;
                                    flk.Path_From = files1.RootLocationFilesOrDirectory + files1.nameFile;
                                    flk.Path_To = files1.RemoteLocationFilesOrDirectory + files1.nameFile;
+                                   flk.NameFile = files1.nameFile;
                                    WpfControlLibrary3.UserControl1 _papka = (WpfControlLibrary3.UserControl1)directoryNode.flk;
                                    flk.OnCompleteTransmit += _papka.ChangedvalueForProgressBar;
 
@@ -367,8 +368,7 @@ namespace ConnectedForm
                 ip_sender = directoryInfo.Sender;
             }
 
-            //var ans = RequestInteractivity.SendRequst(ip_sender, RequestTipe.GetDirectoryFiles, directoryInfo.RootLocationFilesOrDirectory + directoryInfo.nameFile); //Получить папки от удаленного пк (здесь от отправителя)
-
+           
             var ans = GetDirectoryLocal(directoryInfo.RootLocationFilesOrDirectory + directoryInfo.nameFile);
 
             if (ans!="False")
@@ -446,7 +446,7 @@ namespace ConnectedForm
                                    WpfControlLibrary3.UserControl1 _papka = (WpfControlLibrary3.UserControl1)directoryNode.flk;
                                    flk.OnCompleteTransmit += _papka.ChangedvalueForProgressBar;
 
-                                   if (files1.Sender != "Этот компьютер")
+                                   if (files1.Sender != "Этот компьютер")// Если отправитель удаленный пк
                                    {
 
                                        var client = new TcpFileClient(files1.Sender);
@@ -456,9 +456,8 @@ namespace ConnectedForm
                                        client.FailEvent += flk.SendingFailMessage;
                                        client.ReadyEvent += flk.SendingSuccessfullyMessage;
 
-                                       ////var ans = RequestInteractivity.SendRequst(ip_to, RequestTipe.GetFileFromMe, flk.Path_To + "|" + flk.Path_From);
 
-                                       string path = flk.Path_To + files1.nameFile + "|" + flk.Path_From + files1.nameFile;
+                                       string path = flk.Path_To + "|" + flk.Path_From;
                                        Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
                                        receiveThread.IsBackground = true;
                                        receiveThread.Start(path);
@@ -467,7 +466,7 @@ namespace ConnectedForm
                                    directoryNode.Items.Add(new MenuItem() { Title = ps[0].Item1, flk = flk });
 
                                }));
-                            if (files1.Sender == "Этот компьютер")
+                            if (files1.Sender == "Этот компьютер")// если отправитель текущий пк
                             {
                                 var ansv = RequestInteractivity.SendRequst(files1.Receiver, RequestTipe.GetFileFromMe, files1.RemoteLocationFilesOrDirectory + files1.nameFile + "|" + files1.RootLocationFilesOrDirectory + files1.nameFile);
                             }
