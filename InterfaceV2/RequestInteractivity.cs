@@ -119,9 +119,11 @@ namespace InterfaceV2
                         string[] mess = requestMess.Split('|');
                         IPAddress reciverIP = ((IPEndPoint)getter.RemoteEndPoint).Address; // получаем ip отправителя
                         Console.WriteLine("ip отправителя - " + reciverIP.ToString());
+                        
+                        Request request1 = new Request();
 
                         //происходит обработка запроса
-                        var ans = Request.ExecuteRecuest(requestMess,reciverIP.ToString()); // получаем ответ на запрос
+                        var ans = request1.ExecuteRecuest(requestMess,reciverIP.ToString()); // получаем ответ на запрос
                         Console.WriteLine($"ответ на запрос {ans}");
 
                         byte[] message = Encoding.Unicode.GetBytes(GetAnswerString(ans));

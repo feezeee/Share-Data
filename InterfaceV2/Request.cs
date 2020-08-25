@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace InterfaceV2
 {
+
     public enum RequestTipe
     {
         SendFile = 1,
@@ -23,9 +24,12 @@ namespace InterfaceV2
         DirectoryNotExist = -2,
         RequestIncomprehantable = -3
     }
-    public static class Request
+    public class Request
     {
-        public static string DoSendingRequest(string requestMessage, NetworkStream stream = null)
+        public delegate void SendingMethod(double procents);
+        public event SendingMethod SendingEvent;
+
+        public string DoSendingRequest(string requestMessage, NetworkStream stream = null)
         {
             string ans = "";
 
@@ -49,7 +53,7 @@ namespace InterfaceV2
 
             return ans;
         }
-        public static string ExecuteRecuest(string requestMessage, string IP = "0", NetworkStream stream = null)
+        public string ExecuteRecuest(string requestMessage, string IP = "0", NetworkStream stream = null)
         {
             string ans = "";
 
@@ -77,7 +81,7 @@ namespace InterfaceV2
             return ans;
         }
 
-        private static string DoCreateDirrectory(string path)
+        public string DoCreateDirrectory(string path)
         {
                            
             DirectoryInfo drInfo = new DirectoryInfo(path);
@@ -91,15 +95,15 @@ namespace InterfaceV2
                 return "Не выполнено";
             }
         }
-        private static string DoResend(string passToSave, string FileToSend, string IP)
+        public string DoResend(string passToSave, string FileToSend, string IP)
         {
             string ans = "";
 
             TcpFileClient tcpFileClient = new TcpFileClient(IP);
-            tcpFileClient.SendFileRequest(passToSave + "|"+FileToSend);
+            tcpFileClient.SendFileRequest(passToSave + "|" + FileToSend);
             return ans;
         }
-        private static void SendFile(string filePath, NetworkStream stream)
+        public void SendFile(string filePath, NetworkStream stream)
         {
             if (!string.IsNullOrEmpty(filePath))
             { // файл есть, отдаём
@@ -114,8 +118,14 @@ namespace InterfaceV2
                     var buffer = new byte[1024 * 8];
                     int count;
 
+                    long allSize = fileIO.Length;
+                    long howTransmit = 0;
                     while ((count = fileIO.Read(buffer, 0, buffer.Length)) > 0)
+                    {
                         stream.Write(buffer, 0, count);
+                        howTransmit += count;
+                        SendingEvent?.Invoke(howTransmit/allSize*100);
+                    }
                 }
             }
             else
@@ -124,7 +134,7 @@ namespace InterfaceV2
                 stream.Write(data, 0, data.Length);
             }
         }
-        private static string GetDirectory(string directoryPass)
+        public string GetDirectory(string directoryPass)
         {
             try
             {

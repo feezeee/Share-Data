@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using System.Diagnostics;
 
 namespace InterfaceV2
 {
@@ -36,7 +37,9 @@ namespace InterfaceV2
                     var requestLen = connectedStream.Read(buf, 0, buf.Length);
                     string request = Encoding.UTF8.GetString(buf, 0, requestLen);
 
-                    Request.ExecuteRecuest(request,"0",connectedStream);
+                    Request request1 = new Request();
+
+                    request1.ExecuteRecuest(request,"0",connectedStream);
 
 
                     getter.Close();
