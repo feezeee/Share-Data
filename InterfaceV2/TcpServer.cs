@@ -7,55 +7,72 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using System.Diagnostics;
+using System.Threading;
 
 namespace InterfaceV2
 {
-    public static class TcpServer
+    public class TcpServer
     {
         private static int port = int.Parse(ConfigurationManager.AppSettings["TcpPort"]);
         private static IPAddress listningIP = IPAddress.Any;
         private static TcpListener server = new TcpListener(listningIP, port);
 
-        public static void StopServer()
+        public delegate void SendingMethod(object sender,bool status);
+        public event SendingMethod OnTransmittingFile;
+
+
+
+        public Request myRequest = new Request();
+        public void StopServer()
         {
             if(server != null && server.Pending())
             {
                 server.Stop();
             }
         }
-        public static void ListenRequest()
+        public async void ListenRequest()
         {
-            try
+            await Task.Run(()=>
             {
-                server.Start();
-                while (true)
+
+                try
                 {
-                    var getter = server.AcceptTcpClient();
-                    var connectedStream = getter.GetStream();
+                    server.Start();
+                    while (true)
+                    {
+                        var getter = server.AcceptTcpClient();
+                        var connectedStream = getter.GetStream();
 
-                    var buf = new byte[256];
-                    var requestLen = connectedStream.Read(buf, 0, buf.Length);
-                    string request = Encoding.UTF8.GetString(buf, 0, requestLen);
+                        var buf = new byte[256];
+                        var requestLen = connectedStream.Read(buf, 0, buf.Length);
+                        string request = Encoding.UTF8.GetString(buf, 0, requestLen);
 
-                    Request request1 = new Request();
+                        myRequest.ExecuteRecuest(request, "0", connectedStream);
 
-                    request1.ExecuteRecuest(request,"0",connectedStream);
+                        //if (request==_nameFile)
+                        //{
+                        //    Request request1 = (Request)global;                                             
+                        //    // request1.ExecuteRecuest(request, "0", connectedStream);
+                        //}
+                        //else if(request != _nameFile)
+                        //{
+                        //    Request request1 = new Request();
+                        //    request1.ExecuteRecuest(request, "0", connectedStream);
+                        //}                    
+                        getter.Close();
+                        connectedStream.Close();
+                    }
 
-
-                    getter.Close();
-                    connectedStream.Close();
                 }
-
-            }
-            catch(Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-
-            }
-            finally
-            {
-                StopServer();
-            }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e.Message);
+                }
+                finally
+                {
+                    StopServer();
+                }
+            });
         }
     }
 }

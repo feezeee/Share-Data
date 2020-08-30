@@ -27,10 +27,11 @@ namespace ConnectedForm
         public event MethodContainer OnCompleteList;
 
         MainWindow window = new MainWindow();
-
-        public void ChekingAndLoadingFiles(System.Windows.Controls.ListView control_in, System.Windows.Controls.ListView control_from, System.Windows.Controls.TextBox from, System.Windows.Controls.TextBox to, System.Windows.Controls.Label ip_from, System.Windows.Controls.Label ip_to, MainWindow mainWindow)
+        TcpServer TcpServer = new TcpServer();
+        public void ChekingAndLoadingFiles(System.Windows.Controls.ListView control_in, System.Windows.Controls.ListView control_from, System.Windows.Controls.TextBox from, System.Windows.Controls.TextBox to, System.Windows.Controls.Label ip_from, System.Windows.Controls.Label ip_to, MainWindow mainWindow,TcpServer tcpServer)
         {
             window = mainWindow;
+            TcpServer = tcpServer;
             System.Collections.IList item_from = null;
             System.Collections.IList items_to = null;
             string from_txt = "";
@@ -111,16 +112,18 @@ namespace ConnectedForm
 
         }
 
-        public void CalculatingPathForTransmitting(ClassAboutFilesAdding[] filesForTransmit)
+        public async void CalculatingPathForTransmitting(ClassAboutFilesAdding[] filesForTransmit)
         {
-            Thread thread = new Thread(new ParameterizedThreadStart(_calculatingPathForTransmitting));
-            thread.IsBackground = true;
-            thread.Start(filesForTransmit);
+            await Task.Run(() => _calculatingPathForTransmitting(filesForTransmit, TcpServer));
+            
+            //Thread thread = new Thread(new ParameterizedThreadStart(_calculatingPathForTransmitting));
+            //thread.IsBackground = true;
+            //thread.Start(filesForTransmit);
         }
 
 
 
-        public void _calculatingPathForTransmitting(object obj)
+        public async void _calculatingPathForTransmitting(object obj,TcpServer tcpServer)
         {
             ClassAboutFilesAdding[] filesForTransmit = (ClassAboutFilesAdding[])obj;
             for (int i = 0; i < filesForTransmit.Length; i++)
@@ -164,9 +167,10 @@ namespace ConnectedForm
                     }
                     else
                     {
-                        Thread receiveThread = new Thread(new ParameterizedThreadStart(_calculatingForDirectory));
-                        receiveThread.IsBackground = true;
-                        receiveThread.Start(filesForTransmit[i]);                        
+                        await Task.Run(() => _calculatingForDirectory(filesForTransmit[i]));
+                        //Thread receiveThread = new Thread(new ParameterizedThreadStart(_calculatingForDirectory));
+                        //receiveThread.IsBackground = true;
+                        //receiveThread.Start(filesForTransmit[i]);                        
 
                     }
 
@@ -201,17 +205,21 @@ namespace ConnectedForm
                             ////var ans = RequestInteractivity.SendRequst(ip_to, RequestTipe.GetFileFromMe, flk.Path_To + "|" + flk.Path_From);
 
                             string path = flk.Path_To + filesForTransmit[i].nameFile + "|" + flk.Path_From + filesForTransmit[i].nameFile;
-                            Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
-                            receiveThread.IsBackground = true;
-                            receiveThread.Start(path);
+                            
+                            client.SendFileRequest(path); // Запуск асинхронного метода
+
+                            //  Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
+                            //  receiveThread.IsBackground = true;
+                            //  receiveThread.Start(path);
                         }));
 
                     }
                     else
                     {
-                        Thread receiveThread = new Thread(new ParameterizedThreadStart(_calculatingForDirectory));
-                        receiveThread.IsBackground = true;
-                        receiveThread.Start(filesForTransmit[i]);
+                        await Task.Run(() => _calculatingForDirectory(filesForTransmit[i]));
+                        //Thread receiveThread = new Thread(new ParameterizedThreadStart(_calculatingForDirectory));
+                        //receiveThread.IsBackground = true;
+                        //receiveThread.Start(filesForTransmit[i]);
 
                     }
 
@@ -331,9 +339,10 @@ namespace ConnectedForm
                                        ////var ans = RequestInteractivity.SendRequst(ip_to, RequestTipe.GetFileFromMe, flk.Path_To + "|" + flk.Path_From);
 
                                        string path = flk.Path_To + files1.nameFile + "|" + flk.Path_From + files1.nameFile;
-                                       Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
-                                       receiveThread.IsBackground = true;
-                                       receiveThread.Start(path);
+                                       client.SendFileRequest(path);
+                                       //Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
+                                       //receiveThread.IsBackground = true;
+                                       //receiveThread.Start(path);
                                    }
 
                                    directoryNode.Items.Add(new MenuItem() { Title = ps[0].Item1, flk = flk });
@@ -458,18 +467,24 @@ namespace ConnectedForm
 
 
                                        string path = flk.Path_To + "|" + flk.Path_From;
-                                       Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
-                                       receiveThread.IsBackground = true;
-                                       receiveThread.Start(path);
+                                       client.SendFileRequest(path);
+
+                                       //Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
+                                       //receiveThread.IsBackground = true;
+                                       //receiveThread.Start(path);
+                                   }
+                                   else if (files1.Sender == "Этот компьютер")// если отправитель текущий пк
+                                   {
+                                       Request request = new Request();
+                                       request.SendingEvent += flk.ChangedvalueForProgressBar;
+                                       //TcpServer.global = request;
+                                       var ansv = RequestInteractivity.SendRequst(files1.Receiver, RequestTipe.GetFileFromMe, files1.RemoteLocationFilesOrDirectory + files1.nameFile + "|" + files1.RootLocationFilesOrDirectory + files1.nameFile);
                                    }
 
                                    directoryNode.Items.Add(new MenuItem() { Title = ps[0].Item1, flk = flk });
 
                                }));
-                            if (files1.Sender == "Этот компьютер")// если отправитель текущий пк
-                            {
-                                var ansv = RequestInteractivity.SendRequst(files1.Receiver, RequestTipe.GetFileFromMe, files1.RemoteLocationFilesOrDirectory + files1.nameFile + "|" + files1.RootLocationFilesOrDirectory + files1.nameFile);
-                            }
+                            
                         }
                     }
                 }
@@ -776,6 +791,10 @@ namespace ConnectedForm
 
             //}));
         }
+
+
+
+
 
         //Сортирует сообщение(файл дата размер)
         public List<(string, string, string)> CuttingMessages(string message)

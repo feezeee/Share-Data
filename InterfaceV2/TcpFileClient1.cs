@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace InterfaceV2
 {
@@ -32,72 +33,169 @@ namespace InterfaceV2
         {
         }
 
+        public void SendFileRequestFromMe(string localPath)
+        {
+            //if (!string.IsNullOrEmpty(localPath))
+            //{ // файл есть, отдаём
+            //    using (var fileIO = File.OpenRead(localPath))
+            //    {
+            //        //stream.Write(BitConverter.GetBytes(fileIO.Length), 0, 8);
+            //        var b = BitConverter.GetBytes(fileIO.Length);
+            //        //fileIO.Length.ToString().Length
+            //        //stream.Write(b, 0, fileIO.Length.ToString().Length);
+            //        stream.Write(b, 0, b.Length);
+
+            //        var buffer = new byte[1024 * 8];
+            //        int count;
+
+            //        long allSize = fileIO.Length;
+            //        long howTransmit = 0;
+            //        while ((count = fileIO.Read(buffer, 0, buffer.Length)) > 0)
+            //        {
+            //            stream.Write(buffer, 0, count);
+            //            howTransmit += count;
+            //            SendingEvent?.Invoke(howTransmit / allSize * 100);
+            //        }
+            //    }
+            //}
+            //else
+            //{// файл отсутствует 
+            //    var data = BitConverter.GetBytes((int)RequestError.FileNotExist);
+            //    stream.Write(data, 0, data.Length);
+            //}
+
+            //try
+            //{
+            //    string[] mes = obj.ToString().Split('|');
+            //    string remoteFilePath = mes[1];
+            //    string localPathToSave = mes[0];
+            //    var reciverEP = new IPEndPoint(RemoteIP, port);
+            //    client.Connect(reciverEP);
+            //    while (!client.Connected) ;
+            //    var connectedStream = client.GetStream();
+
+            //    //Request.DoSendingRequest()
+            //    var mess = $"Request|{(int)RequestTipe.SendFile}|{remoteFilePath}";
+            //    var buf = Encoding.UTF8.GetBytes(mess);
+            //    connectedStream.Write(buf, 0, buf.Length);
+            //    Int64 bytesReceived = 0;
+            //    int count;
+            //    byte[] buffer = new byte[1024 * 8];
+            //    connectedStream.Read(buffer, 0, 1024);
+
+
+            //    Int64 fileBytesSize = BitConverter.ToInt64(buffer, 0);
+
+            //    if (fileBytesSize == -1)
+            //    {
+
+            //    } // файл был не найден
+            //    if (fileBytesSize == -2)
+            //    {
+
+            //    }// запрос небыл обработан
+            //    bool peremen = Execute_(localPathToSave);
+            //    if (peremen)
+            //    {
+            //        using (var fileIO = File.Create(localPathToSave))
+            //        {
+            //            while (bytesReceived < fileBytesSize && (count = connectedStream.Read(buffer, 0, buffer.Length)) > 0)
+            //            {
+            //                fileIO.Write(buffer, 0, count);
+
+            //                bytesReceived += count;
+            //                double first = bytesReceived; double second = fileBytesSize;
+            //                SendingEvent?.Invoke(first / second * 100);
+            //            }
+            //            SendingEvent?.Invoke(100);
+            //        }
+
+            //        ReadyEvent?.Invoke();
+            //    }
+            //    else
+            //    {
+            //        FailEvent?.Invoke();
+            //    }
+            //    connectedStream.Close();
+            //    client.Close();
+            //}
+            //catch (Exception e)
+            //{
+            //    System.Diagnostics.Debug.WriteLine(e.Message);
+            //    FailEvent?.Invoke();
+            //}
+        }
+
         /// <summary>
         /// куда|откуда
         /// </summary>
         /// <param name="obj"></param>
-        public void SendFileRequest (object obj)
+        public async void SendFileRequest (object obj)
         {
-            try
+            await Task.Run(() =>
             {
-                string[] mes = obj.ToString().Split('|');                
-                string remoteFilePath = mes[1];
-                string localPathToSave = mes[0];
-                var reciverEP = new IPEndPoint(RemoteIP, port);
-                client.Connect(reciverEP);
-                while (!client.Connected) ;
-                var connectedStream = client.GetStream();
-
-                //Request.DoSendingRequest()
-                var mess = $"Request|{(int)RequestTipe.SendFile}|{remoteFilePath}";
-                var buf = Encoding.UTF8.GetBytes(mess);
-                connectedStream.Write(buf, 0, buf.Length);                
-                Int64 bytesReceived = 0;
-                int count;
-                byte[] buffer = new byte[1024 * 8];
-                connectedStream.Read(buffer, 0, 1024);
-
-
-                Int64 fileBytesSize = BitConverter.ToInt64(buffer, 0);
-
-                if (fileBytesSize == -1)
+                try
                 {
+                    string[] mes = obj.ToString().Split('|');
+                    string remoteFilePath = mes[1];
+                    string localPathToSave = mes[0];
+                    var reciverEP = new IPEndPoint(RemoteIP, port);
+                    client.Connect(reciverEP);
+                    while (!client.Connected) ;
+                    var connectedStream = client.GetStream();
 
-                } // файл был не найден
-                if (fileBytesSize == -2)
-                {
+                    //Request.DoSendingRequest()
+                    var mess = $"Request|{(int)RequestTipe.SendFile}|{remoteFilePath}";
+                    var buf = Encoding.UTF8.GetBytes(mess);
+                    connectedStream.Write(buf, 0, buf.Length);
+                    Int64 bytesReceived = 0;
+                    int count;
+                    byte[] buffer = new byte[1024 * 8];
+                    connectedStream.Read(buffer, 0, 1024);
 
-                }// запрос небыл обработан
-                bool peremen = Execute_(localPathToSave);
-                if (peremen)
-                {
-                    using (var fileIO = File.Create(localPathToSave))
+
+                    Int64 fileBytesSize = BitConverter.ToInt64(buffer, 0);
+
+                    if (fileBytesSize == -1)
                     {
-                        while (bytesReceived < fileBytesSize && (count = connectedStream.Read(buffer, 0, buffer.Length)) > 0)
+
+                    } // файл был не найден
+                    if (fileBytesSize == -2)
+                    {
+
+                    }// запрос небыл обработан
+                    bool peremen = Execute_(localPathToSave);
+                    if (peremen)
+                    {
+                        using (var fileIO = File.Create(localPathToSave))
                         {
-                            fileIO.Write(buffer, 0, count);
+                            while (bytesReceived < fileBytesSize && (count = connectedStream.Read(buffer, 0, buffer.Length)) > 0)
+                            {
+                                fileIO.Write(buffer, 0, count);
 
-                            bytesReceived += count;
-                            double first = bytesReceived; double second = fileBytesSize;
-                            SendingEvent?.Invoke(first / second * 100);
+                                bytesReceived += count;
+                                double first = bytesReceived; double second = fileBytesSize;
+                                SendingEvent?.Invoke(first / second * 100);
+                            }
+                            SendingEvent?.Invoke(100);
                         }
-                        SendingEvent?.Invoke(100);
-                    }
 
-                    ReadyEvent?.Invoke();
+                        ReadyEvent?.Invoke();
+                    }
+                    else
+                    {
+                        FailEvent?.Invoke();
+                    }
+                    connectedStream.Close();
+                    client.Close();
+                
                 }
-                else
+                catch(Exception e)
                 {
+                    System.Diagnostics.Debug.WriteLine(e.Message);
                     FailEvent?.Invoke();
                 }
-                connectedStream.Close();
-                client.Close();
-            }
-            catch(Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-                FailEvent?.Invoke();
-            }
+            });
         }
         private bool Execute_(string path)
         {

@@ -36,10 +36,9 @@ namespace Share_Data_WPF
             DoRequestsRecieveingThread.Priority = ThreadPriority.Highest;
             DoRequestsRecieveingThread.Start();// Запускаем процесс получния запросов
 
-
-            Thread listenThread = new Thread(new ThreadStart(TcpServer.ListenRequest)); //созадем новый поток отдельно для получения сообщений
-            listenThread.IsBackground = true;
-            listenThread.Start();
+            //Thread listenThread = new Thread(new ThreadStart(TcpServer.ListenRequest)); //созадем новый поток отдельно для получения сообщений            
+            //listenThread.IsBackground = true;
+            //listenThread.Start();
 
             InitializeComponent();
         }

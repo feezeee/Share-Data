@@ -28,10 +28,15 @@ namespace ConnectedForm
 
         public bool IsPressedBtn = true;
 
+        TcpServer tcpServer = new TcpServer();
         public MainWindow()
         {            
             DataContext = this;
             setWidth = (int)System.Windows.SystemParameters.PrimaryScreenWidth / 6 - 15;
+
+
+            tcpServer.ListenRequest();
+
             InitializeComponent();
 
         }
@@ -434,7 +439,7 @@ namespace ConnectedForm
 
                 await Task.Run(() => transmiting.ChekingAndLoadingFiles
                 (
-                    listUsers0, listUsers1, pathbox1, pathbox0, LabelIp1, LabelIp0, this
+                    listUsers0, listUsers1, pathbox1, pathbox0, LabelIp1, LabelIp0, this,tcpServer
                 ));
             }
 
@@ -453,7 +458,7 @@ namespace ConnectedForm
 
                 await Task.Run(() => transmiting.ChekingAndLoadingFiles
                 (
-                    listUsers1, listUsers0, pathbox0, pathbox1, LabelIp0, LabelIp1, this
+                    listUsers1, listUsers0, pathbox0, pathbox1, LabelIp0, LabelIp1, this,tcpServer
                 ));
 
             }
