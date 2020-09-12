@@ -30,6 +30,10 @@ namespace InterfaceV2
                 server.Stop();
             }
         }
+        
+           /// <summary>
+           /// Ожидание подключения и последующее выполнение указанной операции
+           /// </summary>
         public async void ListenRequest()
         {
             await Task.Run(()=>

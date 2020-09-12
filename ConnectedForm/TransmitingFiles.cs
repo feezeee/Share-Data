@@ -28,7 +28,7 @@ namespace ConnectedForm
 
         MainWindow window = new MainWindow();
         TcpServer TcpServer = new TcpServer();
-        public void ChekingAndLoadingFiles(System.Windows.Controls.ListView control_in, System.Windows.Controls.ListView control_from, System.Windows.Controls.TextBox from, System.Windows.Controls.TextBox to, System.Windows.Controls.Label ip_from, System.Windows.Controls.Label ip_to, MainWindow mainWindow,TcpServer tcpServer)
+        public void ChekingAndLoadingFiles(System.Windows.Controls.ListView control_in, System.Windows.Controls.ListView control_from, System.Windows.Controls.TextBox from, System.Windows.Controls.TextBox to, System.Windows.Controls.Label ip_from, System.Windows.Controls.Label ip_to, MainWindow mainWindow, TcpServer tcpServer)
         {
             window = mainWindow;
             TcpServer = tcpServer;
@@ -100,11 +100,13 @@ namespace ConnectedForm
                     }
                 }
                 ClassAboutFilesAdding[] filesForTransmit = new ClassAboutFilesAdding[lst.Count];
+                // Формирование filesForTransmit
                 for (int i = 0; i < lst.Count; i++)
                 {
                     if (lst[i] != null)
                         filesForTransmit[i] = lst[i];
                 }
+                // Вызов события по оканчании формирование списка
                 OnCompleteList?.Invoke(filesForTransmit);
             }
             catch { }
@@ -112,10 +114,11 @@ namespace ConnectedForm
 
         }
 
+        //Вызывается при событии OnCompleteList
         public async void CalculatingPathForTransmitting(ClassAboutFilesAdding[] filesForTransmit)
         {
             await Task.Run(() => _calculatingPathForTransmitting(filesForTransmit, TcpServer));
-            
+
             //Thread thread = new Thread(new ParameterizedThreadStart(_calculatingPathForTransmitting));
             //thread.IsBackground = true;
             //thread.Start(filesForTransmit);
@@ -123,13 +126,15 @@ namespace ConnectedForm
 
 
 
-        public async void _calculatingPathForTransmitting(object obj,TcpServer tcpServer)
+        public async void _calculatingPathForTransmitting(object obj, TcpServer tcpServer)
         {
             ClassAboutFilesAdding[] filesForTransmit = (ClassAboutFilesAdding[])obj;
             for (int i = 0; i < filesForTransmit.Length; i++)
             {
+                // Если отправитель текущий пк
                 if (filesForTransmit[i].Sender == "Этот компьютер")
                 {
+                    // Если это файл
                     if (filesForTransmit[i].sizeFile != "")
                     {
 
@@ -147,7 +152,7 @@ namespace ConnectedForm
 
                             window.tiktak.Items.Add(new MenuItem() { Title = filesForTransmit[i].nameFile, flk = flk });
 
-                            
+
 
                             //var client = new TcpFileClient(filesForTransmit[i].Receiver);
 
@@ -165,6 +170,7 @@ namespace ConnectedForm
                         }));
                         var ans = RequestInteractivity.SendRequst(filesForTransmit[i].Receiver, RequestTipe.GetFileFromMe, filesForTransmit[i].RemoteLocationFilesOrDirectory + filesForTransmit[i].nameFile + "|" + filesForTransmit[i].RootLocationFilesOrDirectory + filesForTransmit[i].nameFile);
                     }
+                    //  Если это папка
                     else
                     {
                         await Task.Run(() => _calculatingForDirectory(filesForTransmit[i]));
@@ -175,8 +181,10 @@ namespace ConnectedForm
                     }
 
                 }
+                // Если отправитель удаленный пк
                 else
                 {
+                    // Если это файл
                     if (filesForTransmit[i].sizeFile != "")
                     {
 
@@ -205,7 +213,7 @@ namespace ConnectedForm
                             ////var ans = RequestInteractivity.SendRequst(ip_to, RequestTipe.GetFileFromMe, flk.Path_To + "|" + flk.Path_From);
 
                             string path = flk.Path_To + filesForTransmit[i].nameFile + "|" + flk.Path_From + filesForTransmit[i].nameFile;
-                            
+
                             client.SendFileRequest(path); // Запуск асинхронного метода
 
                             //  Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
@@ -214,6 +222,7 @@ namespace ConnectedForm
                         }));
 
                     }
+                    // Елси это папка
                     else
                     {
                         await Task.Run(() => _calculatingForDirectory(filesForTransmit[i]));
@@ -233,7 +242,7 @@ namespace ConnectedForm
         private MenuItem CreateDirectoryNodeForRemote(object direct)
         {
             ClassAboutFilesAdding directoryInfo = (ClassAboutFilesAdding)direct;
-            
+
             string ip_sender = "";
             if (directoryInfo.Sender == "Этот компьютер")
             {
@@ -244,7 +253,7 @@ namespace ConnectedForm
                 ip_sender = directoryInfo.Sender;
             }
 
-            var ans = RequestInteractivity.SendRequst(ip_sender, RequestTipe.GetDirectoryFiles, directoryInfo.RootLocationFilesOrDirectory+directoryInfo.nameFile); //Получить папки от удаленного пк (здесь от отправителя)
+            var ans = RequestInteractivity.SendRequst(ip_sender, RequestTipe.GetDirectoryFiles, directoryInfo.RootLocationFilesOrDirectory + directoryInfo.nameFile); //Получить папки от удаленного пк (здесь от отправителя)
 
 
             if (ans[0].ToString() == "A")
@@ -266,7 +275,7 @@ namespace ConnectedForm
                     papka.Path_From = directoryInfo.RootLocationFilesOrDirectory + directoryInfo.nameFile;
                     papka.Path_To = directoryInfo.RemoteLocationFilesOrDirectory + directoryInfo.nameFile;
                     papka.IsHeightValue = files.Length - 1;
-                    if(sbros!=null)
+                    if (sbros != null)
                     {
                         WpfControlLibrary3.UserControl1 tyc = (WpfControlLibrary3.UserControl1)sbros;
                         papka.OnCompleteTransmit += tyc.ChangedvalueForProgressBar;
@@ -326,9 +335,9 @@ namespace ConnectedForm
                                    WpfControlLibrary3.UserControl1 _papka = (WpfControlLibrary3.UserControl1)directoryNode.flk;
                                    flk.OnCompleteTransmit += _papka.ChangedvalueForProgressBar;
 
-                                   if(files1.Sender!="Этот компьютер")
-                                   {                                       
-                                   
+                                   if (files1.Sender != "Этот компьютер")
+                                   {
+
                                        var client = new TcpFileClient(files1.Sender);
 
                                        //Подписываемся на события
@@ -348,19 +357,19 @@ namespace ConnectedForm
                                    directoryNode.Items.Add(new MenuItem() { Title = ps[0].Item1, flk = flk });
 
                                }));
-                            if(files1.Sender=="Этот компьютер")
+                            if (files1.Sender == "Этот компьютер")
                             {
                                 var ansv = RequestInteractivity.SendRequst(files1.Receiver, RequestTipe.GetFileFromMe, files1.RemoteLocationFilesOrDirectory + files1.nameFile + "|" + files1.RootLocationFilesOrDirectory + files1.nameFile);
                             }
                         }
                     }
                 }
-               
+
                 return directoryNode;
             }
             else
                 return null;
-            
+
         }
 
         private MenuItem CreateDirectoryNodeForLocal(object direct)
@@ -377,11 +386,11 @@ namespace ConnectedForm
                 ip_sender = directoryInfo.Sender;
             }
 
-           
+
             var ans = GetDirectoryLocal(directoryInfo.RootLocationFilesOrDirectory + directoryInfo.nameFile);
 
-            if (ans!="False")
-            {                
+            if (ans != "False")
+            {
                 var files = ans.Split('\n');
                 files[files.Length - 1] = null;
 
@@ -484,7 +493,7 @@ namespace ConnectedForm
                                    directoryNode.Items.Add(new MenuItem() { Title = ps[0].Item1, flk = flk });
 
                                }));
-                            
+
                         }
                     }
                 }
@@ -501,7 +510,7 @@ namespace ConnectedForm
             try
             {
                 string ans = "";
-                
+
                 var direct = new DirectoryInfo(directoryPass);
                 foreach (var dir in direct.GetDirectories())
                 {
@@ -527,20 +536,20 @@ namespace ConnectedForm
 
             MenuItem treeNode = new MenuItem();
 
-            if (directoryInfo.Sender!="Этот компьютер" && directoryInfo.Sender != "127.0.0.1") 
+            if (directoryInfo.Sender != "Этот компьютер" && directoryInfo.Sender != "127.0.0.1")
             {
                 treeNode = CreateDirectoryNodeForRemote(rootDirectory);
             }
-            else 
+            else
             {
                 treeNode = CreateDirectoryNodeForLocal(rootDirectory);// Если с локального куда-то
             }
-            
-            
+
+
             System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(
             () =>
-            {                
-                window.tiktak.Items.Add(treeNode);               
+            {
+                window.tiktak.Items.Add(treeNode);
 
             }));
             //int countDirectory = 0;
@@ -820,7 +829,7 @@ namespace ConnectedForm
         }
         public class MenuItem
         {
-            
+
             public MenuItem()
             {
                 this.Items = new ObservableCollection<MenuItem>();
@@ -830,7 +839,7 @@ namespace ConnectedForm
             public string NameParent { get; set; }
             public object flk { get; set; }
             public ObservableCollection<MenuItem> Items { get; set; }
-            
+
         }
     }
 

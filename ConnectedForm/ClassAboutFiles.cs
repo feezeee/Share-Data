@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace ConnectedForm
 {
-
     public class files
     {
+        
         public string nameFile { get; set; }
 
         public string time { get; set; }
