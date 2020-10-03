@@ -16,13 +16,15 @@ namespace InterfaceV2
         SendFile = 1,
         GetDirectoryFiles,
         GetFileFromMe,
-        CreateDirrectory
+        CreateDirrectory,
+        SendFileFromMe
     }
     public enum RequestError
     {
         FileNotExist = -1,
         DirectoryNotExist = -2,
-        RequestIncomprehantable = -3
+        RequestIncomprehantable = -3,
+        ReadyForReading = -4
     }
     public class Request
     {
@@ -72,6 +74,9 @@ namespace InterfaceV2
                     break;
                 case (int)RequestTipe.CreateDirrectory:
                     ans = DoCreateDirrectory(mes[2]);
+                    break;
+                case (int)RequestTipe.SendFileFromMe:
+                    SendFileFromMe(mes[2],stream);
                     break;
                 default:
                     System.Diagnostics.Debug.WriteLine("request isn't distingushed");
@@ -132,6 +137,46 @@ namespace InterfaceV2
             {// файл отсутствует 
                 var data = BitConverter.GetBytes((int)RequestError.FileNotExist);
                 stream.Write(data, 0, data.Length);
+            }
+        }
+
+        public void SendFileFromMe(string filePath, NetworkStream stream)
+        {
+            try
+            {
+                var mess1 = "ready";
+                var buf1 = Encoding.UTF8.GetBytes(mess1);
+                stream.Write(buf1, 0, buf1.Length);
+
+                Int64 bytesReceived = 0;
+                int count;
+                byte[] buffer = new byte[1024 * 8];
+                stream.Read(buffer, 0, 1024);
+
+
+                Int64 fileBytesSize = BitConverter.ToInt64(buffer, 0);
+
+                using (var fileIO = File.Create(filePath))
+                {
+
+                    while (bytesReceived < fileBytesSize && (count = stream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        fileIO.Write(buffer, 0, count);
+
+                        bytesReceived += count;
+                        double first = bytesReceived; double second = fileBytesSize;
+                        //SendingEvent?.Invoke(first / second * 100);
+                    }
+                    var mess = "successfully";
+                    var buf = Encoding.UTF8.GetBytes(mess);
+                    stream.Write(buf, 0, buf.Length);
+                }
+            }
+            catch
+            {
+                var mess = "unsuccessful";
+                var buf = Encoding.UTF8.GetBytes(mess);
+                stream.Write(buf, 0, buf.Length);
             }
         }
         public string GetDirectory(string directoryPass)

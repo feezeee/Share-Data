@@ -115,10 +115,22 @@
 
     <Grid Margin="5,0,5,0">
         <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Background="#FFDDDDDD">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="" Foreground="Black" BorderBrush="{x:Null}"/>
+            <Button Grid.Column="1" Content="Параметры" Foreground="Black" BorderBrush="{x:Null}" />
+            <Button Grid.Column="2" Foreground="Black" BorderBrush="{x:Null}"/>
+            
+        </Grid>
+        <Grid Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*" x:Name="firstColumn"/>
@@ -222,7 +234,7 @@
                 </Grid>
             </Grid>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="25"/>

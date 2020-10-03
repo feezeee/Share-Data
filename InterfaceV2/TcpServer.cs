@@ -17,8 +17,6 @@ namespace InterfaceV2
         private static IPAddress listningIP = IPAddress.Any;
         private static TcpListener server = new TcpListener(listningIP, port);
 
-        public delegate void SendingMethod(object sender,bool status);
-        public event SendingMethod OnTransmittingFile;
 
 
 
@@ -52,17 +50,6 @@ namespace InterfaceV2
                         string request = Encoding.UTF8.GetString(buf, 0, requestLen);
 
                         myRequest.ExecuteRecuest(request, "0", connectedStream);
-
-                        //if (request==_nameFile)
-                        //{
-                        //    Request request1 = (Request)global;                                             
-                        //    // request1.ExecuteRecuest(request, "0", connectedStream);
-                        //}
-                        //else if(request != _nameFile)
-                        //{
-                        //    Request request1 = new Request();
-                        //    request1.ExecuteRecuest(request, "0", connectedStream);
-                        //}                    
                         getter.Close();
                         connectedStream.Close();
                     }

@@ -136,7 +136,10 @@ namespace WpfControlLibrary2
                     label_status.SetBinding(System.Windows.Controls.Label.ContentProperty, binding);
 
                 }
-                status_progress.Value = Math.Round(value,2);
+                double valuse = Math.Round(value, 2);
+                if (valuse == 100)
+                    valuse = 99.9;
+                status_progress.Value = valuse;
 
             });
         }

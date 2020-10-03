@@ -106,7 +106,7 @@ namespace ConnectedForm
                     if (lst[i] != null)
                         filesForTransmit[i] = lst[i];
                 }
-                // Вызов события по оканчании формирование списка
+                // Вызов события по окончании формирование списка
                 OnCompleteList?.Invoke(filesForTransmit);
             }
             catch { }
@@ -118,10 +118,6 @@ namespace ConnectedForm
         public async void CalculatingPathForTransmitting(ClassAboutFilesAdding[] filesForTransmit)
         {
             await Task.Run(() => _calculatingPathForTransmitting(filesForTransmit, TcpServer));
-
-            //Thread thread = new Thread(new ParameterizedThreadStart(_calculatingPathForTransmitting));
-            //thread.IsBackground = true;
-            //thread.Start(filesForTransmit);
         }
 
 
@@ -154,6 +150,20 @@ namespace ConnectedForm
 
 
 
+                            var client = new TcpFileClient(filesForTransmit[i].Receiver);
+
+                            //Подписываемся на события
+                            client.SendingEvent += flk.ChangedvalueForProgressBar;
+                            client.FailEvent += flk.SendingFailMessage;
+                            client.ReadyEvent += flk.SendingSuccessfullyMessage;
+
+                            ////var ans = RequestInteractivity.SendRequst(ip_to, RequestTipe.GetFileFromMe, flk.Path_To + "|" + flk.Path_From);
+
+                            string path = flk.Path_To + filesForTransmit[i].nameFile + "|" + flk.Path_From + filesForTransmit[i].nameFile;
+
+                            client.SendFileRequestFromMe(path); // Запуск асинхронного метода
+
+
                             //var client = new TcpFileClient(filesForTransmit[i].Receiver);
 
                             //Подписываемся на события
@@ -168,16 +178,12 @@ namespace ConnectedForm
                             //receiveThread.IsBackground = true;
                             //receiveThread.Start(path);
                         }));
-                        var ans = RequestInteractivity.SendRequst(filesForTransmit[i].Receiver, RequestTipe.GetFileFromMe, filesForTransmit[i].RemoteLocationFilesOrDirectory + filesForTransmit[i].nameFile + "|" + filesForTransmit[i].RootLocationFilesOrDirectory + filesForTransmit[i].nameFile);
+                        // var ans = RequestInteractivity.SendRequst(filesForTransmit[i].Receiver, RequestTipe.GetFileFromMe, filesForTransmit[i].RemoteLocationFilesOrDirectory + filesForTransmit[i].nameFile + "|" + filesForTransmit[i].RootLocationFilesOrDirectory + filesForTransmit[i].nameFile);
                     }
                     //  Если это папка
                     else
                     {
                         await Task.Run(() => _calculatingForDirectory(filesForTransmit[i]));
-                        //Thread receiveThread = new Thread(new ParameterizedThreadStart(_calculatingForDirectory));
-                        //receiveThread.IsBackground = true;
-                        //receiveThread.Start(filesForTransmit[i]);                        
-
                     }
 
                 }
@@ -215,10 +221,6 @@ namespace ConnectedForm
                             string path = flk.Path_To + filesForTransmit[i].nameFile + "|" + flk.Path_From + filesForTransmit[i].nameFile;
 
                             client.SendFileRequest(path); // Запуск асинхронного метода
-
-                            //  Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
-                            //  receiveThread.IsBackground = true;
-                            //  receiveThread.Start(path);
                         }));
 
                     }
@@ -226,10 +228,6 @@ namespace ConnectedForm
                     else
                     {
                         await Task.Run(() => _calculatingForDirectory(filesForTransmit[i]));
-                        //Thread receiveThread = new Thread(new ParameterizedThreadStart(_calculatingForDirectory));
-                        //receiveThread.IsBackground = true;
-                        //receiveThread.Start(filesForTransmit[i]);
-
                     }
 
 
@@ -329,8 +327,8 @@ namespace ConnectedForm
                                    UserControl1 flk = new UserControl1();
                                    flk.Ip_From = files1.Sender;
                                    flk.Ip_To = files1.Receiver;
-                                   flk.Path_From = files1.RootLocationFilesOrDirectory + files1.nameFile;
-                                   flk.Path_To = files1.RemoteLocationFilesOrDirectory + files1.nameFile;
+                                   flk.Path_From = files1.RootLocationFilesOrDirectory;
+                                   flk.Path_To = files1.RemoteLocationFilesOrDirectory;
                                    flk.NameFile = files1.nameFile;
                                    WpfControlLibrary3.UserControl1 _papka = (WpfControlLibrary3.UserControl1)directoryNode.flk;
                                    flk.OnCompleteTransmit += _papka.ChangedvalueForProgressBar;
@@ -348,19 +346,27 @@ namespace ConnectedForm
                                        ////var ans = RequestInteractivity.SendRequst(ip_to, RequestTipe.GetFileFromMe, flk.Path_To + "|" + flk.Path_From);
 
                                        string path = flk.Path_To + files1.nameFile + "|" + flk.Path_From + files1.nameFile;
-                                       client.SendFileRequest(path);
-                                       //Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
-                                       //receiveThread.IsBackground = true;
-                                       //receiveThread.Start(path);
+                                       client.SendFileRequest(path); //Запускаем процесс получения файла
+                                   }
+                                   else
+                                   {
+                                       var client = new TcpFileClient(files1.Receiver);
+
+                                       //Подписываемся на события
+                                       client.SendingEvent += flk.ChangedvalueForProgressBar;
+                                       client.FailEvent += flk.SendingFailMessage;
+                                       client.ReadyEvent += flk.SendingSuccessfullyMessage;
+
+                                       ////var ans = RequestInteractivity.SendRequst(ip_to, RequestTipe.GetFileFromMe, flk.Path_To + "|" + flk.Path_From);
+
+                                       string path = flk.Path_To + files1.nameFile + "|" + flk.Path_From + files1.nameFile;
+                                       client.SendFileRequest(path); //Запускаем процесс получения файла
                                    }
 
                                    directoryNode.Items.Add(new MenuItem() { Title = ps[0].Item1, flk = flk });
 
                                }));
-                            if (files1.Sender == "Этот компьютер")
-                            {
-                                var ansv = RequestInteractivity.SendRequst(files1.Receiver, RequestTipe.GetFileFromMe, files1.RemoteLocationFilesOrDirectory + files1.nameFile + "|" + files1.RootLocationFilesOrDirectory + files1.nameFile);
-                            }
+                            
                         }
                     }
                 }
@@ -459,8 +465,8 @@ namespace ConnectedForm
                                    UserControl1 flk = new UserControl1();
                                    flk.Ip_From = files1.Sender;
                                    flk.Ip_To = files1.Receiver;
-                                   flk.Path_From = files1.RootLocationFilesOrDirectory + files1.nameFile;
-                                   flk.Path_To = files1.RemoteLocationFilesOrDirectory + files1.nameFile;
+                                   flk.Path_From = files1.RootLocationFilesOrDirectory;
+                                   flk.Path_To = files1.RemoteLocationFilesOrDirectory;
                                    WpfControlLibrary3.UserControl1 _papka = (WpfControlLibrary3.UserControl1)directoryNode.flk;
                                    flk.OnCompleteTransmit += _papka.ChangedvalueForProgressBar;
 
@@ -475,19 +481,25 @@ namespace ConnectedForm
                                        client.ReadyEvent += flk.SendingSuccessfullyMessage;
 
 
-                                       string path = flk.Path_To + "|" + flk.Path_From;
+                                       string path = flk.Path_To+ files1.nameFile + "|" + flk.Path_From + files1.nameFile;
                                        client.SendFileRequest(path);
 
                                        //Thread receiveThread = new Thread(new ParameterizedThreadStart(client.SendFileRequest));
                                        //receiveThread.IsBackground = true;
                                        //receiveThread.Start(path);
                                    }
-                                   else if (files1.Sender == "Этот компьютер")// если отправитель текущий пк
+                                   else// если отправитель текущий пк
                                    {
-                                       Request request = new Request();
-                                       request.SendingEvent += flk.ChangedvalueForProgressBar;
-                                       //TcpServer.global = request;
-                                       var ansv = RequestInteractivity.SendRequst(files1.Receiver, RequestTipe.GetFileFromMe, files1.RemoteLocationFilesOrDirectory + files1.nameFile + "|" + files1.RootLocationFilesOrDirectory + files1.nameFile);
+                                       var client = new TcpFileClient(files1.Receiver);
+
+                                       //Подписываемся на события
+                                       client.SendingEvent += flk.ChangedvalueForProgressBar;
+                                       client.FailEvent += flk.SendingFailMessage;
+                                       client.ReadyEvent += flk.SendingSuccessfullyMessage;
+
+
+                                       string path = flk.Path_To + files1.nameFile + "|" + flk.Path_From + files1.nameFile;
+                                       client.SendFileRequest(path);
                                    }
 
                                    directoryNode.Items.Add(new MenuItem() { Title = ps[0].Item1, flk = flk });
