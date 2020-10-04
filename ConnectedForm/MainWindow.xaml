@@ -7,9 +7,10 @@
         xmlns:local="clr-namespace:ConnectedForm"
         xmlns:WpfControlLibrary2="clr-namespace:WpfControlLibrary2;assembly=WpfControlLibrary2"
         xmlns:WpfControlLibrary3="clr-namespace:WpfControlLibrary3;assembly=WpfControlLibrary3"
+        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
         x:Class="ConnectedForm.MainWindow" 
         mc:Ignorable="d"
-        Title="MainWindow" WindowState="Maximized" x:Name="MainWn" >
+        Title="MainWindow" WindowState="Maximized" x:Name="MainWn" Background="{x:Null}" >
 
     <Window.Resources>
 
@@ -63,7 +64,6 @@
 
         <Style TargetType="{x:Type Grid}" x:Key="grd">
             <Style.Triggers>
-
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding IsCheckBoxChecked}" Value="true"/>
@@ -108,27 +108,48 @@
 
             </Style.Triggers>
         </Style>
-    </Window.Resources>    
+
+        <Style TargetType="{x:Type Button}" x:Key="up_btn">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.3" By="1" Duration="0:0:0.1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" By="1" Duration="0:0:0.1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>       
+        
+    </Window.Resources>
 
 
 
 
-    <Grid Margin="5,0,5,0">
+    <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="#FFDDDDDD">
+        <Grid Grid.Row="0" Background="#FF99B4CF">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="" Foreground="Black" BorderBrush="{x:Null}"/>
-            <Button Grid.Column="1" Content="Параметры" Foreground="Black" BorderBrush="{x:Null}" />
-            <Button Grid.Column="2" Foreground="Black" BorderBrush="{x:Null}"/>
-            
+            <Button Grid.Column="0" Content="" Foreground="Black" BorderBrush="{x:Null}" Background="Transparent"/>
+            <Button Grid.Column="1" Width="90" Content="Параметры" Foreground="Black" BorderBrush="{x:Null}" Background="Transparent" Style="{StaticResource ResourceKey=up_btn}" Opacity="0.3"/>
+            <Button Grid.Column="2" Width="80" Content="Помощь" Foreground="Black" BorderBrush="{x:Null}" Background="Transparent" Style="{StaticResource up_btn}" Opacity="0.3"/>
+
         </Grid>
         <Grid Grid.Row="1">
             <Grid>
@@ -144,7 +165,9 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" Height="30" VerticalAlignment="Top" x:Name="LabelIp0" Content="Этот компьютер"/>
+                    <Grid Grid.Row="0">
+                        <Label Height="30" VerticalAlignment="Top" x:Name="LabelIp0" Content="Этот компьютер" Background="#FFE4E4E4"/>
+                    </Grid>
 
                     <Grid x:Name="gridforfunc0" Height="auto" VerticalAlignment="Top" Grid.Row="1">
                         <Grid.RowDefinitions>
@@ -152,13 +175,15 @@
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Background="#FFE4E4E4" >
+                            <Button x:Name="goback0" HorizontalAlignment="Left" Width="15" Height="15" />
+                            <Button x:Name="gonext0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0"/>
+                        </Grid>
 
-                        <Button x:Name="goback0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" />
-                        <Button x:Name="gonext0" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0"/>
-                        <TextBox x:Name="pathbox0" Grid.Row="1" TextChanged="TextBox_TextChanged"/>
+                        <TextBox x:Name="pathbox0" Grid.Row="1" TextChanged="TextBox_TextChanged" BorderBrush="Black" Background="White"/>
                         <ScrollViewer Grid.Row="2" x:Name="scroll0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                             <StackPanel  x:Name="stackpanel0" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
-                                <ListView  MouseDoubleClick="listUsers0_MouseDoubleClick"  x:Name="listUsers0" AllowDrop="False" Drop="listUsers0_Drop">
+                                <ListView  MouseDoubleClick="listUsers0_MouseDoubleClick"  x:Name="listUsers0" AllowDrop="False" Drop="listUsers0_Drop" Background="{x:Null}" Style="{DynamicResource ListViewStyle1}">
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}"/>
@@ -203,7 +228,7 @@
 
                         <Button x:Name="goback1" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" />
                         <Button x:Name="gonext1" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0"/>
-                        <TextBox x:Name="pathbox1" Grid.Row="1" TextChanged="pathbox1_TextChanged"/>
+                        <TextBox x:Name="pathbox1" Grid.Row="1" TextChanged="pathbox1_TextChanged" BorderBrush="Black"/>
                         <ScrollViewer Grid.Row="2" x:Name="scroll1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                             <StackPanel  x:Name="stackpanel1" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
                                 <ListView  MouseDoubleClick="listUsers1_MouseDoubleClick"  x:Name="listUsers1" AllowDrop="False" Drop="listUsers1_Drop">
@@ -238,13 +263,13 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="25"/>
-                <ColumnDefinition Width="25"/>            
-            </Grid.ColumnDefinitions>            
+                <ColumnDefinition Width="25"/>
+            </Grid.ColumnDefinitions>
             <Button Grid.Column="2" x:Name="transmit_chk" Click="transmit_chk_Click" HorizontalAlignment="Right" Width="20"  Height="20"/>
             <Button Grid.Column="1" x:Name="wait_chk" Click="wait_chk_Click" Width="20" Height="20"/>
         </Grid>
-        
-        <Grid x:Name="Gridfortransmit" MaxWidth="400" Style="{StaticResource grd}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="0" Height="0" Background="Transparent">
+
+        <Grid Grid.Row="1" x:Name="Gridfortransmit" MaxWidth="400" Style="{StaticResource grd}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="0" Height="0" Background="Transparent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="*"/>
@@ -269,7 +294,7 @@
 
 
         </Grid>
-        <Grid x:Name="GridForWaiting" MaxWidth="400" Style="{StaticResource waiting_grd}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="0" Height="0" Background="Transparent" Margin="0,0,-41,3">
+        <Grid Grid.Row="1" x:Name="GridForWaiting" MaxWidth="400" Style="{StaticResource waiting_grd}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="0" Height="0" Background="Transparent" Margin="0,0,-41,3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="*"/>
@@ -291,7 +316,7 @@
             </ScrollViewer>
 
 
-            
+
         </Grid>
     </Grid>
 </Window>

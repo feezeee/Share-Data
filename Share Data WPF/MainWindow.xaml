@@ -7,27 +7,68 @@
         xmlns:WpfControlLibrary1="clr-namespace:WpfControlLibrary1;assembly=WpfControlLibrary1" xmlns:WpfControlLibrary3="clr-namespace:WpfControlLibrary3;assembly=WpfControlLibrary3" x:Class="Share_Data_WPF.MainWindow"
         mc:Ignorable="d"
         x:Name="MainLoadWindow" Title="MainWindow" Height="500" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow">
-    <Window.Resources>
-        <!--<Style TargetType="Button" x:Key="RBtn">
-            <Setter Property="Template">
+    <Window.Resources>        
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10"
-                                Background="{TemplateBinding Background}">
-
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>-->
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#36D695"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
     </Window.Resources>
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="#FF2A2F34" Offset="0"/>
-                <GradientStop Color="#FF0D55A6" Offset="0.703"/>
+                <GradientStop Color="#514ED9" Offset="0.703"/>
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.RowDefinitions>
@@ -35,28 +76,59 @@
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
 
-        <Button Grid.Row="1" x:Name="searchingbrn" Margin="246,0,246,50" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="300" Height="50" Content="Find"
-                Click="searchingbrn_Click" Background="#FFFE5900" local:CornerRadiusSetter.CornerRadius="10,10,10,10">
-           
+        <Button Grid.Row="1" x:Name="searchingbrn" VerticalAlignment="Top" HorizontalAlignment="Center" Height="50" Content="Find"
+                Click="searchingbrn_Click" local:CornerRadiusSetter.CornerRadius="5" Width="300" FontSize="16" Background="#FFFE5900" Foreground="White" Style="{DynamicResource ButtonStyle1}">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF804040" BlurRadius="98"/>
+            </Button.Effect>
+
         </Button>
 
 
         <Label x:Name="LabelMyIp" Grid.Row="0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,30,0,0"/>
-        <Grid Grid.Row="0" Margin="0,100,0,50" Grid.ColumnSpan="2">
+        <Grid Grid.Row="0" Margin="0,100,0,50" Grid.ColumnSpan="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
 
-            <Image x:Name="image_left" Source="left.png" Grid.Column="0" MouseEnter="image_left_MouseEnter" Grid.RowSpan="2"/>
+            <Image x:Name="image_left" Source="left.png" Grid.Column="0" MouseEnter="image_left_MouseEnter" MouseLeave="image_left_MouseLeave" Grid.RowSpan="2" Opacity="0.2">
+               
+                <!--<Image.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                 To="50" By="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                 To="100" By="1" Duration="0:0:0.1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>                            
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>-->
+            </Image>
 
 
-            <ScrollViewer x:Name="scroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="1">
+            <ScrollViewer x:Name="scroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" Foreground="{x:Null}">
                 <StackPanel x:Name="stackpanel" Orientation="Horizontal" Height="auto" Width="auto"/>
             </ScrollViewer>
 
-            <Image x:Name="image_right" Source="right.png" Grid.Column="2" MouseEnter="image_right_MouseEnter" Grid.RowSpan="2"/>
+            <Image x:Name="image_right" Source="right.png" Grid.Column="2" MouseEnter="image_right_MouseEnter" MouseLeave="image_right_MouseLeave" Grid.RowSpan="2"/>
 
         </Grid>
     </Grid>

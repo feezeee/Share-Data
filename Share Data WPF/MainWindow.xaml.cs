@@ -43,14 +43,54 @@ namespace Share_Data_WPF
             InitializeComponent();
         }
 
-        private void image_left_MouseEnter(object sender, MouseEventArgs e)
+        private async void image_left_MouseEnter(object sender, MouseEventArgs e)
         {
-            scroll.LineLeft();
+            l = 1;
+            await Task.Run(() => ScrollingList_l());
         }
 
-        private void image_right_MouseEnter(object sender, MouseEventArgs e)
+        private async void image_right_MouseEnter(object sender, MouseEventArgs e)
         {
-            scroll.LineRight();
+            r = 1;
+            await Task.Run(() => ScrollingList_r());
+        }
+        private void image_left_MouseLeave(object sender, MouseEventArgs e)
+        {
+            l = 0;
+        }
+        private void image_right_MouseLeave(object sender, MouseEventArgs e)
+        {
+            r = 0;
+        }
+
+        
+        int l = 0;
+        int r = 0;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="param">0 - влево, 1 - вправо</param>
+        void ScrollingList_l()
+        {            
+            while(l!=0)
+            {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    scroll.LineLeft();
+                });
+                Thread.Sleep(100);
+            }
+        }
+        void ScrollingList_r()
+        {
+            while (r != 0)
+            {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    scroll.LineRight();
+                });
+                Thread.Sleep(100);
+            }
         }
 
         public bool Status = false;
@@ -67,7 +107,7 @@ namespace Share_Data_WPF
                 receiveThread.Start(available);
                 Status = true;
             }
-            Drawing_picture_for_pc("denis", "192.168.100.211");
+            Drawing_picture_for_pc("denis", "127.0.0.1");
 
         }
         int count = 0;
@@ -100,5 +140,6 @@ namespace Share_Data_WPF
                 stackpanel.Children.Add(userControl1);
             });
         }
+
     }
 }

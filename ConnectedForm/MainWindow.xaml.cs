@@ -174,8 +174,16 @@ namespace ConnectedForm
 
             var myIp = ip;//ip текущего пк
             linkedList0.Add(path);
-            var ans = RequestInteractivity.SendRequst(myIp, RequestTipe.GetDirectoryFiles, path);
-            ans = ans.Remove(0, 7);
+            var ans = "";
+            if (myIp != "127.0.0.1")
+            {
+                ans = RequestInteractivity.SendRequst(myIp, RequestTipe.GetDirectoryFiles, path);
+                ans = ans.Remove(0, 7);
+            }
+            else 
+            {
+               ans = GetDirectory(path);
+            }
             var files = ans.Split('\n');
             files[files.Length - 1] = null;
             MainWindow mainWindow = (MainWindow)sender;
@@ -241,6 +249,40 @@ namespace ConnectedForm
             }
         }
 
+        // Получение папок локального пк
+        private string GetDirectory(string directoryPass)
+        {
+            try
+            {
+                string ans = "";
+                if (directoryPass == ".")
+                {
+                    var disks = DriveInfo.GetDrives();
+                    foreach (var disk in disks)
+                    {
+                        ans += disk.Name + "\n";
+                    }
+                    return ans;
+                }
+
+                var direct = new DirectoryInfo(directoryPass);
+                foreach (var dir in direct.GetDirectories())
+                {
+
+                    ans += $"{dir.Name}|{dir.CreationTime.ToString()}|{-1}\n";
+                }
+                foreach (var file in direct.GetFiles())
+                {
+                    ans += $"{file.Name}|{file.CreationTime.ToString()}|{file.Length}\n";
+                }
+
+                return ans;
+            }
+            catch
+            {
+                return RequestError.DirectoryNotExist.ToString();
+            }
+        }
 
 
         //**********************************************************************************************
