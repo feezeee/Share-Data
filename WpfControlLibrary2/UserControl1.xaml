@@ -58,7 +58,7 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetProperty="Height"
-                                                To="100" By="0.5" Duration="0:0:0.5"/>
+                                                To="200" By="0.5" Duration="0:0:0.5"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiDataTrigger.ExitActions>

@@ -10,10 +10,48 @@
         xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
         x:Class="ConnectedForm.MainWindow" 
         mc:Ignorable="d"
-        Title="MainWindow" WindowState="Maximized" x:Name="MainWn" Background="{x:Null}" >
+        Title="MainWindow" WindowState="Maximized" x:Name="MainWn" Background="#FF252526">
 
     <Window.Resources>
+        
+        <LinearGradientBrush x:Key="GridViewColumnHeaderBackground" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFFFFFFF" Offset="0"/>
+            <GradientStop Color="#FFFFFFFF" Offset="0.4091"/>
+            <GradientStop Color="#FFF7F8F9" Offset="1"/>
+        </LinearGradientBrush>
 
+        <!--<LinearGradientBrush x:Key="GridViewColumnHeaderBorderBackground" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFF2F2F2" Offset="0"/>
+            <GradientStop Color="#FFD5D5D5" Offset="1"/>
+        </LinearGradientBrush>-->
+
+        <SolidColorBrush x:Key="GridViewColumnHeaderBorderBackground" Color="Transparent"></SolidColorBrush>
+
+        <LinearGradientBrush x:Key="GridViewColumnHeaderHoverBackground" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FFBDEDFF" Offset="0"/>
+            <GradientStop Color="#FFB7E7FB" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="GridViewColumnHeaderPressBackground" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#FF8DD6F7" Offset="0"/>
+            <GradientStop Color="#FF8AD1F5" Offset="1"/>
+        </LinearGradientBrush>
+        <Style x:Key="GridViewColumnHeaderGripper" TargetType="{x:Type Thumb}">
+            <Setter Property="Canvas.Right" Value="-9"/>
+            <Setter Property="Width" Value="18"/>
+            <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="{StaticResource GridViewColumnHeaderBorderBackground}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border Background="Transparent" Padding="{TemplateBinding Padding}">
+                            <Rectangle Fill="{TemplateBinding Background}" HorizontalAlignment="Center" Width="1"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
         <Style TargetType="{x:Type Grid}" x:Key="waiting_grd">
             <Style.Triggers>
 
@@ -108,47 +146,137 @@
 
             </Style.Triggers>
         </Style>
+        <Style TargetType="Button" x:Key="up_btn">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="borderMy" BorderBrush="{x:Null}" BorderThickness="0"
+                                Background="#FF252526" Opacity="0.3">
+                            <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center" Content="{TemplateBinding Content}" Foreground="White"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="borderMy" Value="#FF313132" />
+                            </Trigger>
 
-        <Style TargetType="{x:Type Button}" x:Key="up_btn">
-            <Style.Triggers>
-                <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.3" By="1" Duration="0:0:0.1"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
+                            <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="borderMy" To="0.3" By="1" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
 
-                <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" By="1" Duration="0:0:0.1"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Style.Triggers>
-        </Style>       
-        
+                            <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="borderMy" To="1" By="1" Duration="0:0:0.1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ColumnHeader" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                        <Grid SnapsToDevicePixels="true">
+                            
+                            <Border x:Name="HeaderBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,0,0" Background="{TemplateBinding Background}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition MaxHeight="7"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Rectangle x:Name="UpperHighlight" Fill="#FFE3F7FF" Visibility="Collapsed"/>
+                                    <Border Padding="{TemplateBinding Padding}" Grid.RowSpan="2">
+                                        <ContentPresenter x:Name="HeaderContent" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0,0,0,1" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                            <Border x:Name="HeaderHoverBorder" BorderThickness="1,0,1,1" Margin="1,1,0,0"/>
+                            <Border x:Name="HeaderPressBorder" BorderThickness="1,1,1,0" Margin="1,0,0,1"/>
+                            <Canvas>
+                                <Thumb x:Name="PART_HeaderGripper" Style="{StaticResource GridViewColumnHeaderGripper}"/>
+                            </Canvas>
+                            
+
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+
+                                <Setter Property="Background" TargetName="HeaderBorder" Value="#FF323232">
+                                    
+                                </Setter>
+                                <Setter Property="BorderBrush" TargetName="HeaderHoverBorder" Value="#FF3E3E47"/>
+                                <Setter Property="Visibility" TargetName="UpperHighlight" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="HeaderBorder" Value="{StaticResource GridViewColumnHeaderPressBackground}"/>
+                                <Setter Property="BorderBrush" TargetName="HeaderHoverBorder" Value="#FF95DAF9"/>
+                                <Setter Property="BorderBrush" TargetName="HeaderPressBorder" Value="#FF7A9EB1"/>
+                                <Setter Property="Visibility" TargetName="UpperHighlight" Value="Visible"/>
+                                <Setter Property="Fill" TargetName="UpperHighlight" Value="#FFBCE4F9"/>
+                                <Setter Property="Visibility" TargetName="PART_HeaderGripper" Value="Hidden"/>
+                                <Setter Property="Margin" TargetName="HeaderContent" Value="1,1,0,0"/>
+                            </Trigger>
+                            <Trigger Property="Height" Value="Auto">
+                                <Setter Property="MinHeight" Value="20"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>            
+        </Style>
+        <!--<Style x:Key="ListView_" TargetType="{x:Type ListViewItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border Padding="{TemplateBinding Padding}"
+Background="{TemplateBinding Background}"
+BorderBrush="{TemplateBinding BorderBrush}"
+BorderThickness="{TemplateBinding BorderThickness}"
+SnapsToDevicePixels="true">
+                            <GridViewRowPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+
     </Window.Resources>
 
 
 
 
-    <Grid Background="White">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="#FF99B4CF">
+        <Grid Grid.Row="0" Background="#FF252526">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="" Foreground="Black" BorderBrush="{x:Null}" Background="Transparent"/>
-            <Button Grid.Column="1" Width="90" Content="Параметры" Foreground="Black" BorderBrush="{x:Null}" Background="Transparent" Style="{StaticResource ResourceKey=up_btn}" Opacity="0.3"/>
-            <Button Grid.Column="2" Width="80" Content="Помощь" Foreground="Black" BorderBrush="{x:Null}" Background="Transparent" Style="{StaticResource up_btn}" Opacity="0.3"/>
+            <Button Grid.Column="0" Content="" BorderBrush="{x:Null}" Style="{StaticResource ResourceKey=up_btn}" Background="{x:Null}"/>
+            <Button Grid.Column="1" Width="90" Content="Параметры" BorderBrush="{x:Null}" Style="{StaticResource ResourceKey=up_btn}" Background="{x:Null}"/>
+            <Button Grid.Column="2" Width="80" Content="Помощь" BorderBrush="{x:Null}" Background="{x:Null}" Style="{StaticResource up_btn}" />
 
         </Grid>
         <Grid Grid.Row="1">
@@ -166,7 +294,7 @@
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0">
-                        <Label Height="30" VerticalAlignment="Top" x:Name="LabelIp0" Content="Этот компьютер" Background="#FFE4E4E4"/>
+                        <Label Height="30" VerticalAlignment="Top" x:Name="LabelIp0" Content="Этот компьютер" Background="#FF474747" Foreground="White"/>
                     </Grid>
 
                     <Grid x:Name="gridforfunc0" Height="auto" VerticalAlignment="Top" Grid.Row="1">
@@ -175,33 +303,70 @@
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" Background="#FFE4E4E4" >
-                            <Button x:Name="goback0" HorizontalAlignment="Left" Width="15" Height="15" />
-                            <Button x:Name="gonext0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0"/>
+                        <Grid Grid.Row="0" Background="Transparent">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="goback0" HorizontalAlignment="Left" Width="30"  Grid.Column="0"/>
+                            <Button x:Name="gonext0" HorizontalAlignment="Left" Width="30" Grid.Column="1"/>
                         </Grid>
 
-                        <TextBox x:Name="pathbox0" Grid.Row="1" TextChanged="TextBox_TextChanged" BorderBrush="Black" Background="White"/>
-                        <ScrollViewer Grid.Row="2" x:Name="scroll0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <TextBox x:Name="pathbox0" Grid.Row="1" TextChanged="TextBox_TextChanged"  Background="#FF474747" Foreground="White">
+                            
+                        </TextBox>
+                        <ScrollViewer  Grid.Row="2" x:Name="scroll0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                             <StackPanel  x:Name="stackpanel0" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
-                                <ListView  MouseDoubleClick="listUsers0_MouseDoubleClick"  x:Name="listUsers0" AllowDrop="False" Drop="listUsers0_Drop" Background="{x:Null}" Style="{DynamicResource ListViewStyle1}">
+                                <ListView MouseDoubleClick="listUsers0_MouseDoubleClick"  x:Name="listUsers0" AllowDrop="False" Drop="listUsers0_Drop" Background="{x:Null}" Foreground="White">
                                     <ListView.View>
-                                        <GridView>
-                                            <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}"/>
-                                            <GridViewColumn Width="{Binding setWidth}" Header="Дата создания" DisplayMemberBinding="{Binding time}"/>
-                                            <GridViewColumn Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}"/>
+                                        <GridView ColumnHeaderContainerStyle="{StaticResource ColumnHeader}">
+                                            <GridViewColumn Width="{Binding setWidth}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}" >
+                                                <!--<GridViewColumn.HeaderContainerStyle>
+                                                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                    </Style>
+                                                </GridViewColumn.HeaderContainerStyle>-->
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="{Binding setWidth}" Header="Дата создания" DisplayMemberBinding="{Binding time}">
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="{Binding setWidth}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}">
+                                            </GridViewColumn>
                                         </GridView>
                                     </ListView.View>
-
                                     <ListView.ItemContainerStyle>
                                         <Style TargetType="{x:Type ListViewItem}">
                                             <EventSetter Event="UIElement.MouseMove" Handler="ListViewItem_MouseMove"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                        <Border Padding="{TemplateBinding Padding}"
+Background="{TemplateBinding Background}"
+BorderBrush="{TemplateBinding BorderBrush}"
+BorderThickness="{TemplateBinding BorderThickness}"
+SnapsToDevicePixels="true">
 
-                                            <Style.Triggers>
-                                                <Trigger Property="IsFocused" Value="True">
-                                                    <!--<Setter Property="Background" Value="Blue"/>-->
-                                                </Trigger>
-
-                                            </Style.Triggers>
+                                                            <GridViewRowPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="#FF5C86AA"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsFocused" Value="True">
+                                                                <Setter Property="Background" Value="#FF5C86AA"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsSelected" Value="True">
+                                                                <Setter Property="Background" Value="#FF5C86AA"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsMouseCaptured" Value="True">
+                                                                <Setter Property="Background" Value="Black"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
                                         </Style>
                                     </ListView.ItemContainerStyle>
 
@@ -216,18 +381,23 @@
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-
-                    <Label Grid.Row="0" Height="30" VerticalAlignment="Top" x:Name="LabelIp1"/>
-
+                    <Grid Grid.Row="0" Background="#FFE4E4E4">
+                        <Label Height="30" VerticalAlignment="Top" x:Name="LabelIp1"/>
+                    </Grid>
                     <Grid x:Name="gridforfunc1" Height="auto" VerticalAlignment="Top" Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-
-                        <Button x:Name="goback1" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" />
-                        <Button x:Name="gonext1" Grid.Row="0" HorizontalAlignment="Left" Width="15" Height="15" Margin="20,0,0,0"/>
+                        <Grid Grid.Row="0" Background="Transparent">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="goback1" HorizontalAlignment="Left" Width="30"  Grid.Column="0"/>
+                            <Button x:Name="gonext1" HorizontalAlignment="Left" Width="30" Grid.Column="1"/>
+                        </Grid>
                         <TextBox x:Name="pathbox1" Grid.Row="1" TextChanged="pathbox1_TextChanged" BorderBrush="Black"/>
                         <ScrollViewer Grid.Row="2" x:Name="scroll1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                             <StackPanel  x:Name="stackpanel1" Orientation="Vertical" Width="{Binding Width, ElementName=firstColumn}">
@@ -265,7 +435,7 @@
                 <ColumnDefinition Width="25"/>
                 <ColumnDefinition Width="25"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="2" x:Name="transmit_chk" Click="transmit_chk_Click" HorizontalAlignment="Right" Width="20"  Height="20"/>
+            <Button Grid.Column="2" x:Name="transmit_chk" Click="transmit_chk_Click" HorizontalAlignment="Right" Width="20"  Height="20" Content="{Binding ElementName=tiktak, Path=Items.Count}"/>
             <Button Grid.Column="1" x:Name="wait_chk" Click="wait_chk_Click" Width="20" Height="20"/>
         </Grid>
 

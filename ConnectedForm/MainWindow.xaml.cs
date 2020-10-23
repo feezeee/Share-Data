@@ -21,6 +21,7 @@ namespace ConnectedForm
     /// </summary>
     public partial class MainWindow : Window
     {
+
         /// <summary>
         /// Инициализируем двусвязанный список 
         /// </summary>
@@ -426,7 +427,7 @@ namespace ConnectedForm
             if (txt == "")
             {
                 //************************
-                pathbox1.IsEnabled = false;
+                pathbox1.IsEnabled = false;                
                 await Task.Run(() => loadFiles(this, ip, ".", 1));
             }
 
