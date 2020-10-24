@@ -5,8 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestWpfForm"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Background="#FF252526">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Width="{Binding ElementName=sd0, Path=Width}" HorizontalAlignment="Left">
+            <local:ListCntrl x:Name="sd0">
+            
+            </local:ListCntrl>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Width="{Binding ElementName=sd1, Path=Width}" HorizontalAlignment="Left">
+            <local:ListCntrl x:Name="sd1">
+
+            </local:ListCntrl>
+        </StackPanel>
     </Grid>
 </Window>
