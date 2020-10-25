@@ -99,7 +99,7 @@
 
     </UserControl.Resources>
     <StackPanel  x:Name="stackpanel0" Orientation="Vertical">
-        <ListView x:Name="listUsers0" Background="Transparent" Foreground="White" MouseLeave="PrewLosKeyboardFocusEv">
+        <ListView x:Name="listUsers0" Background="Transparent" Foreground="White" MouseLeave="PrewLostKeyboardFocusEv" MouseEnter="ListUsers0_OnMouseEnter" KeyDown="Key_Down" KeyUp="Key_Up">
             <ListView.View>
                 
                 <GridView ColumnHeaderContainerStyle="{StaticResource ColumnHeader}">
@@ -116,12 +116,10 @@
                 <Style TargetType="{x:Type ListViewItem}">
                     <!--<EventSetter Event="UIElement.MouseMove" Handler="ListViewItem_MouseMove"/>-->
                     <EventSetter Event="UIElement.MouseEnter" Handler="MouseMoveEvent"/>
-                    <EventSetter Event="KeyDown" Handler="Key_Down"/>
-                    <EventSetter Event="KeyUp" Handler="Key_Up"/>
-                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="MouseLeftButtonDownEv"/>
-                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="MouseLeftButtonUpEv"/>
+                    <!--<EventSetter Event="KeyDown" Handler="Key_Down"/>
+                    <EventSetter Event="KeyUp" Handler="Key_Up"/>-->
                     <EventSetter Event="MouseEnter" Handler="MouseEnterOnItem"/>
-                    <EventSetter Event="Unselected" Handler="SelectedEv"/>
+                    <!--<EventSetter Event="Unselected" Handler="SelectedEv"/>-->
                     
 
                     <Setter Property="Template">

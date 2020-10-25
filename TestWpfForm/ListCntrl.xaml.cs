@@ -31,28 +31,15 @@ namespace TestWpfForm
                 time = "yest",
                 sizeFile = "sizeFile"
             };
-            this.listUsers0.Items.Add((object)files);
-            this.listUsers0.Items.Add((object)new Files()
-            {
-                nameFile = "1",
-                sizeFile = "123",
-                time = "2"
-            });
-            this.listUsers0.Items.Add((object)files);
-            this.listUsers0.Items.Add((object)files);
-            this.listUsers0.Items.Add((object)new Files()
-            {
-                nameFile = "1",
-                sizeFile = "123",
-                time = "2"
-            });
-            this.listUsers0.Items.Add((object)files);
-            this.listUsers0.Items.Add((object)new Files()
-            {
-                nameFile = "1",
-                sizeFile = "123",
-                time = "2"
-            });
+            AddingNewItemInList(files);
+            AddingNewItemInList(files);
+            AddingNewItemInList(files);
+            AddingNewItemInList(files);
+        }
+
+        public void AddingNewItemInList(object item)
+        {
+            listUsers0.Items.Add(item);
         }
 
         private int widthStackPanel;
@@ -61,63 +48,155 @@ namespace TestWpfForm
         private int headerThirdColumn = 120;
 
 
-        private bool isDownLeftCtrl;
-        private bool isDownLeftAlt;
+        #region Удаление, выделение в ListView
 
+        /// <summary>
+        /// По умолчанию LeftCtrl & LeftAlt
+        /// </summary>
+        #region сочетание клавиш для выделения Items в ListView
 
-        private bool isDownLeftButtonOnMouse;
-        public int HeaderThirdColumnParam
+        private bool firstKeyForSelected = false;
+        private bool secondKeyForSelected = false;
+
+        private Key firstKeyForSelected_Key = Key.LeftCtrl;
+        private Key secondKeyForSelected_Key = Key.LeftAlt;
+
+        #region Методы доступа к свойствам
+
+        public bool GetfirstKeyForSelected
         {
-            get => this.headerThirdColumn;
-            set => this.headerThirdColumn = value;
+            get { return firstKeyForSelected; }
+            set { firstKeyForSelected = value; }
         }
+
+        public bool GetsecondKeyForSelected
+        {
+            get { return secondKeyForSelected; }
+            set { secondKeyForSelected = value; }
+        }
+
+        public Key GetfirstKeyForSelected_Key
+        {
+            get { return secondKeyForSelected_Key; }
+            set { secondKeyForSelected_Key = value; }
+        }
+
+        public Key GetsecondKeyForSelected_Key
+        {
+            get { return secondKeyForSelected_Key; }
+            set { secondKeyForSelected_Key = value; }
+        }
+
+        #endregion
+
+        #endregion
+
+        /// <summary>
+        /// По умолчанию RightCtrl & RightAlt
+        /// </summary>
+        #region сочетание клавиш для удаления выделения Items в ListView
+
+        private bool firstKeyForUnSelected = false;
+        private bool secondKeyForUnSelected = false;
+
+        private Key firstKeyForUnSelected_Key = Key.RightAlt;
+        private Key secondKeyForUnSelected_Key = Key.RightCtrl;
+
+        #region Методы доступа к свойствам
+
+        public bool GetfirstKeyForUnSelected
+        {
+            get { return firstKeyForUnSelected; }
+            set { firstKeyForUnSelected = value; }
+        }
+
+        public bool GetsecondKeyForUnSelected
+        {
+            get { return secondKeyForUnSelected; }
+            set { secondKeyForUnSelected = value; }
+        }
+
+        public Key GetfirstKeyForUnSelected_Key
+        {
+            get { return firstKeyForUnSelected_Key; }
+            set { firstKeyForUnSelected_Key = value; }
+        }
+
+        public Key GetsecondKeyForUnSelected_Key
+        {
+            get { return secondKeyForUnSelected_Key; }
+            set { secondKeyForUnSelected_Key = value; }
+        }
+
+        #endregion
+
+#endregion
+
+        #endregion
 
         private void Key_Down(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.LeftCtrl)
+
+            if (e.SystemKey == firstKeyForSelected_Key || e.Key == firstKeyForSelected_Key)
             {
-                this.isDownLeftCtrl = true;
+                this.firstKeyForSelected = true;
             }
-            else if (e.Key == Key.LeftAlt)
+            else if (e.SystemKey == secondKeyForSelected_Key || e.Key == secondKeyForSelected_Key)
             {
-                isDownLeftAlt = true;
+                secondKeyForSelected = true;
+            }
+            else if (e.SystemKey == firstKeyForUnSelected_Key || e.Key == firstKeyForUnSelected_Key)
+            {
+                this.firstKeyForUnSelected = true;
+            }
+            else if (e.SystemKey == secondKeyForUnSelected_Key || e.Key == secondKeyForUnSelected_Key)
+            {
+                secondKeyForUnSelected = true;
             }
         }
 
         private void Key_Up(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.LeftCtrl)
+            if (e.SystemKey == firstKeyForSelected_Key || e.Key == firstKeyForSelected_Key)
             {
-                this.isDownLeftCtrl = false;
+                this.firstKeyForSelected = false;
             }
-            else if (e.Key == Key.LeftAlt)
+            else if (e.SystemKey == secondKeyForSelected_Key || e.Key == secondKeyForSelected_Key)
             {
-                this.isDownLeftAlt = false;
+                this.secondKeyForSelected = false;
             }
-        }
-
-
-        private void MouseLeftButtonDownEv(object sender, MouseButtonEventArgs e)
-        {
-            isDownLeftButtonOnMouse = true;
-        }
-        
-        private void MouseLeftButtonUpEv(object sender, MouseButtonEventArgs e)
-        {
-            isDownLeftButtonOnMouse = false;
+            else if (e.SystemKey == firstKeyForUnSelected_Key || e.Key == firstKeyForUnSelected_Key)
+            {
+                this.firstKeyForUnSelected = false;
+            }
+            else if (e.SystemKey == secondKeyForUnSelected_Key || e.Key == secondKeyForUnSelected_Key)
+            {
+                secondKeyForUnSelected = false;
+            }
         }
 
         private void MouseEnterOnItem(object sender, MouseEventArgs e)
         {
 
-            if(isDownLeftAlt && isDownLeftCtrl)
+            if (Keyboard.IsKeyDown(firstKeyForSelected_Key) && Keyboard.IsKeyDown(secondKeyForSelected_Key) && !Keyboard.IsKeyDown(firstKeyForUnSelected_Key) && !Keyboard.IsKeyDown(secondKeyForUnSelected_Key)) 
             {
-                /*ListViewItem awewItem = (ListViewItem)sender*/
-                Console.WriteLine(true);
+                var item = sender as ListViewItem;
+                if (item != null && !item.IsSelected)
+                {
+                    item.IsSelected = true;
+                    item.UpdateLayout();
+                }
+                //Console.WriteLine(true);
             }
-            else
+
+            if (Keyboard.IsKeyDown(firstKeyForUnSelected_Key) && Keyboard.IsKeyDown(secondKeyForUnSelected_Key) && !Keyboard.IsKeyDown(firstKeyForSelected_Key) && !Keyboard.IsKeyDown(secondKeyForSelected_Key))
             {
-                //Console.WriteLine(false);
+                var item = sender as ListViewItem;
+                if (item != null && item.IsSelected)
+                {
+                    item.IsSelected = false;
+                    item.UpdateLayout();
+                }
             }
         }
 
@@ -144,32 +223,28 @@ namespace TestWpfForm
             set => this.headerSecondColumn = value;
         }
 
-        private void SelectedEv(object sender, RoutedEventArgs e)
+        public int HeaderThirdColumnParam
         {
-            if (isDownLeftAlt && isDownLeftCtrl)
-            {
-                var item = sender as ListViewItem;
-                if (item!=null && !item.IsSelected)
-                {
-                    item.IsSelected = true;
-                    item.UpdateLayout();
-                }
-            }
+            get => this.headerThirdColumn;
+            set => this.headerThirdColumn = value;
         }
 
-
-        private void PrewLosKeyboardFocusEv(object sender, RoutedEventArgs e)
+        private void PrewLostKeyboardFocusEv(object sender, RoutedEventArgs e)
         {
-            isDownLeftAlt = false;
-            isDownLeftCtrl = false;
+
+        }
+
+        private void ListUsers0_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            var listt = sender as ListView;
+            listt.Focus();
         }
     }
 
     public class Files
     {
         public string nameFile { get; set; }
-        public string time { get; set; }
-        public string sizeFile { get; set; }
+        public string time { get; set; } public string sizeFile { get; set; }
 
     }
 }
