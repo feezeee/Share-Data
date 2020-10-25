@@ -59,7 +59,12 @@ namespace TestWpfForm
         private int headerFirstColumn = 120;
         private int headerSecondColumn = 120;
         private int headerThirdColumn = 120;
-        private bool isDownLeftCtrlAndAlt;
+
+
+        private bool isDownLeftCtrl;
+        private bool isDownLeftAlt;
+
+
         private bool isDownLeftButtonOnMouse;
         public int HeaderThirdColumnParam
         {
@@ -69,26 +74,56 @@ namespace TestWpfForm
 
         private void Key_Down(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.LeftCtrl || e.Key != Key.LeftAlt)
-                return;
-            this.isDownLeftCtrlAndAlt = true;
+            if (e.Key == Key.LeftCtrl)
+            {
+                this.isDownLeftCtrl = true;
+            }
+            else if (e.Key == Key.LeftAlt)
+            {
+                isDownLeftAlt = true;
+            }
         }
 
         private void Key_Up(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.LeftCtrl || e.Key != Key.LeftAlt)
-                return;
-            this.isDownLeftCtrlAndAlt = false;
+            if (e.Key == Key.LeftCtrl)
+            {
+                this.isDownLeftCtrl = false;
+            }
+            else if (e.Key == Key.LeftAlt)
+            {
+                this.isDownLeftAlt = false;
+            }
         }
 
-        private void MouseLeftButtonDownEvent(object sender, MouseButtonEventArgs e) => this.isDownLeftButtonOnMouse = true;
 
-        private void MouseLeftButtonUpEvent(object sender, MouseButtonEventArgs e) => this.isDownLeftButtonOnMouse = false;
+        private void MouseLeftButtonDownEv(object sender, MouseButtonEventArgs e)
+        {
+            isDownLeftButtonOnMouse = true;
+        }
+        
+        private void MouseLeftButtonUpEv(object sender, MouseButtonEventArgs e)
+        {
+            isDownLeftButtonOnMouse = false;
+        }
+
+        private void MouseEnterOnItem(object sender, MouseEventArgs e)
+        {
+
+            if(isDownLeftAlt && isDownLeftCtrl)
+            {
+                /*ListViewItem awewItem = (ListViewItem)sender*/
+                Console.WriteLine(true);
+            }
+            else
+            {
+                //Console.WriteLine(false);
+            }
+        }
 
         private void MouseMoveEvent(object sender, MouseEventArgs e)
         {
-            if (!this.isDownLeftCtrlAndAlt)
-                ;
+
         }
 
         public int WidthStacPanelParam
@@ -109,6 +144,25 @@ namespace TestWpfForm
             set => this.headerSecondColumn = value;
         }
 
+        private void SelectedEv(object sender, RoutedEventArgs e)
+        {
+            if (isDownLeftAlt && isDownLeftCtrl)
+            {
+                var item = sender as ListViewItem;
+                if (item!=null && !item.IsSelected)
+                {
+                    item.IsSelected = true;
+                    item.UpdateLayout();
+                }
+            }
+        }
+
+
+        private void PrewLosKeyboardFocusEv(object sender, RoutedEventArgs e)
+        {
+            isDownLeftAlt = false;
+            isDownLeftCtrl = false;
+        }
     }
 
     public class Files

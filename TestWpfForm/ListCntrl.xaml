@@ -99,9 +99,11 @@
 
     </UserControl.Resources>
     <StackPanel  x:Name="stackpanel0" Orientation="Vertical">
-        <ListView x:Name="listUsers0" Background="Transparent" Foreground="White">
+        <ListView x:Name="listUsers0" Background="Transparent" Foreground="White" MouseLeave="PrewLosKeyboardFocusEv">
             <ListView.View>
+                
                 <GridView ColumnHeaderContainerStyle="{StaticResource ColumnHeader}">
+                    
                     <GridViewColumn Width="{Binding HeaderFirctColumnParam}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}">
                     </GridViewColumn>
                     <GridViewColumn Width="{Binding HeaderSecondColumnParam}" Header="Дата создания" DisplayMemberBinding="{Binding time}">
@@ -116,21 +118,24 @@
                     <EventSetter Event="UIElement.MouseEnter" Handler="MouseMoveEvent"/>
                     <EventSetter Event="KeyDown" Handler="Key_Down"/>
                     <EventSetter Event="KeyUp" Handler="Key_Up"/>
-                    <EventSetter Event="MouseLeftButtonDown" Handler="MouseLeftButtonDownEvent"/>
-                    <EventSetter Event="MouseLeftButtonUp" Handler="MouseLeftButtonUpEvent"/>
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="MouseLeftButtonDownEv"/>
+                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="MouseLeftButtonUpEv"/>
+                    <EventSetter Event="MouseEnter" Handler="MouseEnterOnItem"/>
+                    <EventSetter Event="Unselected" Handler="SelectedEv"/>
+                    
 
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListViewItem}">
                                 <Border Padding="{TemplateBinding Padding}"
-Background="{TemplateBinding Background}"
-BorderBrush="{TemplateBinding BorderBrush}"
-BorderThickness="{TemplateBinding BorderThickness}"
-SnapsToDevicePixels="true">
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    SnapsToDevicePixels="true">
 
                                     <GridViewRowPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
@@ -139,6 +144,7 @@ SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                     <!--<Trigger Property="IsFocused" Value="True">
                                         <Setter Property="Background" Value="#FF5C86AA"/>
                                     </Trigger>-->
+
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter Property="Background" Value="#FF36ABC5"/>
                                     </Trigger>
