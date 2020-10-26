@@ -98,17 +98,18 @@
         </Style>
 
     </UserControl.Resources>
-    <StackPanel  x:Name="stackpanel0" Orientation="Vertical">
-        <ListView x:Name="listUsers0" Background="Transparent" Foreground="White" MouseLeave="PrewLostKeyboardFocusEv" MouseEnter="ListUsers0_OnMouseEnter" KeyDown="Key_Down" KeyUp="Key_Up">
+    <StackPanel x:Name="stackpanel0" Orientation="Vertical" >
+        <ListView Height="300" x:Name="listUsers0" ScrollViewer.VerticalScrollBarVisibility="Visible" Background="Transparent" Foreground="White" MouseLeave="PrewLostKeyboardFocusEv" MouseEnter="ListUsers0_OnMouseEnter" KeyDown="Key_Down" KeyUp="Key_Up" VirtualizingStackPanel.IsVirtualizing="True">
+           
             <ListView.View>
                 
                 <GridView ColumnHeaderContainerStyle="{StaticResource ColumnHeader}">
-                    
-                    <GridViewColumn Width="{Binding HeaderFirctColumnParam}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}">
+
+                    <GridViewColumn Width="{Binding HeaderFirctColumnParam, Mode=OneWayToSource}" Header="Имя папки/файла" DisplayMemberBinding="{Binding nameFile}">
                     </GridViewColumn>
-                    <GridViewColumn Width="{Binding HeaderSecondColumnParam}" Header="Дата создания" DisplayMemberBinding="{Binding time}">
+                    <GridViewColumn  Width="{Binding HeaderSecondColumnParam, Mode=OneWayToSource}" Header="Дата создания" DisplayMemberBinding="{Binding time}">
                     </GridViewColumn>
-                    <GridViewColumn Width="{Binding HeaderThirdColumnParam}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}">
+                    <GridViewColumn Width="{Binding HeaderThirdColumnParam, Mode=OneWayToSource}" Header="Размер файла" DisplayMemberBinding="{Binding sizeFile}">
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
@@ -116,6 +117,7 @@
                 <Style TargetType="{x:Type ListViewItem}">
                     <!--<EventSetter Event="UIElement.MouseMove" Handler="ListViewItem_MouseMove"/>-->
                     <EventSetter Event="UIElement.MouseEnter" Handler="MouseMoveEvent"/>
+                    <EventSetter Event="MouseDoubleClick" Handler="EventSetter_OnHandler"/>
                     <!--<EventSetter Event="KeyDown" Handler="Key_Down"/>
                     <EventSetter Event="KeyUp" Handler="Key_Up"/>-->
                     <EventSetter Event="MouseEnter" Handler="MouseEnterOnItem"/>

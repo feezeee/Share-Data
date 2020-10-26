@@ -27,7 +27,7 @@ namespace TestWpfForm
             InitializeComponent();
             Files files = new Files()
             {
-                nameFile = "1",
+                nameFile = "2",
                 time = "yest",
                 sizeFile = "sizeFile"
             };
@@ -50,18 +50,31 @@ namespace TestWpfForm
             adding(list);
         }
 
+        private void Sd0_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private async void adding(List<object> someobjlist)
         {
             await Task.Run(() =>
             {
-                for (int i = 0; i < someobjlist.Count; i++)
+                for (int i = 0; i < 999; i++)
                 {
                     Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
-                        () => { sd0.AddingNewItemInList(someobjlist[i]); }));
-                    Thread.Sleep(10000);
+                        () => { sd0.AddingNewItemInList(someobjlist[0]); }));
+                    Thread.Sleep(0);
                 }
             });
-
+            //await Task.Run(() =>
+            //{
+                
+            //        Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(
+            //            () => {
+            //                sd0.ClearListWithItems();
+            //            }));
+                 
+            //});
         }
     }
 

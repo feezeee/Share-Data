@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
@@ -24,6 +26,10 @@ namespace TestWpfForm
         {
             DataContext = this;
             widthStackPanel = headerFirstColumn + headerSecondColumn + headerThirdColumn;
+            _headerFirstColumn = headerFirstColumn;
+            _headerSecondColumn = headerSecondColumn;
+            _headerThirdColumn = headerThirdColumn;
+            heightStackPanel = 300;
             InitializeComponent();
             Files files = new Files()
             {
@@ -43,6 +49,13 @@ namespace TestWpfForm
         }
 
         private int widthStackPanel;
+        private int heightStackPanel;
+
+
+        private int _headerFirstColumn;
+        private int _headerSecondColumn;
+        private int _headerThirdColumn;
+
         private int headerFirstColumn = 120;
         private int headerSecondColumn = 120;
         private int headerThirdColumn = 120;
@@ -205,10 +218,15 @@ namespace TestWpfForm
 
         }
 
-        public int WidthStacPanelParam
+        public int WidthStackPanelParam
         {
             get => this.widthStackPanel;
             set => this.widthStackPanel = value;
+        }
+        public int HeightStackPanelParam
+        {
+            get => this.heightStackPanel;
+            set => this.heightStackPanel = value;
         }
 
         public int HeaderFirctColumnParam
@@ -239,12 +257,54 @@ namespace TestWpfForm
             var listt = sender as ListView;
             listt.Focus();
         }
+
+        public delegate void MethodContainer(object infAboutFile);
+        /// <summary>
+        /// Событие, вызываемое при двойном клике по item
+        /// </summary>
+        public event MethodContainer OnDoubleClickInElement;
+        private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
+        {
+            ListViewItem list = (ListViewItem)sender;
+            //throw new NotImplementedException();
+            var infAboutFile = list.Content as Files;
+            OnDoubleClickInElement?.Invoke(infAboutFile);
+        }
+
+        public bool ClearListWithItems()
+        {
+            try
+            {
+                listUsers0.Items.Clear();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
+        }
+
+        public int GettingPauseTime()
+        {
+            if (_headerFirstColumn != headerFirstColumn || _headerSecondColumn != headerSecondColumn ||
+                _headerThirdColumn != headerThirdColumn)
+            {
+                _headerFirstColumn = headerFirstColumn;
+                _headerSecondColumn = headerSecondColumn;
+                _headerThirdColumn = headerThirdColumn;
+                return 600;
+            }
+            else return 0;
+
+        }
     }
 
     public class Files
     {
         public string nameFile { get; set; }
-        public string time { get; set; } public string sizeFile { get; set; }
+        public string time { get; set; }
+        public string sizeFile { get; set; }
 
     }
 }
