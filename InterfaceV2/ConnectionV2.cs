@@ -12,6 +12,7 @@ namespace Interface
     {
         const int localPort = 8010; // порт для приема информации
         const int remotePort = 8010; // порт для отправки информации
+
         static List<Local> LocalAddresses = CurrentIP.LocalIP;
         public static void SendBroadcastOfferToConnect() // функция которая отправлет широковещательное сообщение 
         {

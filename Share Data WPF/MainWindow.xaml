@@ -72,11 +72,12 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>            
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
 
-        <Button Grid.Row="1" x:Name="searchingbrn" VerticalAlignment="Top" HorizontalAlignment="Center" Height="50" Content="Find"
+        <Button Grid.Row="2" x:Name="searchingbrn" VerticalAlignment="Top" HorizontalAlignment="Center" Height="50" Content="Find"
                 Click="searchingbrn_Click" local:CornerRadiusSetter.CornerRadius="5" Width="300" FontSize="16" Background="#FFFE5900" Foreground="White" Style="{DynamicResource ButtonStyle1}">
             <Button.Effect>
                 <DropShadowEffect Color="#FF804040" BlurRadius="98"/>
@@ -84,18 +85,27 @@
 
         </Button>
 
-
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label x:Name="nameCurentPc" Grid.Row="0" HorizontalAlignment="Right" Margin="0,0,20,0"/>
+            <Label x:Name="ipCurentPc" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,20,0"/>
+            <Label x:Name="broadcastCurentPc" Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,20,0"/>
+        </Grid>
         <Label x:Name="LabelMyIp" Grid.Row="0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,30,0,0"/>
-        <Grid Grid.Row="0" Margin="0,100,0,50" Grid.ColumnSpan="2" >
+        <Grid Grid.Row="1" Margin="0,0,0,50" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
 
-            <Image x:Name="image_left" Source="left.png" Grid.Column="0" MouseEnter="image_left_MouseEnter" MouseLeave="image_left_MouseLeave" Grid.RowSpan="2" Opacity="0.2">
+            <!--<Image x:Name="image_left" Source="left.png" Grid.Column="0" MouseEnter="image_left_MouseEnter" MouseLeave="image_left_MouseLeave" Grid.RowSpan="2" Opacity="0.2">
                
-                <!--<Image.Style>
+                --><!--<Image.Style>
                     <Style>
                         <Style.Triggers>
                             <EventTrigger RoutedEvent="UIElement.MouseLeave">
@@ -120,15 +130,15 @@
                             </EventTrigger>                            
                         </Style.Triggers>
                     </Style>
-                </Image.Style>-->
-            </Image>
+                </Image.Style>--><!--
+            </Image>-->
 
 
             <ScrollViewer x:Name="scroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" Foreground="{x:Null}">
-                <StackPanel x:Name="stackpanel" Orientation="Horizontal" Height="auto" Width="auto"/>
+                <StackPanel x:Name="placeForPC" Orientation="Horizontal" Height="auto" Width="auto"/>
             </ScrollViewer>
 
-            <Image x:Name="image_right" Source="right.png" Grid.Column="2" MouseEnter="image_right_MouseEnter" MouseLeave="image_right_MouseLeave" Grid.RowSpan="2"/>
+            <!--<Image x:Name="image_right" Source="right.png" Grid.Column="2" MouseEnter="image_right_MouseEnter" MouseLeave="image_right_MouseLeave" Grid.RowSpan="2"/>-->
 
         </Grid>
     </Grid>

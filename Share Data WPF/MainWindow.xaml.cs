@@ -16,6 +16,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfControlLibrary1;
+using MyNetworkInterface;
+
 
 namespace Share_Data_WPF
 {
@@ -27,9 +29,21 @@ namespace Share_Data_WPF
         public MainWindow()
         {
 
-            Thread sendThread = new Thread(new ThreadStart(ConnectionV2.SendBroadcastOfferToConnect)); //созадем новый поток для отправки сообщения на широковещательный
-            sendThread.IsBackground = true;
-            sendThread.Start(); // запускаем процесс отправки сообщений на широковещательный
+            IP CurentPC = new IP();
+            PreLoading(ref CurentPC);
+
+
+            NetworkInterection networkInterection = new NetworkInterection();
+            networkInterection.CurentPC = CurentPC;
+
+            Thread sendingMessagesForBroadcastAddress = new Thread(new ThreadStart(networkInterection.SendBroadcastOfferToConnect));
+            sendingMessagesForBroadcastAddress.IsBackground = true;
+            sendingMessagesForBroadcastAddress.Start();
+
+
+            //Thread sendThread = new Thread(new ThreadStart(ConnectionV2.SendBroadcastOfferToConnect)); //созадем новый поток для отправки сообщения на широковещательный
+            //sendThread.IsBackground = true;
+            //sendThread.Start(); // запускаем процесс отправки сообщений на широковещательный
 
             Thread DoRequestsRecieveingThread = new Thread(new ThreadStart(RequestInteractivity.DoRequestsRecieveing)); //созадем новый поток отдельно для получения
             DoRequestsRecieveingThread.IsBackground = true;
@@ -42,6 +56,9 @@ namespace Share_Data_WPF
 
             InitializeComponent();
         }
+
+        //NotUse
+        #region ForImage
 
         private async void image_left_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -63,7 +80,7 @@ namespace Share_Data_WPF
             r = 0;
         }
 
-        
+
         int l = 0;
         int r = 0;
         /// <summary>
@@ -71,8 +88,8 @@ namespace Share_Data_WPF
         /// </summary>
         /// <param name="param">0 - влево, 1 - вправо</param>
         void ScrollingList_l()
-        {            
-            while(l!=0)
+        {
+            while (l != 0)
             {
                 Application.Current.Dispatcher.Invoke((Action)delegate
                 {
@@ -93,23 +110,103 @@ namespace Share_Data_WPF
             }
         }
 
-        public bool Status = false;
+        #endregion
+
+        private void PreLoading(ref IP CurentPC)
+        {
+            CurentPC.OnGettingCurrentHostName += HostNameWasGot;
+            CurentPC.OnGettingIpAddressCurentPC += IpAddressWasGot;
+            CurentPC.OnGettingSubnetMask += SubnetMaskWasGot;
+            CurentPC.OnGettingBroadcastAddressCurentNetwork += BroadcastAddressCurentNetworkWasGot;
+
+            CurentPC.GetCurrentHostNameASYNC();
+        }
+
+
+        private void HostNameWasGot(object sender, bool status)
+        {
+            IP CurentPC = (IP)sender;
+            if(status==true)
+            {
+                CurentPC.GetIpAddressCurentPCASYNC();
+            }
+        }
+        private void IpAddressWasGot(object sender, bool status)
+        {
+            IP CurentPC = (IP)sender;
+            if (status == true)
+            {
+                CurentPC.GetSubnetMaskASYNC();
+            }
+        }
+        private void SubnetMaskWasGot(object sender, bool status)
+        {
+            IP CurentPC = (IP)sender;
+            if (status == true)
+            {
+                CurentPC.GetBroadcastAddressCurentNetworkASYNC();
+            }
+        }
+        private void BroadcastAddressCurentNetworkWasGot(object sender, bool status)
+        {
+            bool dataInForm = false;
+            IP CurentPC = (IP)sender;
+            while (!dataInForm)
+            {
+                
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    if (MainLoadWindow.IsLoaded)
+                    {
+
+                        nameCurentPc.Content = CurentPC.ReturnNameInNetwork().ToString();
+                        ipCurentPc.Content = CurentPC.ReturnIpAddress().ToString();
+                        broadcastCurentPc.Content = CurentPC.ReturnBroadcastAddress().ToString();
+
+                        dataInForm = true;
+                    }
+                });
+                Thread.Sleep(100);
+            }
+            //Все определено для текущего пк
+
+            // запускаем процесс отправки сообщений на широковещательный
+            //networkInterection.SendBroadcastOfferToConnect();
+
+            //IP CurentPC = (IP)sender;
+            //if (status == true)
+            //{
+            //    CurentPC.GetSubnetMaskASYNC();
+            //}
+        }
+
+
+
+
+        //This variable shows status search (false||true)/Эта переменная показывает статус поиска (незапущен||запущен)
+        public bool status_search = false;
         private void searchingbrn_Click(object sender, RoutedEventArgs e)
         {
-            if (Status == false)
+            if (status_search == false)
             {
                 AvailableConection available = new AvailableConection();
-                available.onAddIpAdress += Draw;//Подписываемся на событие    
+                available.OnAddIpAdress += Draw;//Подписываемся на событие    
 
 
                 Thread receiveThread = new Thread(new ParameterizedThreadStart(ConnectionV2.ReciveBroadcastOffer));
                 receiveThread.IsBackground = true;
                 receiveThread.Start(available);
-                Status = true;
+                status_search = true;
             }
-            Drawing_picture_for_pc("denis", "127.0.0.1");
+
+            Initializing_PC("denis", "127.0.0.1");
 
         }
+
+
+
+
+
         int count = 0;
         public void Draw(object sender, List<(string, string)> lst)
         {
@@ -117,14 +214,22 @@ namespace Share_Data_WPF
 
             ////В переменной lst содержится лист с ip адресами
             ////Drawing_label(lst[count], x, y, this);
-            Drawing_picture_for_pc(lst[count].Item1, lst[count].Item2);
+            ///
+
+            Initializing_PC(lst[count].Item1, lst[count].Item2);
 
             ////Здесь производим расчет координат
             count++;
             //y += 20;
 
         }
-        private void Drawing_picture_for_pc(string name, string ip)
+
+        /// <summary>
+        /// Initializing the found PC/Инициализация найденного компьютера
+        /// </summary>
+        /// <param name="name">Some name for PC/Какое-то имя компьютера</param>
+        /// <param name="ip">IP address of this PC/IP адрес этого ПК</param>
+        private void Initializing_PC(string name, string ip)
         {
             Application.Current.Dispatcher.Invoke((Action)delegate {
                 UserControl1 userControl1 = new UserControl1();
@@ -137,7 +242,8 @@ namespace Share_Data_WPF
                 userControl1.maxwidthForPicture = 150;
                 userControl1.widthAll = 220;
                 userControl1.heightAll = 175;
-                stackpanel.Children.Add(userControl1);
+
+                placeForPC.Children.Add(userControl1);  //Display the initialized PC fro screen
             });
         }
 

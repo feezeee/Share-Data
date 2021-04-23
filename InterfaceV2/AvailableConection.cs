@@ -14,9 +14,13 @@ namespace Interface
             IP = ip;
             Name = name;
         }
+
         public static IPAddress IP;
         public static string Name;
     }
+
+
+
     public class AvailableConection
     {
         public static bool IfWasEdited;
@@ -46,11 +50,12 @@ namespace Interface
                 GroupMembers.Add(member);
                 GroupMembers_str.Add(member_str);
                 //if(onAddIpAdress!=null)
-                onAddIpAdress?.Invoke(this,ReturnGroupList());//Вызываем событие если что-то добавилось в лист
+
+                OnAddIpAdress?.Invoke(this,ReturnGroupList());//Вызываем событие если что-то добавилось в лист
             }
         }
         public delegate void MethodContainer(object sender, List<(string, string)> lst);
-        public event MethodContainer onAddIpAdress;
+        public event MethodContainer OnAddIpAdress;
 
         public static List<(string, string)> ReturnGroupList()
         {
